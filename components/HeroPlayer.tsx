@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { PlayCircle, Heart, Download, Share2, Star, Clock, MonitorPlay, Cast, Play, Pause, Volume2, VolumeX, Maximize, Minimize, Settings, Subtitles } from 'lucide-react';
+import { PlayCircle, Heart, Download, Share2, Star, Clock, MonitorPlay, Cast, Play, Pause, Volume2, VolumeX, Maximize, Minimize, Settings, Subtitles, SkipForward } from 'lucide-react';
 import { useAppContext } from '@/lib/store';
 import { fetchMovieDetails } from '@/lib/api';
 import Hls from 'hls.js';
@@ -320,6 +320,17 @@ export const HeroPlayer = () => {
     if (h > 0) return `${h}:${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
     return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
+
+  const SKIP_INTRO_AMOUNT = 85; 
+  const showSkipIntro = progress > 15 && progress < 180;
+
+  const handleSkipIntro = () => {
+    if (videoRef.current) {
+      const nextTime = Math.min(videoRef.current.currentTime + SKIP_INTRO_AMOUNT, duration);
+      videoRef.current.currentTime = nextTime;
+      setProgress(nextTime);
+    }
+  };
   // --- End Custom Player Logic ---
 
   const handleDownload = async () => {
@@ -484,6 +495,16 @@ export const HeroPlayer = () => {
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
                   <div className="w-16 h-16 border-4 border-white/20 border-t-[#3B82F6] rounded-full animate-spin mix-blend-screen shadow-[0_0_30px_rgba(59,130,246,0.6)]"></div>
                 </div>
+              )}
+
+              {/* Skip Intro Button */}
+              {showSkipIntro && (
+                <button 
+                  onClick={handleSkipIntro}
+                  className="absolute bottom-24 right-5 z-40 bg-black/60 hover:bg-[#3B82F6] text-white backdrop-blur-xl border border-white/30 hover:border-[#3B82F6] px-5 py-2.5 rounded-xl text-[0.95rem] font-bold transition-all shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center gap-2 hover:scale-105 animate-in slide-in-from-right-8 fade-in hover:shadow-[0_10px_30px_rgba(59,130,246,0.3)] duration-500"
+                >
+                  <SkipForward size={18} className="fill-current" /> Bỏ qua Intro
+                </button>
               )}
 
               {/* Custom Controls Overlay */}
