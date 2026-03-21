@@ -22,6 +22,7 @@ const ALL_GENRES = [
 
 export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isImgLoaded, setIsImgLoaded] = useState(false);
   const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const handleMouseEnter = () => {
@@ -45,11 +46,24 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
       onMouseLeave={handleMouseLeave}
     >
       <div className="relative w-full aspect-[3/4] overflow-hidden bg-[#1A1C23] dark:bg-[#1A1C23] bg-[#F8FAFC] rounded-xl shadow-[0_10px_20px_rgba(0,0,0,0.3)] dark:shadow-[0_10px_20px_rgba(0,0,0,0.3)] shadow-[0_10px_20px_rgba(0,0,0,0.03)]">
+        
+        {/* Placeholder Image Loading */}
+        {!isImgLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center bg-[#F1F5F9] dark:bg-[#1A1C23] z-[1]">
+            <div className="w-8 h-8 border-4 border-black/10 border-t-[#3B82F6] rounded-full animate-spin dark:border-white/10 dark:border-t-[#3B82F6]"></div>
+          </div>
+        )}
+
         <img 
           src={`https://img.ophim.live/uploads/movies/${item.thumb_url}`} 
           alt={item.name} 
-          className={`w-full h-full object-cover transition-all duration-800 ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-105 ${isHovered ? 'opacity-0' : 'opacity-100'}`} 
-          onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/200x300/1F2937/00D1F5'; }} 
+          loading="lazy"
+          onLoad={() => setIsImgLoaded(true)}
+          className={`w-full h-full object-cover transition-all duration-800 ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-105 relative z-[2] ${isHovered ? 'opacity-0' : isImgLoaded ? 'opacity-100' : 'opacity-0'}`} 
+          onError={(e) => { 
+            (e.target as HTMLImageElement).src = 'https://via.placeholder.com/200x300/1F2937/00D1F5'; 
+            setIsImgLoaded(true);
+          }} 
         />
         
         {isHovered && (
