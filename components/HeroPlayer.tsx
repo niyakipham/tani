@@ -198,9 +198,11 @@ export const HeroPlayer = () => {
 
   const togglePlay = () => {
     if (videoRef.current) {
-      if (isPlaying) videoRef.current.pause();
-      else videoRef.current.play();
-      setIsPlaying(!isPlaying);
+      if (videoRef.current.paused) {
+        videoRef.current.play().catch(e => console.log('Play prevented:', e));
+      } else {
+        videoRef.current.pause();
+      }
     }
   };
 
@@ -243,24 +245,72 @@ export const HeroPlayer = () => {
     if (!playerContainerRef.current) return;
     if (!document.fullscreenElement) {
       playerContainerRef.current.requestFullscreen().catch((err) => console.log(err));
-      setIsFullscreen(true);
     } else {
-      document.exitFullscreen();
-      setIsFullscreen(false);
+      document.exitFullscreen().catch(err => console.log(err));
     }
   };
+
+  // Sync Fullscreen State with ESC key
+  useEffect(() => {
+    const handleFsChange = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', handleFsChange);
+    return () => document.removeEventListener('fullscreenchange', handleFsChange);
+  }, []);
+
+  // Keyboard Navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') return;
+      if (!videoRef.current) return;
+
+      switch (e.key) {
+        case ' ':
+        case 'Spacebar':
+          e.preventDefault();
+          togglePlay();
+          setShowControls(true);
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          {
+            const next = Math.min(videoRef.current.currentTime + 10, videoRef.current.duration || 0);
+            videoRef.current.currentTime = next;
+            setProgress(next);
+            setShowControls(true);
+          }
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          {
+            const prev = Math.max(videoRef.current.currentTime - 10, 0);
+            videoRef.current.currentTime = prev;
+            setProgress(prev);
+            setShowControls(true);
+          }
+          break;
+        case 'f':
+        case 'F':
+          e.preventDefault();
+          toggleFullscreen();
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Hide controls on idle
   const handleMouseMove = () => {
     setShowControls(true);
     if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current);
     controlsTimeoutRef.current = setTimeout(() => {
-      if (isPlaying) setShowControls(false);
+      if (!videoRef.current?.paused) setShowControls(false);
     }, 3000);
   };
   
   const handleMouseLeave = () => {
-    if (isPlaying) setShowControls(false);
+    if (!videoRef.current?.paused) setShowControls(false);
   };
 
   const formatTime = (seconds: number) => {
