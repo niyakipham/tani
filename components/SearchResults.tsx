@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Search } from 'lucide-react';
+import { Loader2, Search, Filter, Calendar, Monitor } from 'lucide-react';
 import { searchMovies } from '@/lib/api';
 import { useAppContext } from '@/lib/store';
 import { MovieCard } from '@/components/ExploreSection';
@@ -17,13 +17,52 @@ export const SearchResults = ({ query }: { query: string }) => {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const observerTarget = useRef<HTMLDivElement>(null);
 
+  const [selectedGenre, setSelectedGenre] = useState('');
+  const [selectedYear, setSelectedYear] = useState('');
+  const [selectedQuality, setSelectedQuality] = useState('');
+
   // Reset state when query changes
   useEffect(() => {
     setMovies([]);
     setPage(1);
     setHasMore(true);
     setIsInitialLoad(true);
+    setSelectedGenre('');
+    setSelectedYear('');
+    setSelectedQuality('');
   }, [query]);
+
+  const { availableGenres, availableYears, availableQualities, filteredMovies } = useMemo(() => {
+    const genresSet = new Set<string>();
+    const yearsSet = new Set<string>();
+    const qualitiesSet = new Set<string>();
+
+    movies.forEach(m => {
+      // Bóc tách category/the-loai
+      if (m.category && Array.isArray(m.category)) {
+        m.category.forEach((c: any) => genresSet.add(c.name));
+      } else if (m.type_name) {
+        genresSet.add(m.type_name);
+      }
+      
+      if (m.year) yearsSet.add(m.year.toString());
+      if (m.quality) qualitiesSet.add(m.quality);
+    });
+
+    const filtered = movies.filter(m => {
+      const matchGenre = selectedGenre ? (m.category?.some((c: any) => c.name === selectedGenre) || m.type_name === selectedGenre) : true;
+      const matchYear = selectedYear ? m.year?.toString() === selectedYear : true;
+      const matchQuality = selectedQuality ? m.quality === selectedQuality : true;
+      return matchGenre && matchYear && matchQuality;
+    });
+
+    return {
+      availableGenres: Array.from(genresSet).sort(),
+      availableYears: Array.from(yearsSet).sort().reverse(),
+      availableQualities: Array.from(qualitiesSet).sort(),
+      filteredMovies: filtered
+    };
+  }, [movies, selectedGenre, selectedYear, selectedQuality]);
 
   const fetchResults = useCallback(async (pageNum: number, isNewQuery: boolean) => {
     if (!query) return;
@@ -109,6 +148,47 @@ export const SearchResults = ({ query }: { query: string }) => {
         </div>
       </div>
 
+      {/* Filter UI */}
+      {movies.length > 0 && (
+        <div className="flex flex-wrap items-center gap-4 mb-8">
+          <div className="relative flex items-center bg-[#F1F5F9] dark:bg-[#353945] border border-transparent rounded-2xl px-5 py-3 hover:bg-[#E2E8F0] dark:hover:bg-[#474D5C] transition-colors shadow-sm">
+            <Filter size={18} className="text-[#808191] mr-2.5" />
+            <select 
+              value={selectedGenre} 
+              onChange={(e) => setSelectedGenre(e.target.value)}
+              className="bg-transparent border-none text-[0.95rem] font-bold text-black dark:text-white outline-none cursor-pointer appearance-none pr-4"
+            >
+              <option value="" className="text-black dark:text-white bg-white dark:bg-[#252836]">Tất cả thể loại</option>
+              {availableGenres.map(g => <option key={g} value={g} className="text-black dark:text-white bg-white dark:bg-[#252836]">{g}</option>)}
+            </select>
+          </div>
+
+          <div className="relative flex items-center bg-[#F1F5F9] dark:bg-[#353945] border border-transparent rounded-2xl px-5 py-3 hover:bg-[#E2E8F0] dark:hover:bg-[#474D5C] transition-colors shadow-sm">
+            <Calendar size={18} className="text-[#808191] mr-2.5" />
+            <select 
+              value={selectedYear} 
+              onChange={(e) => setSelectedYear(e.target.value)}
+              className="bg-transparent border-none text-[0.95rem] font-bold text-black dark:text-white outline-none cursor-pointer appearance-none pr-4"
+            >
+              <option value="" className="text-black dark:text-white bg-white dark:bg-[#252836]">Tất cả năm</option>
+              {availableYears.map(y => <option key={y} value={y} className="text-black dark:text-white bg-white dark:bg-[#252836]">{y}</option>)}
+            </select>
+          </div>
+
+          <div className="relative flex items-center bg-[#F1F5F9] dark:bg-[#353945] border border-transparent rounded-2xl px-5 py-3 hover:bg-[#E2E8F0] dark:hover:bg-[#474D5C] transition-colors shadow-sm">
+            <Monitor size={18} className="text-[#808191] mr-2.5" />
+            <select 
+              value={selectedQuality} 
+              onChange={(e) => setSelectedQuality(e.target.value)}
+              className="bg-transparent border-none text-[0.95rem] font-bold text-black dark:text-white outline-none cursor-pointer appearance-none pr-4"
+            >
+              <option value="" className="text-black dark:text-white bg-white dark:bg-[#252836]">Mọi chất lượng</option>
+              {availableQualities.map(q => <option key={q} value={q} className="text-black dark:text-white bg-white dark:bg-[#252836]">{q}</option>)}
+            </select>
+          </div>
+        </div>
+      )}
+
       {isInitialLoad && isFetching ? (
         <div className="flex flex-col items-center justify-center py-20">
           <Loader2 size={40} className="animate-spin text-[#3B82F6] mb-4" />
@@ -116,18 +196,26 @@ export const SearchResults = ({ query }: { query: string }) => {
         </div>
       ) : movies.length > 0 ? (
         <>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 max-md:gap-4">
-            {movies.map((item, idx) => (
-              <MovieCard 
-                key={`${item.slug}-${idx}`} 
-                item={item} 
-                onClick={() => { 
-                  setCurrentMovieSlug(item.slug); 
-                  router.push('/');
-                }} 
-              />
-            ))}
-          </div>
+          {filteredMovies.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 max-md:gap-4">
+              {filteredMovies.map((item, idx) => (
+                <MovieCard 
+                  key={`${item.slug}-${idx}`} 
+                  item={item} 
+                  onClick={() => { 
+                    setCurrentMovieSlug(item.slug); 
+                    router.push('/');
+                  }} 
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-16 text-center bg-[#F8FAFC] dark:bg-[#1A1C23] rounded-3xl border border-dashed border-black/10 dark:border-white/10">
+              <Filter size={48} className="text-[#808191] mb-4 opacity-50" />
+              <h3 className="text-lg font-bold text-black dark:text-white mb-2">Không có kết quả lọc</h3>
+              <p className="text-[#808191] max-w-[400px]">Không tìm thấy anime nào thỏa mãn bộ lọc hiện tại trong số các kết quả đã tải.</p>
+            </div>
+          )}
           
           {hasMore && (
             <div ref={observerTarget} className="flex justify-center py-10">
