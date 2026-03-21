@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { PlayCircle, Heart, Download, Share2, Star, Clock, MonitorPlay, Cast, Play, Pause, Volume2, VolumeX, Maximize, Minimize, Settings } from 'lucide-react';
+import { PlayCircle, Heart, Download, Share2, Star, Clock, MonitorPlay, Cast, Play, Pause, Volume2, VolumeX, Maximize, Minimize, Settings, Subtitles } from 'lucide-react';
 import { useAppContext } from '@/lib/store';
 import { fetchMovieDetails } from '@/lib/api';
 import Hls from 'hls.js';
@@ -23,6 +23,7 @@ export const HeroPlayer = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerContainerRef = useRef<HTMLDivElement>(null);
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hlsRef = useRef<Hls | null>(null);
   
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -34,6 +35,11 @@ export const HeroPlayer = () => {
   const [showControls, setShowControls] = useState(true);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
   const [isBuffering, setIsBuffering] = useState(false);
+  
+  // Subtitle States
+  const [subtitleTracks, setSubtitleTracks] = useState<any[]>([]);
+  const [currentSubtitleIdx, setCurrentSubtitleIdx] = useState<number>(-1);
+  const [showSubMenu, setShowSubMenu] = useState(false);
 
   useEffect(() => {
     const loadMovie = async () => {
@@ -106,15 +112,29 @@ export const HeroPlayer = () => {
     setIsPlaying(false);
     setProgress(0);
     setIsBuffering(true);
+    setSubtitleTracks([]);
+    setCurrentSubtitleIdx(-1);
 
     if (Hls.isSupported()) {
       hls = new Hls({ maxBufferLength: 30, maxMaxBufferLength: 60 });
+      hlsRef.current = hls; // Store ref to interact later
+      
       hls.loadSource(activeEpisode.link_m3u8);
       hls.attachMedia(video);
+      
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         setIsBuffering(false);
         video.play().catch(e => console.log('Auto-play prevented:', e));
       });
+      
+      // Manage Subtitles from Hls.js
+      hls.on(Hls.Events.SUBTITLE_TRACKS_UPDATED, (_, data) => {
+        setSubtitleTracks(data.subtitleTracks || []);
+      });
+      hls.on(Hls.Events.SUBTITLE_TRACK_SWITCH, (_, data) => {
+        setCurrentSubtitleIdx(data.id);
+      });
+
       hls.on(Hls.Events.ERROR, (event, data) => {
         if (data.fatal) {
           switch (data.type) {
@@ -130,6 +150,14 @@ export const HeroPlayer = () => {
       video.addEventListener('loadedmetadata', () => {
         setIsBuffering(false);
         video.play().catch(e => console.log('Auto-play prevented:', e));
+        
+        // Fallback for native Safari
+        const tracks = Array.from(video.textTracks || []);
+        if (tracks.length > 0) {
+          setSubtitleTracks(tracks.map((t, idx) => ({ id: idx, name: t.label || t.language || `Phụ đề ${idx+1}` })));
+          const activeIndex = tracks.findIndex(t => t.mode === 'showing');
+          setCurrentSubtitleIdx(activeIndex);
+        }
       });
     }
 
@@ -139,6 +167,18 @@ export const HeroPlayer = () => {
       }
     };
   }, [activeEpisode]);
+
+  const changeSubtitle = (idx: number) => {
+    if (hlsRef.current) {
+      hlsRef.current.subtitleTrack = idx;
+    } else if (videoRef.current) {
+      Array.from(videoRef.current.textTracks).forEach((track, i) => {
+        track.mode = i === idx ? 'showing' : 'disabled';
+      });
+    }
+    setCurrentSubtitleIdx(idx);
+    setShowSubMenu(false);
+  };
 
   const handleTimeUpdate = () => {
     if (!videoRef.current) return;
@@ -452,14 +492,54 @@ export const HeroPlayer = () => {
                   </div>
 
                   <div className="flex items-center gap-4">
+                    {/* Subtitle Menu */}
+                    {subtitleTracks.length > 0 && (
+                      <div className="relative">
+                        <button 
+                          onClick={() => { setShowSubMenu(!showSubMenu); setShowSpeedMenu(false); }} 
+                          className={`text-white hover:text-[#3B82F6] transition-colors flex items-center justify-center gap-1 group/sub ${currentSubtitleIdx !== -1 ? 'text-[#3B82F6]' : ''}`}
+                          title="Phụ đề (Subtitles)"
+                        >
+                          <Subtitles size={24} className="max-md:w-5 max-md:h-5" />
+                          <span className="text-[0.8rem] font-bold bg-white/10 px-1.5 py-0.5 rounded-md min-w-[28px] text-center max-md:hidden uppercase">
+                            {currentSubtitleIdx !== -1 && subtitleTracks[currentSubtitleIdx] ? (subtitleTracks[currentSubtitleIdx].name || 'CC').substring(0,3) : 'TẮT'}
+                          </span>
+                        </button>
+                        
+                        {/* Dropdown Subtitles */}
+                        {showSubMenu && (
+                          <div className="absolute bottom-full right-0 mb-4 bg-[#0F111A]/95 backdrop-blur-xl border border-white/10 rounded-2xl flex flex-col p-2 shadow-[0_10px_40px_rgba(0,0,0,0.8)] z-40 max-h-[220px] overflow-y-auto custom-scrollbar transition-all scale-100 origin-bottom">
+                            <button 
+                              onClick={() => changeSubtitle(-1)}
+                              className={`px-5 py-2.5 rounded-xl text-[0.9rem] font-bold transition-colors whitespace-nowrap text-left
+                                ${currentSubtitleIdx === -1 ? 'bg-[#3B82F6] text-white' : 'text-white/70 hover:bg-white/10 hover:text-white'}`}
+                            >
+                              Tắt Phụ Đề
+                            </button>
+                            <div className="w-full h-px bg-white/10 my-1"></div>
+                            {subtitleTracks.map((track, idx) => (
+                              <button 
+                                key={idx}
+                                onClick={() => changeSubtitle(idx)}
+                                className={`px-5 py-2.5 rounded-xl text-[0.9rem] font-bold transition-colors whitespace-nowrap text-left
+                                  ${currentSubtitleIdx === idx ? 'bg-[#3B82F6] text-white' : 'text-white/70 hover:bg-white/10 hover:text-white'}`}
+                              >
+                                {track.name || `Phụ đề ${idx + 1}`}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     {/* Speed Menu */}
                     <div className="relative">
                       <button 
-                        onClick={() => setShowSpeedMenu(!showSpeedMenu)} 
+                        onClick={() => { setShowSpeedMenu(!showSpeedMenu); setShowSubMenu(false); }} 
                         className="text-white hover:text-[#3B82F6] transition-colors flex items-center justify-center gap-1 group/speed"
                       >
-                        <Settings size={22} className={`transition-transform duration-500 ${showSpeedMenu ? 'rotate-90' : ''}`} />
-                        <span className="text-[0.85rem] font-bold w-12 text-center bg-white/10 px-2 py-0.5 rounded-md">{playbackRate}x</span>
+                        <Settings size={22} className={`transition-transform duration-500 max-md:w-5 max-md:h-5 ${showSpeedMenu ? 'rotate-90' : ''}`} />
+                        <span className="text-[0.85rem] font-bold w-12 max-md:w-9 text-center bg-white/10 px-2 max-md:px-1 py-0.5 rounded-md max-md:text-[0.75rem]">{playbackRate}x</span>
                       </button>
                       
                       {/* Dropdown Speed */}

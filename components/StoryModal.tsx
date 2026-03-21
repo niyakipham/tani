@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Play, Heart, List, Share2, ChevronUp } from 'lucide-react';
+import { X, Play, Heart, List, Share2, ChevronUp, CheckCircle } from 'lucide-react';
 import { useAppContext } from '@/lib/store';
 
 export const StoryModal = () => {
-  const { isStoryModeOpen, setIsStoryModeOpen, favorites, toggleFavorite, setCurrentMovieSlug } = useAppContext();
+  const { isStoryModeOpen, setIsStoryModeOpen, favorites, toggleFavorite, setCurrentMovieSlug, addToHistory, updateHistoryProgress } = useAppContext();
   const [stories, setStories] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showEpisodes, setShowEpisodes] = useState(false);
@@ -71,6 +71,13 @@ export const StoryModal = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleMarkComplete = (story: any) => {
+    const epName = story.episodes[story.currentEpIndex]?.name || '1';
+    addToHistory(story, epName);
+    updateHistoryProgress(story.slug, 100);
+    alert(`Đã hoàn thành xuất sắc tập ${epName}! 🎉`);
+  };
+
   if (!isStoryModeOpen) return null;
 
   return (
@@ -105,9 +112,14 @@ export const StoryModal = () => {
                   <div className="flex flex-col gap-4 shrink-0 relative z-[2] max-lg:p-8 max-lg:pr-[90px] max-lg:pb-10 max-lg:pointer-events-auto max-lg:gap-3">
                     <h3 className="text-[2.2rem] max-lg:text-[1.8rem] font-black text-white leading-[1.25] line-clamp-2">{story.name}</h3>
                     <p className="text-base max-lg:text-[0.9rem] text-[#808191] max-lg:text-white/70 line-clamp-4 leading-[1.7] max-lg:mb-2">{story.content}</p>
-                    <button className="self-start bg-[#3B82F6] text-white border-none py-3.5 px-8 rounded-full font-bold flex items-center gap-2.5 transition-all cursor-pointer hover:bg-[#2563EB]" onClick={() => handleWatchFull(story.slug)}>
-                      <Play size={20} className="fill-current" /> Xem Full Bộ
-                    </button>
+                    <div className="flex items-center gap-3 self-start max-lg:w-full">
+                      <button className="flex-1 bg-[#3B82F6] text-white border-none py-3.5 px-8 max-lg:px-4 max-lg:py-3 rounded-full font-bold flex items-center justify-center gap-2.5 transition-all cursor-pointer hover:bg-[#2563EB]" onClick={() => handleWatchFull(story.slug)}>
+                        <Play size={20} className="fill-current" /> Xem Full
+                      </button>
+                      <button className="flex-1 bg-[#353945] text-white border-none py-3.5 px-6 max-lg:px-4 max-lg:py-3 rounded-full font-bold flex items-center justify-center gap-2.5 transition-all cursor-pointer hover:bg-white/20" onClick={() => handleMarkComplete(story)} title="Đánh dấu đã xem">
+                        <CheckCircle size={20} /> <span className="max-lg:text-[0.9rem]">Đã xem</span>
+                      </button>
+                    </div>
                   </div>
                   
                   <div className="flex gap-4 items-center mt-2 relative z-[2] max-lg:absolute max-lg:right-4 max-lg:bottom-[100px] max-lg:flex-col max-lg:gap-6 max-lg:pointer-events-auto">
