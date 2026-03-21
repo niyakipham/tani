@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Play, Loader2 } from 'lucide-react';
+import { Play, Loader2, Heart } from 'lucide-react';
 import { useAppContext } from '@/lib/store';
 import { fetchMoviesByGenre } from '@/lib/api';
 
@@ -21,9 +21,11 @@ const ALL_GENRES = [
 ];
 
 export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void }) => {
+  const { favorites, toggleFavorite } = useAppContext();
   const [isHovered, setIsHovered] = useState(false);
   const [isImgLoaded, setIsImgLoaded] = useState(false);
   const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
+  const isLiked = favorites.some((f: any) => f.slug === item.slug);
 
   const handleMouseEnter = () => {
     hoverTimeout.current = setTimeout(() => {
@@ -78,8 +80,27 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
         )}
 
         <div className="absolute inset-0 bg-black/30 opacity-0 transition-opacity duration-400 group-hover:opacity-100 z-10"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-80 w-14 h-14 rounded-full bg-transparent border-2 border-white text-white flex items-center justify-center text-[1.8rem] opacity-0 transition-all duration-400 ease-[cubic-bezier(0.2,0.8,0.2,1)] backdrop-blur-sm group-hover:opacity-100 group-hover:scale-100 z-20">
-          <Play size={24} className="fill-current" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-3 opacity-0 transition-all duration-400 ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:opacity-100 z-20 w-[80%] max-w-[120px]">
+          {/* Nút Play */}
+          <div className="scale-80 group-hover:scale-100 transition-transform duration-400 w-14 h-14 rounded-full bg-black/20 hover:bg-black/50 border-2 border-white text-white flex items-center justify-center backdrop-blur-sm shrink-0">
+            <Play size={24} className="fill-current ml-1" />
+          </div>
+          
+          {/* Nút Lưu (Favorites) */}
+          <button 
+            className={`scale-80 group-hover:scale-100 transition-all duration-400 delay-75 w-11 h-11 rounded-full border flex items-center justify-center backdrop-blur-sm shrink-0 cursor-pointer
+              ${isLiked 
+                ? 'bg-[#FF4757] border-[#FF4757] text-white shadow-[0_0_15px_rgba(255,71,87,0.5)]' 
+                : 'bg-black/20 border-white/50 text-white hover:bg-[#FF4757] hover:border-[#FF4757] hover:scale-110'
+              }`}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleFavorite(item);
+            }}
+            title={isLiked ? "Bỏ Lưu" : "Lưu Phim"}
+          >
+            <Heart size={18} className={isLiked ? "fill-current" : ""} />
+          </button>
         </div>
       </div>
       <div className="w-full pt-4 flex flex-col z-10">
