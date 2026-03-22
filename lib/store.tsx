@@ -87,6 +87,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [peerId, setPeerId] = useState<string | null>(null);
   const [roomId, setRoomId] = useState<string | null>(null);
   const [isHost, setIsHost] = useState(false);
+  const isHostRef = useRef(false);
   const [peers, setPeers] = useState<string[]>([]);
   const [messages, setMessages] = useState<any[]>([]);
 
@@ -101,27 +102,27 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const handleIncomingData = useCallback((data: any) => {
     if (data.type === 'CHAT') {
       setMessages(prev => [...prev, data.payload]);
-      if (isHost) {
+      if (isHostRef.current) {
         Object.values(connsRef.current).forEach(conn => {
           if (conn.peer !== data.payload.senderId) conn.send(data);
         });
       }
     } else if (data.type === 'VIDEO_SYNC') {
       if (videoSyncCallbackRef.current) videoSyncCallbackRef.current(data.payload);
-      if (isHost) {
+      if (isHostRef.current) {
         Object.values(connsRef.current).forEach(conn => {
           if (conn.peer !== data.payload.senderId) conn.send(data);
         });
       }
     }
-  }, [isHost]);
+  }, []);
 
   const initHost = async () => {
     const PeerClass = (await import('peerjs')).default;
     const peer = new PeerClass();
     return new Promise<string>((resolve) => {
       peer.on('open', (id) => {
-        setPeerId(id); setRoomId(id); setIsHost(true); setMessages([]);
+        setPeerId(id); setRoomId(id); setIsHost(true); isHostRef.current = true; setMessages([]);
         peerRef.current = peer;
         resolve(id);
       });
@@ -144,7 +145,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const peer = new PeerClass();
     return new Promise<boolean>((resolve) => {
       peer.on('open', (myId) => {
-        setPeerId(myId); setIsHost(false); peerRef.current = peer;
+        setPeerId(myId); setIsHost(false); isHostRef.current = false; peerRef.current = peer;
         const conn = peer.connect(id);
         conn.on('open', () => {
           setRoomId(id); connsRef.current[id] = conn; resolve(true);
@@ -165,7 +166,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const leaveRoom = useCallback(() => {
     if (peerRef.current) peerRef.current.destroy();
-    connsRef.current = {}; setPeerId(null); setRoomId(null); setIsHost(false); setPeers([]); setMessages([]);
+    connsRef.current = {}; setPeerId(null); setRoomId(null); setIsHost(false); isHostRef.current = false; setPeers([]); setMessages([]);
   }, []);
 
   useEffect(() => {
