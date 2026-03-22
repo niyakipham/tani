@@ -89,16 +89,6 @@ export const WatchPartyPanel = () => {
           </button>
         </div>
 
-        {/* Viewers Avatar Bar */}
-        <div className="flex items-center px-6 py-4 gap-2 overflow-x-auto custom-scrollbar border-b border-black/5 dark:border-white/5">
-           <img src="https://i.pravatar.cc/150?u=hoang" alt="H" className="w-10 h-10 rounded-full border-2 border-[#3B82F6] object-cover shrink-0" />
-           <img src="https://i.pravatar.cc/150?u=han" alt="H" className="w-10 h-10 rounded-full border-2 border-[#8B5CF6] object-cover shrink-0" />
-           <img src="https://i.pravatar.cc/150?u=trang" alt="T" className="w-10 h-10 rounded-full border-2 border-[#10B981] object-cover shrink-0" />
-           <div className="w-10 h-10 rounded-full border-2 border-dashed border-[#808191] flex items-center justify-center text-[#808191] shrink-0 text-[0.8rem] font-bold">
-             +39
-           </div>
-        </div>
-
         {/* Chat Area */}
         <div className="flex-1 overflow-y-auto p-6 md:px-8 bg-[#F4F7FB]/50 dark:bg-transparent custom-scrollbar flex flex-col gap-4">
           <div className="text-center w-full my-2">
