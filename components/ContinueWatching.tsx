@@ -19,49 +19,54 @@ export const ContinueWatching = () => {
   }
 
   return (
-    <section className="mt-4 bg-white dark:bg-[#252836] rounded-[40px] p-10 shadow-[0_20px_40px_rgba(0,0,0,0.5)] dark:shadow-[0_20px_40px_rgba(0,0,0,0.5)] shadow-[0_20px_40px_rgba(18,38,63,0.05)] max-md:p-6 max-md:mx-4 max-md:rounded-3xl">
-      <h2 className="text-[1.8rem] max-md:text-[1.4rem] font-black text-black dark:text-white tracking-[-0.5px] mb-8 max-md:mb-5 flex items-center gap-3 after:content-['➔'] after:text-[1.4rem] after:text-[#808191] after:ml-2">
-        Tiếp Tục Xem
+    <section className="mt-2 bg-transparent p-6 max-md:p-4 max-md:pt-2 w-full overflow-hidden">
+      <h2 className="text-[1.5rem] md:text-[1.8rem] font-bold text-white tracking-tight mb-4 flex items-center justify-between">
+        Tiếp Tục Xem <span className="text-[0.8rem] text-[#808191] font-bold cursor-pointer hover:text-white flex items-center gap-1 md:hidden">Xem tất cả <span className="text-[0.6rem]">▶</span></span>
       </h2>
       
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 max-md:gap-4">
+      <div className="flex gap-4 md:gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scrollbar-none scroll-smooth">
         {recentHistory.map((item, idx) => (
           <div 
             key={`${item.slug}-${idx}`}
-            className="bg-transparent rounded-xl overflow-hidden transition-all cursor-pointer flex flex-col relative group hover:-translate-y-2"
+            className="snap-start shrink-0 w-[260px] md:w-[320px] bg-transparent rounded-[1.25rem] overflow-hidden transition-all cursor-pointer flex flex-col relative group hover:-translate-y-2 select-none"
             onClick={() => {
               setCurrentMovieSlug(item.slug);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           >
-            <div className="relative w-full aspect-[16/9] overflow-hidden bg-[#1A1C23] dark:bg-[#1A1C23] bg-[#F8FAFC] rounded-xl shadow-[0_10px_20px_rgba(0,0,0,0.3)] dark:shadow-[0_10px_20px_rgba(0,0,0,0.3)] shadow-[0_10px_20px_rgba(0,0,0,0.03)]">
+            <div className="relative w-full aspect-[16/9] overflow-hidden bg-[#1A1C23] border border-white/5 rounded-[1.25rem] shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
               <img 
                 src={`https://img.ophim.live/uploads/movies/${item.thumb_url}`} 
                 alt={item.name} 
-                className="w-full h-full object-cover transition-all duration-800 ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-105" 
+                className="w-full h-full object-cover transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] group-hover:scale-110" 
                 onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x170/1F2937/00D1F5'; }} 
               />
               
-              <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-400 group-hover:opacity-100 z-10"></div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-80 w-12 h-12 rounded-full bg-[#3B82F6] text-white flex items-center justify-center text-[1.5rem] opacity-0 transition-all duration-400 ease-[cubic-bezier(0.2,0.8,0.2,1)] shadow-[0_4px_15px_rgba(59,130,246,0.5)] group-hover:opacity-100 group-hover:scale-100 z-20">
-                <Play size={20} className="fill-current ml-1" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#07080B] via-transparent to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-100 z-10 pointer-events-none"></div>
+              
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-75 group-hover:scale-100 z-[20] opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+                <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                  <Play size={20} className="fill-white text-white ml-0.5" />
+                </div>
               </div>
               
               {/* Progress Bar */}
               <div className="absolute bottom-0 left-0 w-full h-1.5 bg-black/50 z-20">
                 <div 
-                  className="h-full bg-[#3B82F6] rounded-r-full" 
+                  className="h-full bg-[#E50914] rounded-r-full shadow-[0_0_10px_#E50914]" 
                   style={{ width: `${item.progress || 0}%` }}
                 ></div>
               </div>
             </div>
             
             <div className="w-full pt-3 flex flex-col z-10">
-              <div className="text-[1rem] font-bold text-black dark:text-white leading-[1.4] line-clamp-1">
+              <div className="text-[1rem] md:text-[1.05rem] font-bold text-white leading-tight line-clamp-1 drop-shadow-md">
                 {item.name}
               </div>
-              <div className="text-[0.8rem] text-[#808191] mt-1 font-medium">
-                Tập {item.epName}
+              <div className="text-[0.8rem] text-[#808191] mt-1 font-bold flex items-center gap-2">
+                <span className="text-[#E50914]">Tập {item.epName}</span>
+                <span className="w-1 h-1 bg-white/30 rounded-full"></span>
+                <span>{item.progress ? `${Math.round(item.progress)}%` : '0%'}</span>
               </div>
             </div>
           </div>

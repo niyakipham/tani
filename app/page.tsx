@@ -6,6 +6,7 @@ import { Sidebar } from '@/components/Sidebar';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
 import { HeroPlayer } from '@/components/HeroPlayer';
+import { HeroCarousel } from '@/components/HeroCarousel';
 import { ContinueWatching } from '@/components/ContinueWatching';
 import { ExploreSection } from '@/components/ExploreSection';
 import { SidePanel } from '@/components/SidePanel';
@@ -44,8 +45,9 @@ const MainContent = () => {
       <Sidebar />
       <main className="ml-[100px] max-lg:ml-0 flex-1 flex flex-col min-h-screen relative w-[calc(100%-100px)] max-lg:w-full max-lg:pb-[100px]">
         <Header />
-        <div className="pt-[100px] px-10 pb-[60px] max-w-[1600px] mx-auto flex flex-col gap-10 w-full max-md:pt-[86px] max-md:px-0 max-md:pb-[80px] max-md:gap-6">
+        <div className="pt-[100px] md:px-10 pb-[60px] max-w-[1600px] mx-auto flex flex-col gap-6 w-full max-md:pt-[86px] max-md:px-0 max-md:pb-[80px] max-md:gap-4">
           <HeroPlayer />
+          <HeroCarousel />
           <ContinueWatching />
           <ExploreSection />
         </div>
