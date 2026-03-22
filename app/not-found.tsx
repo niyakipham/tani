@@ -1,40 +1,62 @@
 import Link from 'next/link';
-import { Home, MapPinOff } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#0F111A] flex flex-col items-center justify-center p-6 text-center relative overflow-hidden font-sans">
-      {/* Hiệu ứng Phép màu dưới nền */}
-      <div className="absolute top-[10%] left-[10%] w-[400px] h-[400px] bg-[#3B82F6] mix-blend-screen mix-blend-plus-lighter filter blur-[150px] opacity-20 animate-pulse rounded-full pointer-events-none"></div>
-      <div className="absolute bottom-[10%] right-[10%] w-[300px] h-[300px] bg-[#EC4899] mix-blend-screen mix-blend-plus-lighter filter blur-[120px] opacity-20 rounded-full pointer-events-none"></div>
-
-      <div className="relative z-10 flex flex-col items-center max-w-[650px] animate-in slide-in-from-bottom-12 fade-in duration-1000">
-        <div className="relative w-32 h-32 md:w-36 md:h-36 bg-gradient-to-br from-[#3B82F6] via-[#8B5CF6] to-[#EC4899] rounded-[2.5rem] flex items-center justify-center mb-8 shadow-[0_20px_50px_rgba(139,92,246,0.3)] group overflow-hidden">
-          <div className="absolute inset-0 bg-white/20 rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <MapPinOff size={68} className="text-white fill-current/20 transform transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-12 relative z-10" />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-[100%] group-hover:animate-[shimmer_2s_infinite]"></div>
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center font-sans selection:bg-[#3B82F6]/20">
+      
+      <div className="flex flex-col items-center gap-6 animate-in fade-in zoom-in duration-700 w-full max-w-[800px]">
+        
+        {/* Custom 404 Typography */}
+        <div className="flex items-center justify-center select-none w-full">
+          <span className="text-[10rem] md:text-[16rem] font-bold leading-none bg-clip-text text-transparent bg-gradient-to-b from-[#2563EB] to-[#93C5FD] tracking-tighter drop-shadow-sm -mr-[1rem] md:-mr-[2.5rem] relative z-0">
+            4
+          </span>
+          
+          <div className="w-[8rem] h-[8rem] md:w-[13rem] md:h-[13rem] relative shrink-0 z-10 mt-4 md:mt-8">
+            <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-sm">
+              <defs>
+                <linearGradient id="iconGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#2563EB" />
+                  <stop offset="100%" stopColor="#93C5FD" />
+                </linearGradient>
+              </defs>
+              
+              {/* Outer stroke ghost/bubble shape */}
+              <path 
+                d="M 28 32 A 36 36 0 1 1 30 83 C 25 85 20 92 18 95 C 20 85 20 70 20 65" 
+                fill="none" 
+                stroke="url(#iconGradient)" 
+                strokeWidth="15" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+              />
+              
+              {/* Left eye */}
+              <rect x="36" y="42" width="10" height="22" rx="5" fill="url(#iconGradient)" />
+              {/* Right eye */}
+              <rect x="54" y="42" width="10" height="22" rx="5" fill="url(#iconGradient)" />
+            </svg>
+          </div>
+          
+          <span className="text-[10rem] md:text-[16rem] font-bold leading-none bg-clip-text text-transparent bg-gradient-to-b from-[#2563EB] to-[#93C5FD] tracking-tighter drop-shadow-sm -ml-[1rem] md:-ml-[2.5rem] relative z-0">
+            4
+          </span>
         </div>
-        
-        <h1 className="text-[7rem] md:text-[9rem] font-black leading-none tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-[#2563EB] to-[#EC4899] drop-shadow-sm mb-2">
-          404
-        </h1>
-        
-        <h2 className="text-[1.8rem] md:text-[2.2rem] font-black text-black dark:text-white mb-5 tracking-tight">
-          Oops! Lạc Lối Giữa Không Gian...
-        </h2>
-        
-        <p className="text-[1.05rem] md:text-[1.15rem] text-[#808191] mb-12 leading-relaxed max-w-[500px]">
-          Có vẻ như thước phim bạn đang tìm kiếm đã bị cuốn vào hố đen vũ trụ, hoặc địa chỉ này chưa từng tồn tại trên bản đồ của T-ANIME đó ạ! 🌌🎬
+
+        {/* Subtitle */}
+        <p className="text-[#374151] font-medium text-[1.05rem] md:text-[1.2rem] mt-[-1rem] md:mt-[-2rem] mb-2 tracking-tight">
+          Oops.. Something went wrong..
         </p>
-        
+
+        {/* Button */}
         <Link 
           href="/" 
-          className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#3B82F6] text-white rounded-[1.25rem] font-black text-[1.1rem] shadow-[0_10px_30px_rgba(59,130,246,0.3)] hover:bg-[#2563EB] hover:shadow-[0_15px_40px_rgba(59,130,246,0.5)] transition-all hover:-translate-y-1 overflow-hidden"
+          className="px-8 py-3 bg-[#3B82F6] text-white rounded-full font-medium text-[0.95rem] shadow-[0_4px_14px_rgba(59,130,246,0.3)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.4)] hover:bg-[#2563EB] hover:-translate-y-0.5 transition-all"
         >
-          <span className="relative z-10 flex items-center gap-2"><Home size={22} className="group-hover:animate-bounce" /> Lên Tàu Quay Về Nhà</span>
-          <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-[100%] group-hover:animate-[shimmer_1.5s_infinite]"></div>
+          Back to Home
         </Link>
       </div>
+    
     </div>
   );
 }
