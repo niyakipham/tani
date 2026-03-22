@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { PlayCircle, Heart, Download, Share2, Star, Clock, MonitorPlay, Cast, Play, Pause, Volume2, VolumeX, Maximize, Minimize, Settings, Subtitles, SkipForward, Users } from 'lucide-react';
+import { PlayCircle, Heart, Download, Share2, Star, Clock, MonitorPlay, Cast, Play, Pause, Volume2, VolumeX, Maximize, Minimize, Settings, Subtitles, SkipForward, Users, RotateCcw, RotateCw } from 'lucide-react';
 import { useAppContext } from '@/lib/store';
 import { fetchMovieDetails } from '@/lib/api';
 import Hls from 'hls.js';
@@ -40,6 +40,44 @@ export const HeroPlayer = () => {
   const [subtitleTracks, setSubtitleTracks] = useState<any[]>([]);
   const [currentSubtitleIdx, setCurrentSubtitleIdx] = useState<number>(-1);
   const [showSubMenu, setShowSubMenu] = useState(false);
+
+  // Skip Control Setup
+  const lastTapRef = useRef<{ time: number } | null>(null);
+  const [doubleTapSide, setDoubleTapSide] = useState<'left' | 'right' | null>(null);
+
+  const skipTime = (amount: number) => {
+    if (videoRef.current) {
+      let nextTime = videoRef.current.currentTime + amount;
+      nextTime = Math.max(0, Math.min(nextTime, duration));
+      videoRef.current.currentTime = nextTime;
+      setProgress(nextTime);
+      if (roomId) sendP2PMessage('VIDEO_SYNC', { action: 'SEEK', time: nextTime });
+      
+      setDoubleTapSide(amount > 0 ? 'right' : 'left');
+      setTimeout(() => setDoubleTapSide(null), 500);
+    }
+  };
+
+  const handleVideoTouchStart = (e: React.TouchEvent) => {
+    const now = Date.now();
+    const touch = e.touches[0];
+    if (lastTapRef.current && now - lastTapRef.current.time < 300) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const xPos = touch.clientX - rect.left;
+      if (xPos > rect.width / 2) skipTime(10);
+      else skipTime(-10);
+      lastTapRef.current = null;
+    } else {
+      lastTapRef.current = { time: now };
+    }
+  };
+
+  const handleDoubleClick = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const xPos = e.clientX - rect.left;
+    if (xPos > rect.width / 2) skipTime(10);
+    else skipTime(-10);
+  };
 
   // Sync P2P Setup
   useEffect(() => {
@@ -509,7 +547,19 @@ export const HeroPlayer = () => {
                 onWaiting={() => setIsBuffering(true)}
                 onPlaying={() => setIsBuffering(false)}
                 playsInline
+                onTouchStart={handleVideoTouchStart}
+                onDoubleClick={handleDoubleClick}
               />
+
+              {/* Double tap ripple effect */}
+              {doubleTapSide && (
+                <div className={`absolute top-0 bottom-0 w-[45%] flex flex-col items-center justify-center bg-white/10 animate-in fade-in zoom-in duration-300 pointer-events-none z-10 ${doubleTapSide === 'left' ? 'left-0 rounded-r-[100%]' : 'right-0 rounded-l-[100%]'}`}>
+                  <div className="bg-black/40 backdrop-blur-md rounded-full p-4 mb-2 animate-bounce">
+                    {doubleTapSide === 'left' ? <RotateCcw size={40} className="text-white" /> : <RotateCw size={40} className="text-white" />}
+                  </div>
+                  <span className="text-white font-black text-xl drop-shadow-md">{doubleTapSide === 'left' ? '-10 giây' : '+10 giây'}</span>
+                </div>
+              )}
 
               {/* Buffering Indicator */}
               {isBuffering && (
@@ -560,10 +610,18 @@ export const HeroPlayer = () => {
                 {/* Bottom Controls */}
                 <div className="flex items-center justify-between w-full">
                   <div className="flex items-center gap-4">
-                    {/* Play/Pause */}
-                    <button onClick={togglePlay} className="text-white hover:text-[#3B82F6] transition-colors hover:scale-110 active:scale-95">
-                      {isPlaying ? <Pause size={28} className="fill-current" /> : <Play size={28} className="fill-current" />}
-                    </button>
+                    {/* Play/Pause Area */}
+                    <div className="flex items-center gap-2 md:gap-4">
+                      <button onClick={() => skipTime(-10)} className="text-white hover:text-[#3B82F6] transition-colors focus:outline-none max-md:hidden">
+                        <RotateCcw size={22} />
+                      </button>
+                      <button onClick={togglePlay} className="text-white hover:text-[#3B82F6] transition-colors hover:scale-110 active:scale-95">
+                        {isPlaying ? <Pause size={28} className="fill-current" /> : <Play size={28} className="fill-current" />}
+                      </button>
+                      <button onClick={() => skipTime(10)} className="text-white hover:text-[#3B82F6] transition-colors focus:outline-none max-md:hidden">
+                        <RotateCw size={22} />
+                      </button>
+                    </div>
                     
                     {/* Volume */}
                     <div className="flex items-center gap-2 group/vol relative">
