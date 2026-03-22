@@ -77,13 +77,9 @@ export const WatchPartyPanel = () => {
             <X size={20} />
           </div>
           
-          <div className="flex items-center gap-4 relative z-10">
-            <div className="relative w-14 h-14 bg-gradient-to-br from-[#3B82F6] via-[#8B5CF6] to-[#EC4899] rounded-[1.25rem] flex items-center justify-center shadow-[0_10px_30px_rgba(139,92,246,0.4)] group">
-               <div className="absolute inset-0 bg-white/20 rounded-[1.25rem] opacity-0 group-hover:opacity-100 transition-opacity"></div>
-               <Popcorn size={28} className="text-white fill-current transform transition-transform group-hover:scale-110 group-hover:-rotate-6" />
-            </div>
+          <div className="flex items-center relative z-10 px-2">
             <div className="flex-1">
-              <div className="text-[1.35rem] font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#2563EB] to-[#EC4899] dark:from-[#3B82F6] dark:to-[#F472B6] drop-shadow-sm">Trạm Điểm Gian</div>
+              <div className="text-[1.6rem] font-black tracking-tight text-[#3B82F6] drop-shadow-sm">Trạm Điểm Gian</div>
               <div className="text-[0.85rem] text-[#808191] font-semibold flex items-center gap-1.5 mt-1">
                 {roomId ? (
                   <><span className="relative flex h-2.5 w-2.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span><span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10B981]"></span></span> {isHost ? peers.length + 1 : 2} người đang xem</>
