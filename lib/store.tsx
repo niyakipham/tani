@@ -44,6 +44,8 @@ interface AppContextType {
   recentSearches: string[];
   addRecentSearch: (query: string) => void;
   clearRecentSearches: () => void;
+  isWatchPartyOpen: boolean;
+  setIsWatchPartyOpen: (isOpen: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -69,6 +71,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     systemUpdates: true,
   });
   const [currentMovieSlug, setCurrentMovieSlug] = useState<string | null>(null);
+  const [isWatchPartyOpen, setIsWatchPartyOpen] = useState(false);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('tanime_theme') as 'dark' | 'light' || 'dark';
@@ -213,7 +216,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       isOnboardingOpen, setIsOnboardingOpen, isStoryModeOpen, setIsStoryModeOpen,
       isScanModalOpen, setIsScanModalOpen, isNotificationModalOpen, setIsNotificationModalOpen,
       notificationSettings, setNotificationSettings, currentMovieSlug, setCurrentMovieSlug,
-      recentSearches, addRecentSearch, clearRecentSearches
+      recentSearches, addRecentSearch, clearRecentSearches,
+      isWatchPartyOpen, setIsWatchPartyOpen
     }}>
       {children}
     </AppContext.Provider>

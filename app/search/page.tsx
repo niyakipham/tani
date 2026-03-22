@@ -11,6 +11,7 @@ import { ScanModal } from '@/components/ScanModal';
 import { StoryModal } from '@/components/StoryModal';
 import { NotificationModal } from '@/components/NotificationModal';
 import { SearchResults } from '@/components/SearchResults';
+import { WatchPartyPanel } from '@/components/WatchPartyPanel';
 
 const SearchContent = () => {
   const searchParams = useSearchParams();
@@ -27,6 +28,7 @@ const SearchContent = () => {
       </main>
       <MobileNav />
       <SidePanel />
+      <WatchPartyPanel />
       <OnboardingModal />
       <ScanModal />
       <StoryModal />

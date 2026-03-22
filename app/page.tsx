@@ -13,6 +13,7 @@ import { OnboardingModal } from '@/components/OnboardingModal';
 import { ScanModal } from '@/components/ScanModal';
 import { StoryModal } from '@/components/StoryModal';
 import { NotificationModal } from '@/components/NotificationModal';
+import { WatchPartyPanel } from '@/components/WatchPartyPanel';
 
 const MainContent = () => {
   const { theme, currentMovieSlug, setCurrentMovieSlug } = useAppContext();
@@ -51,6 +52,7 @@ const MainContent = () => {
       </main>
       <MobileNav />
       <SidePanel />
+      <WatchPartyPanel />
       <OnboardingModal />
       <ScanModal />
       <StoryModal />

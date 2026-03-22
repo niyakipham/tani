@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { PlayCircle, Heart, Download, Share2, Star, Clock, MonitorPlay, Cast, Play, Pause, Volume2, VolumeX, Maximize, Minimize, Settings, Subtitles, SkipForward } from 'lucide-react';
+import { PlayCircle, Heart, Download, Share2, Star, Clock, MonitorPlay, Cast, Play, Pause, Volume2, VolumeX, Maximize, Minimize, Settings, Subtitles, SkipForward, Users } from 'lucide-react';
 import { useAppContext } from '@/lib/store';
 import { fetchMovieDetails } from '@/lib/api';
 import Hls from 'hls.js';
@@ -9,7 +9,7 @@ import Hls from 'hls.js';
 const EP_CHUNK_SIZE = 100;
 
 export const HeroPlayer = () => {
-  const { currentMovieSlug, favorites, toggleFavorite, history, addToHistory, updateHistoryProgress, addDownload } = useAppContext();
+  const { currentMovieSlug, favorites, toggleFavorite, history, addToHistory, updateHistoryProgress, addDownload, setIsWatchPartyOpen } = useAppContext();
   const [movieData, setMovieData] = useState<any>(null);
   const [episodes, setEpisodes] = useState<any[]>([]);
   const [activeEpisode, setActiveEpisode] = useState<any>(null);
@@ -682,6 +682,9 @@ export const HeroPlayer = () => {
               ) : (
                 <><Download size={20} /> <span>Tải Về</span></>
               )}
+            </button>
+            <button className="flex items-center justify-center gap-2.5 px-8 py-3.5 max-md:px-2 max-md:py-3.5 bg-transparent border border-black/10 dark:border-white/10 rounded-full text-base max-md:text-[0.9rem] font-bold transition-all text-black dark:text-white hover:bg-[#3B82F6] hover:text-white hover:border-transparent hover:-translate-y-[2px] max-md:w-full group" onClick={() => setIsWatchPartyOpen(true)}>
+              <Users size={20} className="group-hover:animate-bounce" /> <span className="max-md:hidden">Xem Chung</span>
             </button>
             <button className="flex items-center justify-center gap-2.5 px-8 py-3.5 max-md:px-2 max-md:py-3.5 bg-transparent border border-black/10 dark:border-white/10 rounded-full text-base max-md:text-[0.9rem] font-bold transition-all text-black dark:text-white hover:bg-black/5 dark:hover:bg-white/5 hover:-translate-y-[2px] hover:border-black/20 dark:hover:border-white/20 max-md:w-full" onClick={() => alert("Đã copy link phim vào khay nhớ tạm!")}>
               <Share2 size={20} />
