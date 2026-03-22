@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Play, Loader2, Heart } from 'lucide-react';
+import { Play, Loader2, Heart, Star } from 'lucide-react';
 import { useAppContext } from '@/lib/store';
 import { fetchMoviesByGenre } from '@/lib/api';
 
@@ -42,17 +42,62 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
 
   return (
     <div 
-      className="bg-transparent rounded-xl overflow-hidden transition-all cursor-pointer flex flex-col relative group hover:-translate-y-2" 
+      className="bg-transparent rounded-[1.25rem] overflow-hidden transition-all cursor-pointer flex flex-col relative group hover:-translate-y-2 group/card select-none" 
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="relative w-full aspect-[3/4] overflow-hidden bg-[#1A1C23] dark:bg-[#1A1C23] bg-[#F8FAFC] rounded-xl shadow-[0_10px_20px_rgba(0,0,0,0.3)] dark:shadow-[0_10px_20px_rgba(0,0,0,0.3)] shadow-[0_10px_20px_rgba(0,0,0,0.03)]">
+      <div className="relative w-full aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-[#1A1C23] border border-white/5 rounded-[1.25rem] shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
         
+        {/* Badges Overlay */}
+        <div className="absolute top-2.5 left-2.5 z-[15] pointer-events-none">
+          <span className="bg-white/90 text-black text-[0.6rem] font-black px-1.5 py-0.5 rounded-[4px] uppercase tracking-wider shadow-sm">{item.quality || 'HQ'}</span>
+        </div>
+        <div className="absolute top-2.5 right-2.5 z-[15] pointer-events-none flex items-center justify-center w-5 h-5">
+          {/* Netflix style 'N' badge representation */}
+          <span className="text-[#E50914] font-black text-[1.1rem] drop-shadow-md leading-none">N</span>
+        </div>
+
+        {/* Gradient Bottom Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#07080B] via-transparent to-transparent z-[10] opacity-80 transition-opacity duration-300 group-hover/card:opacity-100 pointer-events-none"></div>
+        
+        {/* Play Button Central */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[20] opacity-0 group-hover/card:opacity-100 transition-all duration-300 scale-75 group-hover/card:scale-100 pointer-events-none">
+          <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+            <Play size={20} className="fill-white text-white ml-0.5" />
+          </div>
+        </div>
+
+        {/* Heart Favorite Button */}
+        <button 
+          className={`absolute bottom-3 right-3 z-[25] scale-90 md:scale-100 transition-all duration-300 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm cursor-pointer
+            ${isLiked 
+              ? 'text-[#E50914] drop-shadow-[0_0_8px_rgba(229,9,20,0.8)]' 
+              : 'text-white/70 hover:text-white'
+            }`}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleFavorite(item);
+          }}
+          title={isLiked ? "Bỏ Lưu" : "Lưu Phim"}
+        >
+          <Heart size={20} className={isLiked ? "fill-current" : ""} />
+        </button>
+
+        {/* Text Overlay Bottom */}
+        <div className="absolute bottom-0 left-0 w-full p-3 pb-4 z-[15] flex flex-col gap-0.5 pointer-events-none transition-transform duration-300 translate-y-1 md:translate-y-2 group-hover/card:translate-y-0">
+          <h3 className="text-white font-bold text-[0.95rem] leading-tight line-clamp-1 drop-shadow-md pr-8">{item.name}</h3>
+          <div className="flex items-center gap-2 text-[0.7rem] font-bold text-white/80">
+            <span className="flex items-center gap-1 text-[#FFD700]"><Star size={10} className="fill-current" /> {item.tmdb?.vote_average || '4.5'}</span>
+            <span className="w-1 h-1 bg-white/30 rounded-full"></span>
+            <span>{Math.floor(Math.random() * 20 + 2)}M+ Views</span>
+          </div>
+        </div>
+
         {/* Placeholder Image Loading */}
         {!isImgLoaded && (
-          <div className="absolute inset-0 flex items-center justify-center bg-[#F1F5F9] dark:bg-[#1A1C23] z-[1]">
-            <div className="w-8 h-8 border-4 border-black/10 border-t-[#3B82F6] rounded-full animate-spin dark:border-white/10 dark:border-t-[#3B82F6]"></div>
+          <div className="absolute inset-0 flex items-center justify-center bg-[#1A1C23] z-[1]">
+            <div className="w-8 h-8 border-4 border-white/10 border-t-[#E50914] rounded-full animate-spin"></div>
           </div>
         )}
 
@@ -61,7 +106,7 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
           alt={item.name} 
           loading="lazy"
           onLoad={() => setIsImgLoaded(true)}
-          className={`w-full h-full object-cover transition-all duration-800 ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-105 relative z-[2] ${isHovered ? 'opacity-0' : isImgLoaded ? 'opacity-100' : 'opacity-0'}`} 
+          className={`w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 relative z-[2] ${isHovered ? 'opacity-0' : isImgLoaded ? 'opacity-100' : 'opacity-0'}`} 
           onError={(e) => { 
             (e.target as HTMLImageElement).src = 'https://via.placeholder.com/200x300/1F2937/00D1F5'; 
             setIsImgLoaded(true);
@@ -78,36 +123,6 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
             className="w-full h-full object-cover absolute inset-0 z-0 animate-in fade-in duration-500"
           />
         )}
-
-        <div className="absolute inset-0 bg-black/30 opacity-0 transition-opacity duration-400 group-hover:opacity-100 z-10"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-3 opacity-0 transition-all duration-400 ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:opacity-100 z-20 w-[80%] max-w-[120px]">
-          {/* Nút Play */}
-          <div className="scale-80 group-hover:scale-100 transition-transform duration-400 w-14 h-14 rounded-full bg-black/20 hover:bg-black/50 border-2 border-white text-white flex items-center justify-center backdrop-blur-sm shrink-0">
-            <Play size={24} className="fill-current ml-1" />
-          </div>
-          
-          {/* Nút Lưu (Favorites) */}
-          <button 
-            className={`scale-80 group-hover:scale-100 transition-all duration-400 delay-75 w-11 h-11 rounded-full border flex items-center justify-center backdrop-blur-sm shrink-0 cursor-pointer
-              ${isLiked 
-                ? 'bg-[#FF4757] border-[#FF4757] text-white shadow-[0_0_15px_rgba(255,71,87,0.5)]' 
-                : 'bg-black/20 border-white/50 text-white hover:bg-[#FF4757] hover:border-[#FF4757] hover:scale-110'
-              }`}
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleFavorite(item);
-            }}
-            title={isLiked ? "Bỏ Lưu" : "Lưu Phim"}
-          >
-            <Heart size={18} className={isLiked ? "fill-current" : ""} />
-          </button>
-        </div>
-      </div>
-      <div className="w-full pt-4 flex flex-col z-10">
-        <div className="text-[1.05rem] font-bold text-black dark:text-white leading-[1.4] line-clamp-1">{item.name}</div>
-        <div className="text-[0.85rem] text-black dark:text-white mt-2.5 font-semibold bg-[#F1F5F9] dark:bg-[#353945] px-4 py-2 rounded-full inline-flex items-center justify-between w-full transition-all group-hover:bg-[#3B82F6] dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-black after:content-['➔'] after:ml-auto">
-          {item.year}
-        </div>
       </div>
     </div>
   );
@@ -115,12 +130,9 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
 
 export const MovieCardSkeleton = () => {
   return (
-    <div className="bg-transparent rounded-xl overflow-hidden flex flex-col relative">
-      <div className="relative w-full aspect-[3/4] overflow-hidden bg-[#1A1C23] dark:bg-[#1A1C23] bg-[#F8FAFC] rounded-xl animate-pulse">
-      </div>
-      <div className="w-full pt-4 flex flex-col gap-2">
-        <div className="h-5 bg-[#1A1C23] dark:bg-[#1A1C23] bg-[#F8FAFC] rounded-md w-3/4 animate-pulse"></div>
-        <div className="h-8 bg-[#F1F5F9] dark:bg-[#353945] rounded-full w-full animate-pulse mt-1"></div>
+    <div className="bg-transparent rounded-[1.25rem] overflow-hidden flex flex-col relative w-full aspect-[4/5] md:aspect-[3/4]">
+      <div className="absolute inset-0 bg-[#1A1C23] border border-white/5 shadow-[0_10px_20px_rgba(0,0,0,0.5)] flex items-center justify-center rounded-[1.25rem]">
+         <div className="w-8 h-8 border-4 border-white/10 border-t-[#E50914] rounded-full animate-spin"></div>
       </div>
     </div>
   );
@@ -198,8 +210,11 @@ export const ExploreSection = () => {
   };
 
   return (
-    <section id="explore-section" className="mt-4 bg-white dark:bg-[#252836] rounded-[40px] p-10 shadow-[0_20px_40px_rgba(0,0,0,0.5)] dark:shadow-[0_20px_40px_rgba(0,0,0,0.5)] shadow-[0_20px_40px_rgba(18,38,63,0.05)] max-md:p-6 max-md:mx-4 max-md:rounded-3xl">
-      <h2 className="text-[1.8rem] max-md:text-[1.4rem] font-black text-black dark:text-white tracking-[-0.5px] mb-8 max-md:mb-5 flex items-center gap-3 after:content-['➔'] after:text-[1.4rem] after:text-[#808191] after:ml-2">Khám Phá Anime</h2>
+    <section id="explore-section" className="mt-2 bg-transparent p-6 max-md:p-4 max-md:pt-2">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-[1.5rem] md:text-[1.8rem] font-bold text-white tracking-tight">Popular Movies</h2>
+        <span className="text-[0.8rem] text-[#808191] font-bold cursor-pointer hover:text-white flex items-center gap-1">See all <span className="text-[0.6rem]">▶</span></span>
+      </div>
       
       <div className="flex gap-4 overflow-x-auto pb-4 mb-6 scrollbar-none">
         {sortedGenres.map(g => (
@@ -213,7 +228,7 @@ export const ExploreSection = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 max-md:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 md:gap-6">
         {movies.length === 0 && isFetching ? (
           Array.from({ length: 10 }).map((_, idx) => (
             <MovieCardSkeleton key={`skeleton-${idx}`} />

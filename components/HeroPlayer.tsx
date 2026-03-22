@@ -724,68 +724,67 @@ export const HeroPlayer = () => {
           )}
         </div>
         
-        <div className="flex flex-col gap-5 mt-8 min-w-0 z-[2] max-md:mt-3 max-md:gap-4 max-md:px-5">
-          <div className="flex flex-wrap gap-3 text-[0.85rem] font-bold text-white items-center">
-            {isLoading ? (
-              <div className="w-[60%] h-6 bg-[#F1F5F9] dark:bg-[#252836] rounded-2xl animate-pulse"></div>
-            ) : movieData ? (
-              <>
-                <span className="text-black bg-white px-3 py-1 rounded-full font-black flex items-center gap-1.5 dark:text-[#13141C] dark:bg-white"><Star size={14} className="fill-current" /> {movieData.tmdb?.vote_average || '9.5'}</span>
-                <span className="bg-[#F1F5F9] dark:bg-[#353945] px-3 py-1 rounded-full border border-transparent text-black dark:text-white">{movieData.quality || 'FHD'}</span>
-                <span className="bg-[#F1F5F9] dark:bg-[#353945] px-3 py-1 rounded-full border border-transparent text-black dark:text-white">{movieData.lang || 'Vietsub'}</span>
-                <span className="bg-[#F1F5F9] dark:bg-[#353945] px-3 py-1 rounded-full border border-transparent text-black dark:text-white">{movieData.year}</span>
-                <span className="text-[#808191] flex items-center gap-1.5"><Clock size={14} /> {movieData.time || '24 Phút/Tập'}</span>
-              </>
-            ) : null}
+        <div className="relative z-[20] mx-auto w-full max-w-[95%] md:max-w-full -mt-[60px] md:-mt-[100px] pt-5 px-6 md:px-10 pb-8 bg-black/70 md:bg-[#13141C]/80 backdrop-blur-3xl rounded-[2rem] md:rounded-[2.5rem] border border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.7)] flex flex-col gap-5 items-center md:items-start transition-all">
+          
+          {/* Drag handle (aesthetic) */}
+          <div className="w-14 h-1.5 bg-white/20 rounded-full mb-1 md:hidden"></div>
+
+          {/* Title Area */}
+          <div className="text-center md:text-left w-full flex flex-col items-center md:items-start">
+            <h1 className="text-[2.2rem] md:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-md flex items-center justify-center md:justify-start gap-3 flex-wrap">
+              {isLoading ? (
+                <div className="w-[80%] md:w-[400px] h-10 bg-white/10 rounded-2xl animate-pulse"></div>
+              ) : (movieData?.name || 'Chọn một bộ phim')}
+              {movieData?.quality && <span className="text-[0.65rem] md:text-[0.75rem] px-2.5 py-1 border border-white/20 rounded-md font-bold bg-white/5 uppercase backdrop-blur-md">{movieData.quality}</span>}
+            </h1>
+            <p className="text-[#808191] mt-1 md:mt-2 text-sm md:text-base font-medium tracking-wide">
+              {movieData?.origin_name || 'Let there be carnage'}
+            </p>
           </div>
           
-          <h1 className="text-[3.5rem] max-md:text-[2.2rem] font-black text-black dark:text-white leading-[1.1] tracking-[-2px] break-words capitalize">
-            {isLoading ? (
-              <>
-                <div className="w-[80%] h-10 bg-[#F1F5F9] dark:bg-[#252836] rounded-2xl animate-pulse mb-2"></div>
-                <div className="w-[50%] h-10 bg-[#F1F5F9] dark:bg-[#252836] rounded-2xl animate-pulse"></div>
-              </>
-            ) : movieData?.name || 'Chọn một bộ phim'}
-          </h1>
+          {/* Badges & Action Bar */}
+          <div className="flex flex-col md:flex-row items-center justify-between w-full mt-1 gap-4">
+            <div className="flex gap-2.5 md:gap-4 flex-wrap justify-center md:justify-start">
+              <span className="bg-white/10 text-white px-5 py-2 rounded-full text-[0.8rem] md:text-sm font-bold shadow-inner border border-white/5">{movieData?.type || movieData?.lang || 'Action'}</span>
+              <span className="bg-white/10 text-white px-5 py-2 rounded-full text-[0.8rem] md:text-sm font-bold shadow-inner border border-white/5">16+</span>
+              <span className="bg-white/10 text-[#FFD700] px-5 py-2 rounded-full text-[0.8rem] md:text-sm font-bold shadow-inner flex items-center gap-1.5 border border-white/5"><Star size={14} className="fill-current" /> {movieData?.tmdb?.vote_average || '4.1'}</span>
+            </div>
+            
+            <div className="flex items-center gap-5">
+              <button className="text-[#808191] hover:text-[#E50914] transition-all hover:scale-110 active:scale-95"><Share2 size={24} /></button>
+              <button className={`transition-all hover:scale-110 active:scale-95 ${isLiked ? 'text-[#E50914]' : 'text-[#808191] hover:text-[#E50914]'}`} onClick={() => movieData && toggleFavorite(movieData)}>
+                <Heart size={24} className={isLiked ? 'fill-current drop-shadow-[0_0_8px_rgba(229,9,20,0.6)]' : ''} />
+              </button>
+            </div>
+          </div>
           
-          <div className="flex flex-wrap gap-4 items-center mt-2 max-md:grid max-md:grid-cols-2 max-md:gap-3 max-md:w-full">
-            <button className="flex items-center justify-center gap-2.5 px-8 py-3.5 max-md:px-2 max-md:py-3.5 bg-[#3B82F6] text-white border-none rounded-full text-base max-md:text-[0.9rem] font-bold transition-all hover:bg-[#2563EB] hover:-translate-y-[3px] shadow-[0_4px_15px_rgba(59,130,246,0.4)] hover:shadow-[0_8px_25px_rgba(59,130,246,0.6)] max-md:w-full" onClick={() => episodes.length > 0 && handleSelectEpisode(0)}>
-              <PlayCircle size={22} className="fill-current" /> Xem Ngay
-            </button>
-            <button className={`flex items-center justify-center gap-2.5 px-8 py-3.5 max-md:px-2 max-md:py-3.5 bg-transparent border rounded-full text-base max-md:text-[0.9rem] font-bold transition-all max-md:w-full ${isLiked ? 'bg-[#FF4757]/10 border-[#FF4757]/30 text-[#FF4757] hover:bg-[#FF4757]/20' : 'border-black/10 dark:border-white/10 text-black dark:text-white hover:bg-black/5 dark:hover:bg-white/5 hover:-translate-y-[2px] hover:border-black/20 dark:hover:border-white/20'}`} onClick={() => movieData && toggleFavorite(movieData)}>
-              <Heart size={20} className={isLiked ? 'fill-current' : ''} /> <span>{isLiked ? 'Đã Lưu' : 'Lưu'}</span>
-            </button>
-            <button className="flex items-center justify-center gap-2.5 px-8 py-3.5 max-md:px-2 max-md:py-3.5 bg-transparent border border-black/10 dark:border-white/10 rounded-full text-base max-md:text-[0.9rem] font-bold transition-all text-black dark:text-white hover:bg-black/5 dark:hover:bg-white/5 hover:-translate-y-[2px] hover:border-black/20 dark:hover:border-white/20 max-md:w-full" onClick={handleDownload}>
-              {isDownloading ? (
-                <><div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div> <span>{downloadProgress}%</span></>
-              ) : (
-                <><Download size={20} /> <span>Tải Về</span></>
-              )}
-            </button>
-            <button className="relative flex items-center justify-center gap-2.5 px-8 py-3.5 max-md:px-2 max-md:py-3.5 bg-transparent border border-black/10 dark:border-white/10 rounded-full text-base max-md:text-[0.9rem] font-bold transition-all text-black dark:text-white hover:bg-[#3B82F6] hover:text-white hover:border-transparent hover:-translate-y-[2px] max-md:w-full group" onClick={() => setIsWatchPartyOpen(true)}>
-              {unreadCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#FF4757] text-white text-[11px] font-black w-6 h-6 rounded-full flex items-center justify-center shadow-[0_4px_10px_rgba(255,71,87,0.5)] animate-bounce z-10">
-                  {unreadCount > 99 ? '99+' : unreadCount}
-                </span>
-              )}
-              <Users size={20} className="group-hover:animate-bounce" /> <span className="max-md:hidden">Xem Chung</span>
-            </button>
-            <button className="flex items-center justify-center gap-2.5 px-8 py-3.5 max-md:px-2 max-md:py-3.5 bg-transparent border border-black/10 dark:border-white/10 rounded-full text-base max-md:text-[0.9rem] font-bold transition-all text-black dark:text-white hover:bg-black/5 dark:hover:bg-white/5 hover:-translate-y-[2px] hover:border-black/20 dark:hover:border-white/20 max-md:w-full" onClick={() => alert("Đã copy link phim vào khay nhớ tạm!")}>
-              <Share2 size={20} />
-            </button>
-            <button className="flex items-center justify-center gap-2.5 px-8 py-3.5 max-md:px-2 max-md:py-3.5 bg-transparent border border-black/10 dark:border-white/10 rounded-full text-base max-md:text-[0.9rem] font-bold transition-all text-black dark:text-white hover:bg-black/5 dark:hover:bg-white/5 hover:-translate-y-[2px] hover:border-black/20 dark:hover:border-white/20 max-md:w-full" onClick={handleCast} title="Cast to Device">
-              <Cast size={20} />
-            </button>
+          {/* Story Line */}
+          <div className="w-full text-left mt-2">
+            <h2 className="text-white font-bold text-[1.2rem] mb-2 tracking-tight">Story Line</h2>
+            <p className="text-[#808191] text-[0.95rem] leading-[1.6] opacity-90">
+              {isLoading ? (
+                <span className="block w-full h-16 bg-white/10 animate-pulse rounded-lg"></span>
+              ) : movieData?.content ? movieData.content.replace(/<[^>]*>?/gm, '').substring(0, 180) + '... ' : 'Đang cập nhật nội dung phim... '}
+              {movieData?.content && <span className="text-[#E50914] font-bold cursor-pointer hover:underline">More</span>}
+            </p>
           </div>
 
-          <div className="text-base text-[#808191] leading-[1.8] break-words font-normal max-w-[800px] max-md:text-[0.95rem]">
-            {isLoading ? (
-              <>
-                <div className="w-full h-4 bg-[#F1F5F9] dark:bg-[#252836] rounded-2xl animate-pulse mb-2"></div>
-                <div className="w-[90%] h-4 bg-[#F1F5F9] dark:bg-[#252836] rounded-2xl animate-pulse mb-2"></div>
-                <div className="w-[70%] h-4 bg-[#F1F5F9] dark:bg-[#252836] rounded-2xl animate-pulse"></div>
-              </>
-            ) : movieData?.content ? movieData.content.replace(/<[^>]*>?/gm, '').substring(0, 450) + '...' : 'Đang cập nhật...'}
+          {/* Action Buttons */}
+          <div className="flex w-full gap-3 mt-4">
+            <button className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-[#E50914] text-white rounded-[1rem] font-bold shadow-[0_10px_30px_rgba(229,9,20,0.3)] hover:bg-[#B80000] hover:-translate-y-1 transition-all text-[1rem]" onClick={() => episodes.length > 0 && handleSelectEpisode(0)}>
+              <PlayCircle size={22} className="fill-current drop-shadow-md" /> Play
+            </button>
+            <button className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-white/10 text-white rounded-[1rem] font-bold border border-white/10 hover:bg-white/20 hover:-translate-y-1 transition-all text-[1rem] relative" onClick={() => setIsWatchPartyOpen(true)}>
+              {unreadCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-[#E50914] text-white text-[10px] font-black w-6 h-6 rounded-full flex items-center justify-center shadow-[0_4px_10px_rgba(229,9,20,0.5)] animate-bounce z-10">
+                  {unreadCount}
+                </span>
+              )}
+              <Users size={22} /> Watch Party
+            </button>
+            <button className="flex items-center justify-center px-6 py-4 bg-white/10 text-white rounded-[1rem] border border-white/10 hover:bg-white/20 transition-all hover:-translate-y-1" onClick={handleDownload} title="Tải Về">
+              <Download size={22} />
+            </button>
           </div>
         </div>
       </div>
