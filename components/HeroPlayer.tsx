@@ -724,7 +724,7 @@ export const HeroPlayer = () => {
           )}
         </div>
         
-        <div className="relative z-[20] mx-auto w-full max-w-[100%] md:max-w-[95%] xl:max-w-full max-md:-mt-[1rem] md:-mt-[100px] pt-6 md:pt-5 px-5 md:px-10 pb-8 bg-[#0F111A]/95 md:bg-[#13141C]/80 backdrop-blur-3xl max-md:rounded-t-[2rem] md:rounded-[2.5rem] border-t md:border border-white/10 shadow-[0_-15px_30px_rgba(0,0,0,0.5)] flex flex-col gap-4 md:gap-5 items-center md:items-start transition-all">
+        <div className="relative z-[20] mx-auto w-full max-w-[100%] md:max-w-[95%] xl:max-w-full mt-0 md:mt-6 pt-6 md:pt-8 px-5 md:px-10 pb-8 bg-[#0F111A]/95 md:bg-[#13141C]/80 backdrop-blur-3xl max-md:rounded-b-[2rem] md:rounded-[2.5rem] border border-white/10 shadow-2xl flex flex-col gap-4 md:gap-5 items-center md:items-start transition-all">
           
           {/* Drag handle (aesthetic) */}
           <div className="w-12 h-1.5 bg-white/20 rounded-full mb-1 md:hidden"></div>
