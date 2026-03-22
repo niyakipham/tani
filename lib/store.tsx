@@ -56,6 +56,8 @@ interface AppContextType {
   leaveRoom: () => void;
   sendP2PMessage: (type: string, payload: any) => void;
   setVideoSyncCallback: (cb: (data: any) => void) => void;
+  unreadCount: number;
+  setUnreadCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -82,6 +84,13 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   });
   const [currentMovieSlug, setCurrentMovieSlug] = useState<string | null>(null);
   const [isWatchPartyOpen, setIsWatchPartyOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const isWatchPartyOpenRef = useRef(isWatchPartyOpen);
+
+  useEffect(() => {
+    isWatchPartyOpenRef.current = isWatchPartyOpen;
+    if (isWatchPartyOpen) setUnreadCount(0);
+  }, [isWatchPartyOpen]);
 
   // P2P State
   const [peerId, setPeerId] = useState<string | null>(null);
@@ -102,6 +111,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const handleIncomingData = useCallback((data: any) => {
     if (data.type === 'CHAT') {
       setMessages(prev => [...prev, data.payload]);
+      if (!isWatchPartyOpenRef.current) {
+        setUnreadCount(prev => prev + 1);
+      }
       if (isHostRef.current) {
         Object.values(connsRef.current).forEach(conn => {
           if (conn.peer !== data.payload.senderId) conn.send(data);
@@ -318,7 +330,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       notificationSettings, setNotificationSettings, currentMovieSlug, setCurrentMovieSlug,
       recentSearches, addRecentSearch, clearRecentSearches,
       isWatchPartyOpen, setIsWatchPartyOpen,
-      peerId, roomId, isHost, peers, messages, initHost, joinRoom, leaveRoom, sendP2PMessage, setVideoSyncCallback
+      peerId, roomId, isHost, peers, messages, initHost, joinRoom, leaveRoom, sendP2PMessage, setVideoSyncCallback,
+      unreadCount, setUnreadCount
     }}>
       {children}
     </AppContext.Provider>

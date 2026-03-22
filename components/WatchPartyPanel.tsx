@@ -66,7 +66,7 @@ export const WatchPartyPanel = () => {
       ></div>
       
       <aside 
-        className={`fixed top-0 right-0 w-[400px] max-md:w-[90%] h-screen bg-white dark:bg-[#1A1C23] border-l border-black/5 dark:border-white/5 z-[2001] transform transition-transform duration-400 ease-[cubic-bezier(0.25,0.8,0.25,1)] flex flex-col shadow-[-20px_0_50px_rgba(0,0,0,0.8)] dark:shadow-[-20px_0_50px_rgba(0,0,0,0.8)] shadow-none ${isWatchPartyOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed top-0 right-0 w-[400px] max-md:w-full h-screen bg-white dark:bg-[#1A1C23] border-l border-black/5 dark:border-white/5 z-[2001] transform transition-transform duration-400 ease-[cubic-bezier(0.25,0.8,0.25,1)] flex flex-col shadow-[-20px_0_50px_rgba(0,0,0,0.8)] dark:shadow-[-20px_0_50px_rgba(0,0,0,0.8)] shadow-none ${isWatchPartyOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="flex flex-col p-6 md:p-8 border-b border-black/5 dark:border-white/5 relative bg-gradient-to-r from-[#3B82F6]/10 to-[#8B5CF6]/10">
           <div className="absolute top-6 right-6 text-[1.2rem] text-[#808191] cursor-pointer transition-all p-2 rounded-xl bg-white/50 dark:bg-black/20 hover:text-white hover:bg-[#FF4757] backdrop-blur-md" onClick={closePanel}>
@@ -171,7 +171,7 @@ export const WatchPartyPanel = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="p-4 md:px-6 bg-white dark:bg-[#1A1C23] border-t border-black/5 dark:border-white/5">
+            <div className="p-4 pb-8 md:p-6 bg-white dark:bg-[#1A1C23] border-t border-black/5 dark:border-white/5">
               <form className="flex items-center gap-2 bg-[#F4F7FB] dark:bg-[#252836] rounded-2xl p-2" onSubmit={handleSendMessage}>
                 <button type="button" className="p-2 text-[#808191] hover:text-[#FF4757] transition-colors rounded-xl hover:bg-black/5 dark:hover:bg-white/5">
                   <Heart size={20} className="fill-current" />

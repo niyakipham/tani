@@ -9,7 +9,7 @@ import Hls from 'hls.js';
 const EP_CHUNK_SIZE = 100;
 
 export const HeroPlayer = () => {
-  const { currentMovieSlug, favorites, toggleFavorite, history, addToHistory, updateHistoryProgress, addDownload, setIsWatchPartyOpen, roomId, sendP2PMessage, setVideoSyncCallback } = useAppContext();
+  const { currentMovieSlug, favorites, toggleFavorite, history, addToHistory, updateHistoryProgress, addDownload, setIsWatchPartyOpen, roomId, sendP2PMessage, setVideoSyncCallback, unreadCount } = useAppContext();
   const [movieData, setMovieData] = useState<any>(null);
   const [episodes, setEpisodes] = useState<any[]>([]);
   const [activeEpisode, setActiveEpisode] = useState<any>(null);
@@ -704,7 +704,12 @@ export const HeroPlayer = () => {
                 <><Download size={20} /> <span>Tải Về</span></>
               )}
             </button>
-            <button className="flex items-center justify-center gap-2.5 px-8 py-3.5 max-md:px-2 max-md:py-3.5 bg-transparent border border-black/10 dark:border-white/10 rounded-full text-base max-md:text-[0.9rem] font-bold transition-all text-black dark:text-white hover:bg-[#3B82F6] hover:text-white hover:border-transparent hover:-translate-y-[2px] max-md:w-full group" onClick={() => setIsWatchPartyOpen(true)}>
+            <button className="relative flex items-center justify-center gap-2.5 px-8 py-3.5 max-md:px-2 max-md:py-3.5 bg-transparent border border-black/10 dark:border-white/10 rounded-full text-base max-md:text-[0.9rem] font-bold transition-all text-black dark:text-white hover:bg-[#3B82F6] hover:text-white hover:border-transparent hover:-translate-y-[2px] max-md:w-full group" onClick={() => setIsWatchPartyOpen(true)}>
+              {unreadCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-[#FF4757] text-white text-[11px] font-black w-6 h-6 rounded-full flex items-center justify-center shadow-[0_4px_10px_rgba(255,71,87,0.5)] animate-bounce z-10">
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </span>
+              )}
               <Users size={20} className="group-hover:animate-bounce" /> <span className="max-md:hidden">Xem Chung</span>
             </button>
             <button className="flex items-center justify-center gap-2.5 px-8 py-3.5 max-md:px-2 max-md:py-3.5 bg-transparent border border-black/10 dark:border-white/10 rounded-full text-base max-md:text-[0.9rem] font-bold transition-all text-black dark:text-white hover:bg-black/5 dark:hover:bg-white/5 hover:-translate-y-[2px] hover:border-black/20 dark:hover:border-white/20 max-md:w-full" onClick={() => alert("Đã copy link phim vào khay nhớ tạm!")}>
