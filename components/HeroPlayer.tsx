@@ -9,7 +9,7 @@ import Hls from 'hls.js';
 const EP_CHUNK_SIZE = 100;
 
 export const HeroPlayer = () => {
-  const { currentMovieSlug, favorites, toggleFavorite, history, addToHistory, updateHistoryProgress, addDownload, setIsWatchPartyOpen } = useAppContext();
+  const { currentMovieSlug, favorites, toggleFavorite, history, addToHistory, updateHistoryProgress, addDownload, setIsWatchPartyOpen, roomId, sendP2PMessage, setVideoSyncCallback } = useAppContext();
   const [movieData, setMovieData] = useState<any>(null);
   const [episodes, setEpisodes] = useState<any[]>([]);
   const [activeEpisode, setActiveEpisode] = useState<any>(null);
@@ -40,6 +40,23 @@ export const HeroPlayer = () => {
   const [subtitleTracks, setSubtitleTracks] = useState<any[]>([]);
   const [currentSubtitleIdx, setCurrentSubtitleIdx] = useState<number>(-1);
   const [showSubMenu, setShowSubMenu] = useState(false);
+
+  // Sync P2P Setup
+  useEffect(() => {
+    setVideoSyncCallback((data: any) => {
+      if (!videoRef.current) return;
+      if (data.action === 'PLAY') {
+        videoRef.current.currentTime = data.time;
+        videoRef.current.play().catch(() => {});
+      } else if (data.action === 'PAUSE') {
+        videoRef.current.currentTime = data.time;
+        videoRef.current.pause();
+      } else if (data.action === 'SEEK') {
+        videoRef.current.currentTime = data.time;
+        setProgress(data.time);
+      }
+    });
+  }, [setVideoSyncCallback]);
 
   useEffect(() => {
     const loadMovie = async () => {
@@ -200,8 +217,10 @@ export const HeroPlayer = () => {
     if (videoRef.current) {
       if (videoRef.current.paused) {
         videoRef.current.play().catch(e => console.log('Play prevented:', e));
+        if (roomId) sendP2PMessage('VIDEO_SYNC', { action: 'PLAY', time: videoRef.current.currentTime });
       } else {
         videoRef.current.pause();
+        if (roomId) sendP2PMessage('VIDEO_SYNC', { action: 'PAUSE', time: videoRef.current.currentTime });
       }
     }
   };
@@ -211,6 +230,7 @@ export const HeroPlayer = () => {
     if (videoRef.current) {
       videoRef.current.currentTime = time;
       setProgress(time);
+      if (roomId) sendP2PMessage('VIDEO_SYNC', { action: 'SEEK', time });
     }
   };
 
@@ -329,6 +349,7 @@ export const HeroPlayer = () => {
       const nextTime = Math.min(videoRef.current.currentTime + SKIP_INTRO_AMOUNT, duration);
       videoRef.current.currentTime = nextTime;
       setProgress(nextTime);
+      if (roomId) sendP2PMessage('VIDEO_SYNC', { action: 'SEEK', time: nextTime });
     }
   };
   // --- End Custom Player Logic ---

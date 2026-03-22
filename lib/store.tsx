@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 
 export type UserProfile = { name: string; avatar: string };
 export type Movie = { slug: string; name: string; thumb_url: string; epName?: string; time?: string; poster_url?: string; progress?: number };
@@ -46,6 +46,16 @@ interface AppContextType {
   clearRecentSearches: () => void;
   isWatchPartyOpen: boolean;
   setIsWatchPartyOpen: (isOpen: boolean) => void;
+  peerId: string | null;
+  roomId: string | null;
+  isHost: boolean;
+  peers: string[];
+  messages: any[];
+  initHost: () => Promise<string>;
+  joinRoom: (id: string) => Promise<boolean>;
+  leaveRoom: () => void;
+  sendP2PMessage: (type: string, payload: any) => void;
+  setVideoSyncCallback: (cb: (data: any) => void) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -72,6 +82,95 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   });
   const [currentMovieSlug, setCurrentMovieSlug] = useState<string | null>(null);
   const [isWatchPartyOpen, setIsWatchPartyOpen] = useState(false);
+
+  // P2P State
+  const [peerId, setPeerId] = useState<string | null>(null);
+  const [roomId, setRoomId] = useState<string | null>(null);
+  const [isHost, setIsHost] = useState(false);
+  const [peers, setPeers] = useState<string[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
+
+  const peerRef = useRef<any>(null);
+  const connsRef = useRef<{ [id: string]: any }>({});
+  const videoSyncCallbackRef = useRef<((data: any) => void) | null>(null);
+
+  const setVideoSyncCallback = useCallback((cb: (data: any) => void) => {
+    videoSyncCallbackRef.current = cb;
+  }, []);
+
+  const handleIncomingData = useCallback((data: any) => {
+    if (data.type === 'CHAT') {
+      setMessages(prev => [...prev, data.payload]);
+      if (isHost) {
+        Object.values(connsRef.current).forEach(conn => {
+          if (conn.peer !== data.payload.senderId) conn.send(data);
+        });
+      }
+    } else if (data.type === 'VIDEO_SYNC') {
+      if (videoSyncCallbackRef.current) videoSyncCallbackRef.current(data.payload);
+      if (isHost) {
+        Object.values(connsRef.current).forEach(conn => {
+          if (conn.peer !== data.payload.senderId) conn.send(data);
+        });
+      }
+    }
+  }, [isHost]);
+
+  const initHost = async () => {
+    const PeerClass = (await import('peerjs')).default;
+    const peer = new PeerClass();
+    return new Promise<string>((resolve) => {
+      peer.on('open', (id) => {
+        setPeerId(id); setRoomId(id); setIsHost(true); setMessages([]);
+        peerRef.current = peer;
+        resolve(id);
+      });
+      peer.on('connection', (conn) => {
+        conn.on('open', () => {
+          connsRef.current[conn.peer] = conn;
+          setPeers(prev => [...prev, conn.peer]);
+        });
+        conn.on('data', handleIncomingData);
+        conn.on('close', () => {
+          delete connsRef.current[conn.peer];
+          setPeers(prev => prev.filter(p => p !== conn.peer));
+        });
+      });
+    });
+  };
+
+  const joinRoom = async (id: string) => {
+    const PeerClass = (await import('peerjs')).default;
+    const peer = new PeerClass();
+    return new Promise<boolean>((resolve) => {
+      peer.on('open', (myId) => {
+        setPeerId(myId); setIsHost(false); peerRef.current = peer;
+        const conn = peer.connect(id);
+        conn.on('open', () => {
+          setRoomId(id); connsRef.current[id] = conn; resolve(true);
+        });
+        conn.on('data', handleIncomingData);
+        conn.on('close', () => { setRoomId(null); delete connsRef.current[id]; });
+        conn.on('error', () => resolve(false));
+      });
+      peer.on('error', () => resolve(false));
+    });
+  };
+
+  const sendP2PMessage = useCallback((type: string, payload: any) => {
+    const data = { type, payload: { ...payload, senderId: peerId } };
+    if (type === 'CHAT') setMessages(prev => [...prev, data.payload]);
+    Object.values(connsRef.current).forEach(conn => conn.send(data));
+  }, [peerId]);
+
+  const leaveRoom = useCallback(() => {
+    if (peerRef.current) peerRef.current.destroy();
+    connsRef.current = {}; setPeerId(null); setRoomId(null); setIsHost(false); setPeers([]); setMessages([]);
+  }, []);
+
+  useEffect(() => {
+    return () => { if (peerRef.current) peerRef.current.destroy(); };
+  }, []);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('tanime_theme') as 'dark' | 'light' || 'dark';
@@ -217,7 +316,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       isScanModalOpen, setIsScanModalOpen, isNotificationModalOpen, setIsNotificationModalOpen,
       notificationSettings, setNotificationSettings, currentMovieSlug, setCurrentMovieSlug,
       recentSearches, addRecentSearch, clearRecentSearches,
-      isWatchPartyOpen, setIsWatchPartyOpen
+      isWatchPartyOpen, setIsWatchPartyOpen,
+      peerId, roomId, isHost, peers, messages, initHost, joinRoom, leaveRoom, sendP2PMessage, setVideoSyncCallback
     }}>
       {children}
     </AppContext.Provider>
