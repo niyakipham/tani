@@ -43,9 +43,9 @@ const MainContent = () => {
   return (
     <div className={`min-h-screen w-full flex opacity-100 transition-opacity duration-500 bg-[#F8FAFC] dark:bg-[#07080B] text-black dark:text-white font-sans`}>
       <Sidebar />
-      <main className="ml-[100px] max-lg:ml-0 flex-1 flex flex-col min-h-screen relative w-[calc(100%-100px)] max-lg:w-full max-lg:pb-[100px]">
+      <main className="ml-[100px] max-lg:ml-0 flex-1 flex flex-col min-h-screen relative w-[calc(100%-100px)] max-lg:w-full max-lg:pb-[100px] overflow-x-hidden">
         <Header />
-        <div className="pt-[100px] md:px-10 pb-[60px] max-w-[1600px] mx-auto flex flex-col gap-6 w-full max-md:pt-[86px] max-md:px-0 max-md:pb-[80px] max-md:gap-4">
+        <div className="pt-[100px] md:px-10 pb-[60px] max-w-[1600px] mx-auto flex flex-col gap-6 w-full max-md:pt-[86px] max-md:px-0 max-md:pb-[80px] max-md:gap-5 overflow-x-hidden">
           <HeroPlayer />
           <HeroCarousel />
           <ContinueWatching />
