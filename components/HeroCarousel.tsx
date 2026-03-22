@@ -25,10 +25,10 @@ export const HeroCarousel = () => {
   return (
     <div className="relative w-full py-6 md:py-10 flex flex-col items-center justify-center overflow-hidden bg-transparent">
       <div className="text-center mb-6 md:mb-10 z-10 w-full px-4">
-        <h2 className="text-[#E50914] font-black text-lg md:text-2xl tracking-[0.3em] uppercase drop-shadow-lg">
+        <h2 className="text-[#3B82F6] font-black text-lg md:text-2xl tracking-[0.3em] uppercase drop-shadow-sm dark:drop-shadow-lg">
           Dòng Chảy Phim Mới
         </h2>
-        <h1 className="text-white font-black text-3xl md:text-5xl tracking-tighter uppercase mt-2 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+        <h1 className="text-black dark:text-white font-black text-3xl md:text-5xl tracking-tighter uppercase mt-2 drop-shadow-sm dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
           Tuyệt Phẩm 2026
         </h1>
       </div>
@@ -66,7 +66,7 @@ export const HeroCarousel = () => {
           return (
             <div 
               key={movie.slug}
-              className="absolute w-[200px] md:w-[280px] aspect-[2/3] transition-all duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)] cursor-pointer rounded-[1.5rem] md:rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.6)] group"
+              className="absolute w-[200px] md:w-[280px] aspect-[2/3] transition-all duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)] cursor-pointer rounded-[1.5rem] md:rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)] group"
               style={{
                 transform,
                 opacity,
@@ -84,12 +84,12 @@ export const HeroCarousel = () => {
                 }
               }}
             >
-              <div className={`absolute inset-0 bg-gradient-to-t from-[#07080B] via-black/20 to-transparent rounded-[1.5rem] md:rounded-[2rem] transition-opacity duration-300 ${isCenter ? 'opacity-90' : 'opacity-40 group-hover:opacity-60'}`}></div>
+              <div className={`absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent rounded-[1.5rem] md:rounded-[2rem] transition-opacity duration-300 pointer-events-none ${isCenter ? 'opacity-90' : 'opacity-40 group-hover:opacity-60'}`}></div>
               
               {isCenter && (
-                <div className="absolute inset-0 flex flex-col items-center justify-end p-4 pb-8 md:pb-10 text-center animate-in fade-in duration-500 delay-150">
+                <div className="absolute inset-0 flex flex-col items-center justify-end p-4 pb-8 md:pb-10 text-center animate-in fade-in duration-500 delay-150 pointer-events-none">
                    <h3 className="text-white font-black text-xl md:text-2xl leading-tight drop-shadow-md px-2 line-clamp-2">{movie.name}</h3>
-                   <div className="w-12 h-12 md:w-14 md:h-14 mt-4 bg-[#E50914] rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(229,9,20,0.6)] hover:scale-110 transition-transform">
+                   <div className="w-12 h-12 md:w-14 md:h-14 mt-4 bg-[#3B82F6] rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-transform group-hover:scale-110 pointer-events-auto">
                      <Play className="text-white ml-1 w-5 h-5 md:w-6 md:h-6" fill="white" />
                    </div>
                 </div>
@@ -104,7 +104,7 @@ export const HeroCarousel = () => {
           <button 
             key={idx} 
             onClick={() => setActiveIndex(idx)}
-            className={`h-2 rounded-full transition-all duration-300 ${activeIndex === idx ? 'w-10 bg-[#E50914]' : 'w-2 bg-white/30 hover:bg-white/50'}`}
+            className={`h-2 rounded-full transition-all duration-300 ${activeIndex === idx ? 'w-10 bg-[#3B82F6] shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'w-2 bg-black/20 dark:bg-white/30 hover:bg-black/40 dark:hover:bg-white/50'}`}
           />
         ))}
       </div>

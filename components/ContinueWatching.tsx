@@ -53,7 +53,7 @@ export const ContinueWatching = () => {
               {/* Progress Bar */}
               <div className="absolute bottom-0 left-0 w-full h-1.5 bg-black/50 z-20">
                 <div 
-                  className="h-full bg-[#E50914] rounded-r-full shadow-[0_0_10px_#E50914]" 
+                  className="h-full bg-[#3B82F6] rounded-r-full shadow-[0_0_10px_#3B82F6]" 
                   style={{ width: `${item.progress || 0}%` }}
                 ></div>
               </div>
@@ -64,7 +64,7 @@ export const ContinueWatching = () => {
                 {item.name}
               </div>
               <div className="text-[0.8rem] text-[#808191] mt-1 font-bold flex items-center gap-2">
-                <span className="text-[#E50914]">Tập {item.epName}</span>
+                <span className="text-[#3B82F6]">Tập {item.epName}</span>
                 <span className="w-1 h-1 bg-white/30 rounded-full"></span>
                 <span>{item.progress ? `${Math.round(item.progress)}%` : '0%'}</span>
               </div>

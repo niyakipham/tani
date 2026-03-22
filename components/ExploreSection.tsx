@@ -54,8 +54,8 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
           <span className="bg-white/90 text-black text-[0.6rem] font-black px-1.5 py-0.5 rounded-[4px] uppercase tracking-wider shadow-sm">{item.quality || 'HQ'}</span>
         </div>
         <div className="absolute top-2.5 right-2.5 z-[15] pointer-events-none flex items-center justify-center w-5 h-5">
-          {/* Netflix style 'N' badge representation */}
-          <span className="text-[#E50914] font-black text-[1.1rem] drop-shadow-md leading-none">N</span>
+          {/* T-ANIME style 'T' badge representation */}
+          <span className="text-[#3B82F6] font-black text-[1.1rem] drop-shadow-md leading-none">T</span>
         </div>
 
         {/* Gradient Bottom Overlay */}
@@ -72,7 +72,7 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
         <button 
           className={`absolute bottom-3 right-3 z-[25] scale-90 md:scale-100 transition-all duration-300 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm cursor-pointer
             ${isLiked 
-              ? 'text-[#E50914] drop-shadow-[0_0_8px_rgba(229,9,20,0.8)]' 
+              ? 'text-[#3B82F6] drop-shadow-[0_0_8px_rgba(59,130,246,0.8)]' 
               : 'text-white/70 hover:text-white'
             }`}
           onClick={(e) => {
@@ -97,7 +97,7 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
         {/* Placeholder Image Loading */}
         {!isImgLoaded && (
           <div className="absolute inset-0 flex items-center justify-center bg-[#1A1C23] z-[1]">
-            <div className="w-8 h-8 border-4 border-white/10 border-t-[#E50914] rounded-full animate-spin"></div>
+            <div className="w-8 h-8 border-4 border-white/10 border-t-[#3B82F6] rounded-full animate-spin"></div>
           </div>
         )}
 
@@ -132,7 +132,7 @@ export const MovieCardSkeleton = () => {
   return (
     <div className="bg-transparent rounded-[1.25rem] overflow-hidden flex flex-col relative w-full aspect-[4/5] md:aspect-[3/4]">
       <div className="absolute inset-0 bg-[#1A1C23] border border-white/5 shadow-[0_10px_20px_rgba(0,0,0,0.5)] flex items-center justify-center rounded-[1.25rem]">
-         <div className="w-8 h-8 border-4 border-white/10 border-t-[#E50914] rounded-full animate-spin"></div>
+         <div className="w-8 h-8 border-4 border-white/10 border-t-[#3B82F6] rounded-full animate-spin"></div>
       </div>
     </div>
   );

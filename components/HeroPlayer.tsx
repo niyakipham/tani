@@ -751,9 +751,9 @@ export const HeroPlayer = () => {
             </div>
             
             <div className="flex items-center gap-5">
-              <button className="text-[#808191] hover:text-[#E50914] transition-all hover:scale-110 active:scale-95"><Share2 size={24} /></button>
-              <button className={`transition-all hover:scale-110 active:scale-95 ${isLiked ? 'text-[#E50914]' : 'text-[#808191] hover:text-[#E50914]'}`} onClick={() => movieData && toggleFavorite(movieData)}>
-                <Heart size={24} className={isLiked ? 'fill-current drop-shadow-[0_0_8px_rgba(229,9,20,0.6)]' : ''} />
+              <button className="text-[#808191] hover:text-[#3B82F6] transition-all hover:scale-110 active:scale-95"><Share2 size={24} /></button>
+              <button className={`transition-all hover:scale-110 active:scale-95 ${isLiked ? 'text-[#3B82F6]' : 'text-[#808191] hover:text-[#3B82F6]'}`} onClick={() => movieData && toggleFavorite(movieData)}>
+                <Heart size={24} className={isLiked ? 'fill-current drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]' : ''} />
               </button>
             </div>
           </div>
@@ -765,18 +765,18 @@ export const HeroPlayer = () => {
               {isLoading ? (
                 <span className="block w-full h-16 bg-white/10 animate-pulse rounded-lg"></span>
               ) : movieData?.content ? movieData.content.replace(/<[^>]*>?/gm, '').substring(0, 180) + '... ' : 'Đang cập nhật nội dung phim... '}
-              {movieData?.content && <span className="text-[#E50914] font-bold cursor-pointer hover:underline">More</span>}
+              {movieData?.content && <span className="text-[#3B82F6] font-bold cursor-pointer hover:underline">More</span>}
             </p>
           </div>
 
           {/* Action Buttons */}
           <div className="flex w-full gap-3 mt-4">
-            <button className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-[#E50914] text-white rounded-[1rem] font-bold shadow-[0_10px_30px_rgba(229,9,20,0.3)] hover:bg-[#B80000] hover:-translate-y-1 transition-all text-[1rem]" onClick={() => episodes.length > 0 && handleSelectEpisode(0)}>
+            <button className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-[#3B82F6] text-white rounded-[1rem] font-bold shadow-[0_10px_30px_rgba(59,130,246,0.3)] hover:bg-[#2563EB] hover:-translate-y-1 transition-all text-[1rem]" onClick={() => episodes.length > 0 && handleSelectEpisode(0)}>
               <PlayCircle size={22} className="fill-current drop-shadow-md" /> Play
             </button>
             <button className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-white/10 text-white rounded-[1rem] font-bold border border-white/10 hover:bg-white/20 hover:-translate-y-1 transition-all text-[1rem] relative" onClick={() => setIsWatchPartyOpen(true)}>
               {unreadCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-[#E50914] text-white text-[10px] font-black w-6 h-6 rounded-full flex items-center justify-center shadow-[0_4px_10px_rgba(229,9,20,0.5)] animate-bounce z-10">
+                <span className="absolute -top-1.5 -right-1.5 bg-[#3B82F6] text-white text-[10px] font-black w-6 h-6 rounded-full flex items-center justify-center shadow-[0_4px_10px_rgba(59,130,246,0.5)] animate-bounce z-10">
                   {unreadCount}
                 </span>
               )}
