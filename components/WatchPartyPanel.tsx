@@ -86,7 +86,7 @@ export const WatchPartyPanel = () => {
               <div className="text-[1.35rem] font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#2563EB] to-[#EC4899] dark:from-[#3B82F6] dark:to-[#F472B6] drop-shadow-sm">Trạm Điểm Gian</div>
               <div className="text-[0.85rem] text-[#808191] font-semibold flex items-center gap-1.5 mt-1">
                 {roomId ? (
-                  <><span className="relative flex h-2.5 w-2.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span><span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10B981]"></span></span> {isHost ? peers.length + 1 : 2} người đang xem cùng anh</>
+                  <><span className="relative flex h-2.5 w-2.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span><span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10B981]"></span></span> {isHost ? peers.length + 1 : 2} người đang xem</>
                 ) : (
                   <><span className="w-2.5 h-2.5 rounded-full bg-[#808191]/50"></span> Phòng chờ rạp phim</>
                 )}
@@ -122,7 +122,7 @@ export const WatchPartyPanel = () => {
                 </div>
                 <div className="flex flex-col gap-1 text-center">
                    <span className="font-black text-[1.4rem] text-black dark:text-white tracking-tight">Đang kết nối...</span>
-                   <span className="text-[#808191] text-[0.9rem]">Vui lòng chờ một chút nhé anh!</span>
+                   <span className="text-[#808191] text-[0.9rem]">Vui lòng chờ một chút nhé!</span>
                 </div>
               </div>
             ) : (
@@ -134,9 +134,9 @@ export const WatchPartyPanel = () => {
                 <h3 className="text-[1.6rem] font-black text-black dark:text-white mb-3 tracking-tight">Kéo Nhau Cùng Xem</h3>
                 <p className="text-[0.95rem] text-[#808191] leading-relaxed mb-10 max-w-[280px]">Mở rạp phim độc quyền cho bạn bè, hoặc dùng ID tham gia vào rạp của người khác.</p>
                 
-                <button onClick={handleCreateRoom} className="w-full py-4 bg-black text-white dark:bg-white dark:text-black rounded-2xl font-black text-[1.05rem] shadow-[0_10px_30px_rgba(0,0,0,0.15)] dark:shadow-[0_10px_30px_rgba(255,255,255,0.15)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.25)] transition-all hover:-translate-y-1 mb-8 overflow-hidden relative group">
+                <button onClick={handleCreateRoom} className="w-full py-4 bg-[#3B82F6] hover:bg-[#2563EB] text-white rounded-2xl font-black text-[1.05rem] shadow-[0_10px_30px_rgba(59,130,246,0.3)] hover:shadow-[0_15px_40px_rgba(59,130,246,0.5)] transition-all hover:-translate-y-1 mb-8 overflow-hidden relative group">
                   <span className="relative z-10 flex items-center justify-center gap-2"><Sparkles size={18} /> Tạo Rạp Của Riêng Mình</span>
-                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 dark:via-black/10 to-transparent -translate-x-[100%] group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[100%] group-hover:animate-[shimmer_1.5s_infinite]"></div>
                 </button>
                 
                 <div className="w-full flex items-center gap-4 mb-8 opacity-40">
