@@ -724,20 +724,20 @@ export const HeroPlayer = () => {
           )}
         </div>
         
-        <div className="relative z-[20] mx-auto w-full max-w-[100%] md:max-w-[95%] xl:max-w-full mt-0 md:mt-6 pt-6 md:pt-8 px-5 md:px-10 pb-8 bg-[#0F111A]/95 md:bg-[#13141C]/80 backdrop-blur-3xl max-md:rounded-b-[2rem] md:rounded-[2.5rem] border border-white/10 shadow-2xl flex flex-col gap-4 md:gap-5 items-center md:items-start transition-all">
+        <div className="relative z-[20] mx-auto w-full max-w-[100%] md:max-w-[95%] xl:max-w-full mt-0 md:mt-6 pt-6 md:pt-8 px-5 md:px-10 pb-8 bg-white/95 dark:bg-[#0F111A]/95 md:bg-white/80 md:dark:bg-[#13141C]/80 backdrop-blur-3xl max-md:rounded-b-[2rem] md:rounded-[2.5rem] border border-black/5 dark:border-white/10 shadow-xl dark:shadow-2xl flex flex-col gap-4 md:gap-5 items-center md:items-start transition-all">
           
           {/* Drag handle (aesthetic) */}
-          <div className="w-12 h-1.5 bg-white/20 rounded-full mb-1 md:hidden"></div>
+          <div className="w-12 h-1.5 bg-black/10 dark:bg-white/20 rounded-full mb-1 md:hidden"></div>
 
           {/* Title Area */}
           <div className="text-center md:text-left w-full flex flex-col items-center md:items-start">
-            <h1 className="text-[1.8rem] md:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-md flex items-center justify-center md:justify-start gap-2.5 md:gap-3 flex-wrap">
+            <h1 className="text-[1.8rem] md:text-[3.5rem] font-black text-black dark:text-white leading-[1.1] tracking-tight drop-shadow-sm dark:drop-shadow-md flex items-center justify-center md:justify-start gap-2.5 md:gap-3 flex-wrap">
               {isLoading ? (
-                <div className="w-[80%] md:w-[400px] h-10 bg-white/10 rounded-2xl animate-pulse"></div>
+                <div className="w-[80%] md:w-[400px] h-10 bg-black/5 dark:bg-white/10 rounded-2xl animate-pulse"></div>
               ) : (movieData?.name || 'Chọn một bộ phim')}
-              {movieData?.quality && <span className="text-[0.65rem] md:text-[0.75rem] px-2.5 py-1 border border-white/20 rounded-md font-bold bg-white/5 uppercase backdrop-blur-md">{movieData.quality}</span>}
+              {movieData?.quality && <span className="text-[0.65rem] md:text-[0.75rem] px-2.5 py-1 border border-black/20 dark:border-white/20 rounded-md font-bold bg-black/5 dark:bg-white/5 uppercase backdrop-blur-md">{movieData.quality}</span>}
             </h1>
-            <p className="text-[#808191] mt-1 md:mt-2 text-sm md:text-base font-medium tracking-wide">
+            <p className="text-gray-500 dark:text-[#808191] mt-1 md:mt-2 text-sm md:text-base font-medium tracking-wide">
               {movieData?.origin_name || 'Let there be carnage'}
             </p>
           </div>
@@ -745,14 +745,14 @@ export const HeroPlayer = () => {
           {/* Badges & Action Bar */}
           <div className="flex flex-col md:flex-row items-center justify-between w-full mt-1 gap-3 md:gap-4">
             <div className="flex gap-2 md:gap-4 flex-wrap justify-center md:justify-start">
-              <span className="bg-white/10 text-white px-3 md:px-5 py-1.5 md:py-2 rounded-full text-[0.75rem] md:text-sm font-bold shadow-inner border border-white/5">{movieData?.type || movieData?.lang || 'Action'}</span>
-              <span className="bg-white/10 text-white px-3 md:px-5 py-1.5 md:py-2 rounded-full text-[0.75rem] md:text-sm font-bold shadow-inner border border-white/5">16+</span>
-              <span className="bg-white/10 text-[#FFD700] px-3 md:px-5 py-1.5 md:py-2 rounded-full text-[0.75rem] md:text-sm font-bold shadow-inner flex items-center gap-1.5 border border-white/5"><Star size={14} className="fill-current" /> {movieData?.tmdb?.vote_average || '4.1'}</span>
+              <span className="bg-black/5 dark:bg-white/10 text-black dark:text-white px-3 md:px-5 py-1.5 md:py-2 rounded-full text-[0.75rem] md:text-sm font-bold shadow-inner border border-black/5 dark:border-white/5">{movieData?.type || movieData?.lang || 'Action'}</span>
+              <span className="bg-black/5 dark:bg-white/10 text-black dark:text-white px-3 md:px-5 py-1.5 md:py-2 rounded-full text-[0.75rem] md:text-sm font-bold shadow-inner border border-black/5 dark:border-white/5">16+</span>
+              <span className="bg-black/5 dark:bg-white/10 text-[#D4AF37] dark:text-[#FFD700] px-3 md:px-5 py-1.5 md:py-2 rounded-full text-[0.75rem] md:text-sm font-bold shadow-inner flex items-center gap-1.5 border border-black/5 dark:border-white/5"><Star size={14} className="fill-current" /> {movieData?.tmdb?.vote_average || '4.1'}</span>
             </div>
             
             <div className="flex items-center gap-4 md:gap-5">
-              <button className="text-[#808191] hover:text-[#3B82F6] transition-all hover:scale-110 active:scale-95"><Share2 size={24} /></button>
-              <button className={`transition-all hover:scale-110 active:scale-95 ${isLiked ? 'text-[#3B82F6]' : 'text-[#808191] hover:text-[#3B82F6]'}`} onClick={() => movieData && toggleFavorite(movieData)}>
+              <button className="text-gray-500 dark:text-[#808191] hover:text-[#3B82F6] transition-all hover:scale-110 active:scale-95"><Share2 size={24} /></button>
+              <button className={`transition-all hover:scale-110 active:scale-95 ${isLiked ? 'text-[#3B82F6]' : 'text-gray-500 dark:text-[#808191] hover:text-[#3B82F6]'}`} onClick={() => movieData && toggleFavorite(movieData)}>
                 <Heart size={24} className={isLiked ? 'fill-current drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]' : ''} />
               </button>
             </div>
@@ -760,10 +760,10 @@ export const HeroPlayer = () => {
           
           {/* Story Line */}
           <div className="w-full text-left mt-2">
-            <h2 className="text-white font-bold text-[1.2rem] mb-2 tracking-tight">Story Line</h2>
-            <p className="text-[#808191] text-[0.95rem] leading-[1.6] opacity-90">
+            <h2 className="text-black dark:text-white font-bold text-[1.2rem] mb-2 tracking-tight">Story Line</h2>
+            <p className="text-gray-600 dark:text-[#808191] text-[0.95rem] leading-[1.6] opacity-90">
               {isLoading ? (
-                <span className="block w-full h-16 bg-white/10 animate-pulse rounded-lg"></span>
+                <span className="block w-full h-16 bg-black/5 dark:bg-white/10 animate-pulse rounded-lg"></span>
               ) : movieData?.content ? movieData.content.replace(/<[^>]*>?/gm, '').substring(0, 180) + '... ' : 'Đang cập nhật nội dung phim... '}
               {movieData?.content && <span className="text-[#3B82F6] font-bold cursor-pointer hover:underline">More</span>}
             </p>
@@ -775,7 +775,7 @@ export const HeroPlayer = () => {
               <PlayCircle size={22} className="fill-current drop-shadow-md" /> Play
             </button>
             <div className="flex w-full gap-3">
-              <button className="flex-[2] flex items-center justify-center gap-2 px-6 py-3.5 md:py-4 bg-white/10 text-white rounded-xl md:rounded-[1rem] font-bold border border-white/10 hover:bg-white/20 hover:-translate-y-1 transition-all text-[0.9rem] md:text-[1rem] relative" onClick={() => setIsWatchPartyOpen(true)}>
+              <button className="flex-[2] flex items-center justify-center gap-2 px-6 py-3.5 md:py-4 bg-black/5 dark:bg-white/10 text-black dark:text-white rounded-xl md:rounded-[1rem] font-bold border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/20 hover:-translate-y-1 transition-all text-[0.9rem] md:text-[1rem] relative" onClick={() => setIsWatchPartyOpen(true)}>
                 {unreadCount > 0 && (
                   <span className="absolute -top-1.5 -right-1.5 bg-[#3B82F6] text-white text-[10px] font-black w-6 h-6 rounded-full flex items-center justify-center shadow-[0_4px_10px_rgba(59,130,246,0.5)] animate-bounce z-10">
                     {unreadCount}
@@ -783,7 +783,7 @@ export const HeroPlayer = () => {
                 )}
                 <Users size={20} /> Watch Party
               </button>
-              <button className="flex-1 flex items-center justify-center px-6 py-3.5 md:py-4 bg-white/10 text-white rounded-xl md:rounded-[1rem] border border-white/10 hover:bg-white/20 transition-all hover:-translate-y-1" onClick={handleDownload} title="Tải Về">
+              <button className="flex-1 flex items-center justify-center px-6 py-3.5 md:py-4 bg-black/5 dark:bg-white/10 text-black dark:text-white rounded-xl md:rounded-[1rem] border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/20 transition-all hover:-translate-y-1" onClick={handleDownload} title="Tải Về">
                 <Download size={20} />
               </button>
             </div>
