@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { PlayCircle, Heart, Download, Share2, Star, Clock, MonitorPlay, Cast, Play, Pause, Volume2, VolumeX, Maximize, Minimize, Settings, Subtitles, SkipForward, Users, RotateCcw, RotateCw } from 'lucide-react';
 import { useAppContext } from '@/lib/store';
 import { fetchMovieDetails } from '@/lib/api';
@@ -9,7 +9,7 @@ import Hls from 'hls.js';
 const EP_CHUNK_SIZE = 100;
 
 export const HeroPlayer = () => {
-  const { currentMovieSlug, favorites, toggleFavorite, history, addToHistory, updateHistoryProgress, addDownload, setIsWatchPartyOpen, roomId, sendP2PMessage, setVideoSyncCallback, unreadCount } = useAppContext();
+  const { currentMovieSlug, favorites, toggleFavorite, history, addToHistory, updateHistoryProgress, updateHistorySnapshot, addDownload, setIsWatchPartyOpen, roomId, sendP2PMessage, setVideoSyncCallback, unreadCount } = useAppContext();
   const [movieData, setMovieData] = useState<any>(null);
   const [episodes, setEpisodes] = useState<any[]>([]);
   const [activeEpisode, setActiveEpisode] = useState<any>(null);
@@ -35,6 +35,27 @@ export const HeroPlayer = () => {
   const [showControls, setShowControls] = useState(true);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
   const [isBuffering, setIsBuffering] = useState(false);
+  const lastSnapshotTimeRef = useRef(0);
+
+  // Capture a frame from the video element as base64 JPEG
+  const captureSnapshot = useCallback(() => {
+    const video = videoRef.current;
+    if (!video || !movieData || video.readyState < 2 || video.videoWidth === 0) return;
+    try {
+      const canvas = document.createElement('canvas');
+      // Use a smaller resolution for thumbnail
+      const scale = Math.min(1, 400 / video.videoWidth);
+      canvas.width = video.videoWidth * scale;
+      canvas.height = video.videoHeight * scale;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+      updateHistorySnapshot(movieData.slug, dataUrl);
+    } catch (e) {
+      // CORS or tainted canvas — silently ignore
+    }
+  }, [movieData, updateHistorySnapshot]);
   
   // Subtitle States
   const [subtitleTracks, setSubtitleTracks] = useState<any[]>([]);
@@ -242,6 +263,12 @@ export const HeroPlayer = () => {
     if (movieData && duration > 0) {
       const percent = Math.floor((videoRef.current.currentTime / duration) * 100);
       updateHistoryProgress(movieData.slug, percent);
+      // Capture snapshot every ~15 seconds
+      const now = Date.now();
+      if (now - lastSnapshotTimeRef.current > 15000) {
+        lastSnapshotTimeRef.current = now;
+        captureSnapshot();
+      }
     }
   };
 
@@ -258,6 +285,7 @@ export const HeroPlayer = () => {
         if (roomId) sendP2PMessage('VIDEO_SYNC', { action: 'PLAY', time: videoRef.current.currentTime });
       } else {
         videoRef.current.pause();
+        captureSnapshot();
         if (roomId) sendP2PMessage('VIDEO_SYNC', { action: 'PAUSE', time: videoRef.current.currentTime });
       }
     }

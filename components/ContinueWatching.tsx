@@ -36,10 +36,10 @@ export const ContinueWatching = () => {
           >
             <div className="relative w-full aspect-[16/9] overflow-hidden bg-[#1A1C23] border border-white/5 rounded-[1.25rem] shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
               <img 
-                src={`https://img.ophim.live/uploads/movies/${item.thumb_url}`} 
+                src={item.snapshot || `https://img.ophim.live/uploads/movies/${item.thumb_url}`} 
                 alt={item.name} 
                 className="w-full h-full object-cover transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] group-hover:scale-110" 
-                onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x170/1F2937/00D1F5'; }} 
+                onError={(e) => { (e.target as HTMLImageElement).src = `https://img.ophim.live/uploads/movies/${item.thumb_url}`; }} 
               />
               
               <div className="absolute inset-0 bg-gradient-to-t from-[#07080B] via-transparent to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-100 z-10 pointer-events-none"></div>

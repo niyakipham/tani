@@ -4,7 +4,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 
 export type UserProfile = { name: string; avatar: string };
-export type Movie = { slug: string; name: string; thumb_url: string; epName?: string; time?: string; poster_url?: string; progress?: number };
+export type Movie = { slug: string; name: string; thumb_url: string; epName?: string; time?: string; poster_url?: string; progress?: number; snapshot?: string };
 
 interface AppContextType {
   theme: 'dark' | 'light';
@@ -18,6 +18,7 @@ interface AppContextType {
   history: Movie[];
   addToHistory: (movie: Movie, epName: string, progress?: number) => void;
   updateHistoryProgress: (slug: string, progress: number) => void;
+  updateHistorySnapshot: (slug: string, snapshot: string) => void;
   downloads: Movie[];
   addDownload: (movie: Movie, epName: string) => void;
   removeFromList: (listName: 'favorites' | 'history' | 'downloads', index: number) => void;
@@ -270,6 +271,16 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     });
   }, []);
 
+  const updateHistorySnapshot = useCallback((slug: string, snapshot: string) => {
+    setHistory(prev => {
+      const newHistory = prev.map(h =>
+        h.slug === slug ? { ...h, snapshot } : h
+      );
+      localStorage.setItem('tanime_history', JSON.stringify(newHistory));
+      return newHistory;
+    });
+  }, []);
+
   const addDownload = (movie: Movie, epName: string) => {
     setDownloads(prev => {
       if (prev.some(d => d.slug === movie.slug && d.epName === epName)) return prev;
@@ -323,7 +334,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AppContext.Provider value={{
       theme, toggleTheme, userProfile, setUserProfile, preferences, setPreferences,
-      favorites, toggleFavorite, history, addToHistory, updateHistoryProgress, downloads, addDownload, removeFromList,
+      favorites, toggleFavorite, history, addToHistory, updateHistoryProgress, updateHistorySnapshot, downloads, addDownload, removeFromList,
       isSidePanelOpen, sidePanelTab, openSidePanel, closeSidePanel,
       isOnboardingOpen, setIsOnboardingOpen, isStoryModeOpen, setIsStoryModeOpen,
       isScanModalOpen, setIsScanModalOpen, isNotificationModalOpen, setIsNotificationModalOpen,
