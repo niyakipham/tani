@@ -36,14 +36,20 @@ export const HeroPlayer = () => {
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
   const [isBuffering, setIsBuffering] = useState(false);
   const lastSnapshotTimeRef = useRef(0);
+  const movieSlugRef = useRef<string | null>(null);
+
+  // Keep movieSlugRef in sync
+  useEffect(() => {
+    movieSlugRef.current = movieData?.slug || null;
+  }, [movieData]);
 
   // Capture a frame from the video element as base64 JPEG
   const captureSnapshot = useCallback(() => {
     const video = videoRef.current;
-    if (!video || !movieData || video.readyState < 2 || video.videoWidth === 0) return;
+    const slug = movieSlugRef.current;
+    if (!video || !slug || video.readyState < 2 || video.videoWidth === 0) return;
     try {
       const canvas = document.createElement('canvas');
-      // Use a smaller resolution for thumbnail
       const scale = Math.min(1, 400 / video.videoWidth);
       canvas.width = video.videoWidth * scale;
       canvas.height = video.videoHeight * scale;
@@ -51,11 +57,56 @@ export const HeroPlayer = () => {
       if (!ctx) return;
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-      updateHistorySnapshot(movieData.slug, dataUrl);
+      updateHistorySnapshot(slug, dataUrl);
     } catch (e) {
       // CORS or tainted canvas — silently ignore
     }
-  }, [movieData, updateHistorySnapshot]);
+  }, [updateHistorySnapshot]);
+
+  // Synchronous snapshot save (for beforeunload where state updates don't work)
+  const captureSnapshotSync = useCallback(() => {
+    const video = videoRef.current;
+    const slug = movieSlugRef.current;
+    if (!video || !slug || video.readyState < 2 || video.videoWidth === 0) return;
+    try {
+      const canvas = document.createElement('canvas');
+      const scale = Math.min(1, 400 / video.videoWidth);
+      canvas.width = video.videoWidth * scale;
+      canvas.height = video.videoHeight * scale;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+      // Write directly to localStorage (React state won't flush during beforeunload)
+      const raw = localStorage.getItem('tanime_history');
+      if (raw) {
+        const hist = JSON.parse(raw);
+        const updated = hist.map((h: any) => h.slug === slug ? { ...h, snapshot: dataUrl } : h);
+        localStorage.setItem('tanime_history', JSON.stringify(updated));
+      }
+    } catch (e) { /* ignore */ }
+  }, []);
+
+  // Capture snapshot on page leave / tab hide
+  useEffect(() => {
+    const handleBeforeUnload = () => captureSnapshotSync();
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') captureSnapshotSync();
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [captureSnapshotSync]);
+
+  // Capture snapshot before switching to a different movie
+  useEffect(() => {
+    return () => {
+      captureSnapshotSync();
+    };
+  }, [currentMovieSlug, captureSnapshotSync]);
   
   // Subtitle States
   const [subtitleTracks, setSubtitleTracks] = useState<any[]>([]);
@@ -565,13 +616,14 @@ export const HeroPlayer = () => {
               {/* Native Video Element */}
               <video 
                 ref={videoRef}
+                crossOrigin="anonymous"
                 className="w-full h-full absolute top-0 left-0 object-contain cursor-pointer"
                 onClick={togglePlay}
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
                 onEnded={handleVideoEnded}
                 onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
+                onPause={() => { setIsPlaying(false); captureSnapshot(); }}
                 onWaiting={() => setIsBuffering(true)}
                 onPlaying={() => setIsBuffering(false)}
                 playsInline
