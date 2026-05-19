@@ -8,3 +8,51 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ── Music Player: M3 Animations ── */
+@keyframes m3-ripple {
+  0%   { transform: scale(0); opacity: 0.5; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+@keyframes music-wave {
+  0%, 100% { transform: scaleY(0.4); }
+  50%       { transform: scaleY(1); }
+}
+
+@keyframes vinyl-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px var(--music-primary, #7C3AED); }
+  50%       { box-shadow: 0 0 24px var(--music-primary, #7C3AED); }
+}
+
+/* M3 Timeline thumb */
+.music-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--music-accent, #A78BFA);
+  box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.25);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.music-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.4);
+}
+
+/* Custom scrollbar for music section */
+.music-scrollbar::-webkit-scrollbar { width: 4px; }
+.music-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.music-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(167, 139, 250, 0.3);
+  border-radius: 2px;
+}
+.music-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(167, 139, 250, 0.6);
+}
