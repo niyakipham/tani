@@ -1,6 +1,7 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { Providers } from '@/components/Providers';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
  title: 'T-ANIME | HPU ANIME',
@@ -19,6 +20,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
  <Providers>
  {children}
  </Providers>
+ <Analytics />
  </body>
  </html>
  );
