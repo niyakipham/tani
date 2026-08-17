@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useAppContext } from '@/lib/store';
-import { House, Compass, PlayCircle, Heart, History, Download, Moon, Sun, User, ChevronRight, Music2 } from 'lucide-react';
+import { House, Compass, PlayCircle, Heart, History, Download, Moon, Sun, User, ChevronRight, MessageSquareText } from 'lucide-react';
 
 export const Sidebar = () => {
   const { toggleTheme, theme, openSidePanel, userProfile, setIsStoryModeOpen } = useAppContext();
@@ -16,8 +16,8 @@ export const Sidebar = () => {
         <a href="#explore-section" className="pixel-button flex items-center justify-center w-14 h-14 rounded-[20px] text-[#1f1a1d] transition-all cursor-pointer bg-[#fff] hover:bg-[#f0f7f2]">
           <Compass size={24} />
         </a>
-        <a href="/music" title="Music Player" className="pixel-button flex items-center justify-center w-14 h-14 rounded-[20px] border border-[#d7b4ea] text-[#8c5ab2] transition-all cursor-pointer bg-[#f8f3ff] hover:bg-[#efe0ff]">
-          <Music2 size={24} />
+        <a href="/chat" title="Chat Chung" className="pixel-button flex items-center justify-center w-14 h-14 rounded-[20px] border border-[#cfe8d9] text-[#2e7d5e] transition-all cursor-pointer bg-[#f2faf6] hover:bg-[#e8f7ef]">
+          <MessageSquareText size={24} />
         </a>
         <button className="hidden pixel-button items-center justify-center w-14 h-14 rounded-[20px] text-[#1f1a1d] transition-all cursor-pointer bg-[#fff]" onClick={() => setIsStoryModeOpen(true)}>
           <PlayCircle size={24} />

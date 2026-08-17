@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Home, Search, Flame, Heart, Music2 } from 'lucide-react';
+import { Home, Search, Flame, Heart, MessageSquareText } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useAppContext } from '@/lib/store';
 
@@ -13,7 +13,7 @@ export const BottomNav = () => {
   const navItems = [
     { icon: Home,   path: '/',       id: 'home' },
     { icon: Search, path: '/search', id: 'search' },
-    { icon: Music2, path: '/music',  id: 'music' },
+    { icon: MessageSquareText, path: '/chat', id: 'chat' },
     { icon: Heart,  path: '/favorites', id: 'favorites' },
   ];
 
@@ -25,19 +25,19 @@ export const BottomNav = () => {
       {navItems.map((item) => {
         const Icon = item.icon;
         const isActive = pathname === item.path || (item.path !== '/' && pathname.startsWith(item.path));
-        const isMusicTab = item.id === 'music';
+        const isChatTab = item.id === 'chat';
         
         return (
           <Link 
             key={item.id} 
             href={item.path}
-            className={`w-12 h-12 flex items-center justify-center rounded-none border-2 transition-all duration-300 relative group ${
+            className={`w-12 h-12 flex items-center justify-center rounded-[16px] border transition-all duration-300 relative group ${
               isActive
-                ? isMusicTab
-                  ? 'bg-[#7C3AED] text-white border-[#7C3AED] translate-y-[-2px] shadow-[2px_2px_0px_#7C3AED]'
+                ? isChatTab
+                  ? 'bg-[#1f1a1d] text-white border-[#1f1a1d] translate-y-[-2px] shadow-[0_10px_18px_rgba(31,26,29,0.18)]'
                   : 'bg-[#311B56] text-[#FAF8F5] border-[#311B56] translate-y-[-2px] shadow-[2px_2px_0px_#311B56]'
-                : isMusicTab
-                  ? 'text-[#7C3AED] border-[#7C3AED] hover:bg-[#7C3AED]/10'
+                : isChatTab
+                  ? 'text-[#2e7d5e] border-[#cfe8d9] hover:bg-[#e8f7ef]'
                   : 'text-[#311B56] border-[#311B56] hover:bg-[#311B56]/10'
             }`}
           >
