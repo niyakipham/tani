@@ -42,12 +42,12 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
 
  return (
  <div 
- className="bg-[#FAF8F5] rounded-none border-2 border-[#311B56] shadow-[4px_4px_0px_#311B56] overflow-hidden transition-all cursor-pointer flex flex-col relative group hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[8px_8px_0px_#311B56] select-none" 
+ className="bg-[#fffaf6] rounded-[26px] border border-[#1f1a1d]/10 shadow-[0_18px_30px_rgba(31,26,29,0.08)] overflow-hidden transition-all cursor-pointer flex flex-col relative group hover:-translate-y-2 hover:shadow-[0_24px_40px_rgba(31,26,29,0.12)] select-none" 
  onClick={onClick}
  onMouseEnter={handleMouseEnter}
  onMouseLeave={handleMouseLeave}
  >
- <div className="relative w-full aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-[#FAF8F5] border-b-2 border-[#311B56]">
+ <div className="relative w-full aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-[#f4efe9] border-b border-[#1f1a1d]/10">
  
  {/* Badges Overlay */}
  <div className="absolute top-2.5 left-2.5 z-[15] pointer-events-none">
@@ -114,11 +114,11 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
  )}
  </div>
  {/* Text Info Below Image */}
- <div className="w-full p-3 flex flex-col gap-1 bg-[#FAF8F5]">
- <h3 className="text-[#311B56] font-black text-[0.95rem] leading-tight line-clamp-1 uppercase tracking-wide">{item.name}</h3>
- <div className="flex items-center justify-between text-[0.7rem] font-bold text-[#311B56]/80 font-mono">
- <span className="flex items-center gap-1"><Star size={10} className="fill-[#A57CC6] text-[#A57CC6]" /> {item.tmdb?.vote_average || '4.5'}</span>
- <span>[ {Math.floor(Math.random() * 20 + 2)}M+ V ]</span>
+ <div className="w-full p-3 flex flex-col gap-1 bg-[#fffdfb]">
+ <h3 className="text-[#1f1a1d] font-black text-[0.92rem] leading-tight line-clamp-1 uppercase tracking-[0.08em]">{item.name}</h3>
+ <div className="flex items-center justify-between text-[0.7rem] font-bold text-[#1f1a1d]/70 font-mono">
+ <span className="flex items-center gap-1"><Star size={10} className="fill-[#d7b4ea] text-[#d7b4ea]" /> {item.tmdb?.vote_average || '4.5'}</span>
+ <span>• {Math.floor(Math.random() * 20 + 2)}M+</span>
  </div>
  </div>
  </div>
@@ -208,17 +208,17 @@ export const ExploreSection = () => {
  };
 
  return (
- <section id="explore-section" className="mt-6 bg-[#FAF8F5] p-6 max-md:p-4 border-y-[3px] border-[#311B56] shadow-[0_8px_0_#311B56]">
+ <section id="explore-section" className="mt-6 bg-[#f9f4ee]/80 p-6 max-md:p-4 border border-[#1f1a1d]/10 rounded-[30px] shadow-[0_24px_60px_rgba(31,26,29,0.04)]">
  <div className="flex items-center justify-between mb-4">
- <h2 className="text-[1.5rem] md:text-[1.8rem] font-black text-[#311B56] tracking-[0.18em] uppercase font-mono">[ EXPLORE ]</h2>
- <span className="pixel-badge text-[0.72rem] cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] transition-transform">VIEW ALL <span className="text-[0.6rem]">▶</span></span>
+ <h2 className="text-[1.3rem] md:text-[1.7rem] font-black text-[#1f1a1d] tracking-[0.08em] uppercase font-mono">Explore</h2>
+ <span className="pixel-badge text-[0.7rem] cursor-pointer hover:translate-y-[-1px] transition-transform">View all <span className="text-[0.6rem]">→</span></span>
  </div>
  
- <div className="flex gap-4 overflow-x-auto pb-4 mb-6 scrollbar-none px-1">
+ <div className="flex gap-3 overflow-x-auto pb-4 mb-6 scrollbar-none px-1">
  {sortedGenres.map(g => (
  <button 
  key={g.slug}
- className={`px-5 py-2 rounded-none border-[3px] border-[#311B56] font-bold text-[0.85rem] whitespace-nowrap transition-all uppercase tracking-widest font-mono shadow-[3px_3px_0px_#311B56] ${currentTabSlug === g.slug ? 'bg-[#311B56] text-[#FAF8F5] translate-y-[2px] translate-x-[2px] shadow-none' : 'bg-[#FAF8F5] text-[#311B56] hover:bg-[#311B56]/10'}`}
+ className={`px-4 py-2 rounded-full border text-[0.78rem] whitespace-nowrap transition-all uppercase tracking-[0.12em] font-mono ${currentTabSlug === g.slug ? 'bg-[#1f1a1d] text-[#fff] shadow-[0_10px_20px_rgba(31,26,29,0.15)]' : 'bg-[#fff] text-[#1f1a1d] border-[#1f1a1d]/10 hover:bg-[#f5eefb]'}`}
  onClick={() => handleTabClick(g.slug)}
  >
  {g.name}

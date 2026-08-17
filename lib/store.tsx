@@ -259,12 +259,14 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     });
   }, []);
 
-  const updateHistoryProgress = useCallback((slug: string, increment: number) => {
+  const updateHistoryProgress = useCallback((slug: string, progress: number) => {
     setHistory(prev => {
-      const newHistory = prev.map(h => 
-        h.slug === slug 
-          ? { ...h, progress: Math.min(100, Math.max(0, (h.progress || 0) + increment)) } 
-          : h
+      const safeProgress = Math.min(100, Math.max(0, progress));
+      const existing = prev.find(h => h.slug === slug);
+      if (!existing) return prev;
+
+      const newHistory = prev.map(h =>
+        h.slug === slug ? { ...h, progress: safeProgress } : h
       );
       localStorage.setItem('tanime_history', JSON.stringify(newHistory));
       return newHistory;

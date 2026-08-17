@@ -182,12 +182,14 @@ export const HeroPlayer = () => {
  setIsLoading(true);
  try {
  const data = await fetchMovieDetails(currentMovieSlug);
- if (data.status) {
+ if (data && data.movie) {
  setMovieData(data.movie);
- const eps = data.episodes[0]?.server_data || [];
+ const rawEpisodes = Array.isArray(data.episodes)
+   ? data.episodes.flatMap((server: any) => Array.isArray(server?.server_data) ? server.server_data : [])
+   : [];
+ const eps = rawEpisodes;
  setEpisodes(eps);
  
- // Check history for this movie
  const historyItem = history.find(h => h.slug === currentMovieSlug);
  let targetEp = eps.length > 0 ? eps[0] : null;
  let targetChunk = 0;
@@ -202,8 +204,11 @@ export const HeroPlayer = () => {
  
  setActiveEpisode(targetEp);
  setCurrentEpChunk(targetChunk);
- if (targetEp) {
- addToHistory(data.movie, targetEp.name);
+
+ const fallbackEpisodeName = targetEp?.name || 'Tập 1';
+ const alreadyInHistory = history.some(h => h.slug === currentMovieSlug);
+ if (!alreadyInHistory) {
+ addToHistory(data.movie, fallbackEpisodeName, 0);
  }
  }
  } catch (error) {
@@ -317,12 +322,20 @@ export const HeroPlayer = () => {
 
  const handleTimeUpdate = () => {
  if (!videoRef.current) return;
- setProgress(videoRef.current.currentTime);
- // Update history locally
+ const currentTime = videoRef.current.currentTime;
+ setProgress(currentTime);
+
  if (movieData && duration > 0) {
- const percent = Math.floor((videoRef.current.currentTime / duration) * 100);
+ const percent = Math.min(100, Math.max(0, Math.floor((currentTime / duration) * 100)));
+ const epName = activeEpisode?.name || 'Tập 1';
+
+ const hasHistory = history.some(h => h.slug === movieData.slug);
+ if (!hasHistory) {
+ addToHistory(movieData, epName, percent);
+ } else {
  updateHistoryProgress(movieData.slug, percent);
- // Capture snapshot every ~15 seconds
+ }
+
  const now = Date.now();
  if (now - lastSnapshotTimeRef.current > 15000) {
  lastSnapshotTimeRef.current = now;

@@ -1,15 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --pixel-bg: #faf8f5;
+  --pixel-bg: #f5efe8;
   --pixel-panel: #fffdfb;
-  --pixel-ink: #311b56;
-  --pixel-ink-soft: rgba(49, 27, 86, 0.7);
-  --pixel-accent: #a57cc6;
-  --pixel-accent-2: #7c3aed;
-  --pixel-border: #311b56;
-  --pixel-shadow: #311b56;
-  --pixel-grid: rgba(49, 27, 86, 0.08);
+  --pixel-ink: #1f1a1d;
+  --pixel-ink-soft: rgba(31, 26, 29, 0.7);
+  --pixel-accent: #d7b4ea;
+  --pixel-accent-2: #f7d9c4;
+  --pixel-accent-3: #cfe8d9;
+  --pixel-border: rgba(31, 26, 29, 0.18);
+  --pixel-shadow: rgba(31, 26, 29, 0.12);
+  --pixel-grid: rgba(31, 26, 29, 0.04);
 }
 
 html {
@@ -18,10 +19,9 @@ html {
 
 body {
   background:
-    linear-gradient(var(--pixel-grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--pixel-grid) 1px, transparent 1px),
+    radial-gradient(circle at top left, rgba(215, 180, 234, 0.35), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(207, 232, 217, 0.3), transparent 28%),
     var(--pixel-bg);
-  background-size: 26px 26px, 26px 26px, auto;
   min-height: 100vh;
   color: var(--pixel-ink);
   font-family: "Inter", "Segoe UI", sans-serif;
@@ -33,7 +33,7 @@ body {
 }
 
 ::selection {
-  background: rgba(165, 124, 198, 0.35);
+  background: rgba(215, 180, 234, 0.4);
   color: var(--pixel-ink);
 }
 
@@ -46,51 +46,60 @@ button {
 }
 
 .pixel-shell {
-  background: linear-gradient(180deg, rgba(255,255,255,0.4), rgba(255,255,255,0));
+  background: linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0));
 }
 
 .pixel-panel {
-  background: var(--pixel-panel);
-  border: 3px solid var(--pixel-border);
-  box-shadow: 6px 6px 0 var(--pixel-shadow);
+  background: rgba(255, 253, 251, 0.82);
+  border: 1px solid var(--pixel-border);
+  box-shadow: 0 18px 60px rgba(31, 26, 29, 0.06);
+  backdrop-filter: blur(12px);
 }
 
 .pixel-button {
   position: relative;
-  border: 3px solid var(--pixel-border);
-  background: #fff;
-  box-shadow: 4px 4px 0 var(--pixel-shadow);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  border: 1px solid rgba(31, 26, 29, 0.14);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 10px 24px rgba(31, 26, 29, 0.08);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
 
 .pixel-button:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--pixel-shadow);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 28px rgba(31, 26, 29, 0.12);
 }
 
 .pixel-button:active {
-  transform: translate(3px, 3px);
-  box-shadow: 1px 1px 0 var(--pixel-shadow);
+  transform: translateY(1px);
+  box-shadow: 0 6px 16px rgba(31, 26, 29, 0.08);
 }
 
 .pixel-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  border: 2px solid var(--pixel-border);
-  background: rgba(255,255,255,0.8);
-  box-shadow: 2px 2px 0 var(--pixel-shadow);
-  font-weight: 900;
+  border: 1px solid rgba(31, 26, 29, 0.16);
+  background: rgba(255,255,255,0.7);
+  box-shadow: 0 8px 16px rgba(31, 26, 29, 0.06);
+  font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 0.35rem 0.6rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 9999px;
 }
 
 .pixel-title {
-  letter-spacing: 0.18em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   font-family: "Space Mono", monospace;
   font-weight: 900;
+}
+
+.soft-card {
+  border: 1px solid rgba(31, 26, 29, 0.12);
+  background: rgba(255,255,255,0.7);
+  box-shadow: 0 16px 38px rgba(31, 26, 29, 0.06);
+  border-radius: 28px;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
