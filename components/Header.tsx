@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Search, Database, Bell, ArrowRight, Moon, Sun } from 'lucide-react';
-import { searchMovies } from '@/lib/api';
+import { getApiItems, isApiSuccess, searchMovies } from '@/lib/api';
 import { useAppContext } from '@/lib/store';
 
 export const Header = () => {
@@ -47,8 +47,8 @@ export const Header = () => {
  setIsSearching(true);
  try {
  const data = await searchMovies(searchQuery);
- if (data.status === 'success') {
- setSearchResults(data.data.items || []);
+ if (isApiSuccess(data)) {
+ setSearchResults(getApiItems(data));
  } else {
  setSearchResults([]);
  }
@@ -101,7 +101,7 @@ export const Header = () => {
  };
 
  return (
- <header className={`fixed top-0 right-0 w-[calc(100%-100px)] max-lg:w-full h-[80px] max-md:h-[70px] flex items-center justify-between px-8 lg:px-10 max-md:px-5 z-[500] transition-all duration-300 ${isScrolled ? 'bg-[#FAF8F5]/95 border-b-2 border-[#311B56] backdrop-blur-xl' : 'bg-[#FAF8F5]'}`}>
+ <header className={`fixed top-0 right-0 w-[calc(100%-100px)] max-lg:w-full h-[80px] max-md:h-[70px] flex items-center justify-between px-8 lg:px-10 max-md:px-5 z-[500] transition-all duration-300 ${isScrolled ? 'bg-[#FAF8F5]/95 border-b-[3px] border-[#311B56] backdrop-blur-xl shadow-[0_6px_0_#311B56]' : 'bg-[#FAF8F5]'}`}>
  
  {/* Left: Logo */}
  <div className="flex-1 basis-0 flex items-center justify-start">
@@ -117,7 +117,8 @@ export const Header = () => {
  {/* Center: Search */}
  <div className="flex-[2] max-md:flex-[3] basis-0 flex justify-center max-md:px-2" ref={searchRef}>
  <div className="relative w-full max-w-[500px]">
- <div className="flex items-center gap-3.5 max-md:gap-2 bg-[#FAF8F5] border-2 border-[#311B56] shadow-[4px_4px_0px_#311B56] py-3 px-6 max-md:py-2.5 max-md:px-3 transition-all focus-within:translate-y-[2px] focus-within:translate-x-[2px] focus-within:shadow-[2px_2px_0px_#311B56]">
+ <div className="flex items-center gap-3.5 max-md:gap-2 bg-[#FAF8F5] border-[3px] border-[#311B56] shadow-[5px_5px_0px_#311B56] py-3 px-6 max-md:py-2.5 max-md:px-3 transition-all focus-within:translate-y-[2px] focus-within:translate-x-[2px] focus-within:shadow-[2px_2px_0px_#311B56]">
+
  <Search size={20} className="text-[#311B56] shrink-0 max-md:w-4 max-md:h-4" />
  <input 
  type="text" 

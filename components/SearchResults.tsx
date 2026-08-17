@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, Search, Filter, Calendar, Monitor } from 'lucide-react';
-import { searchMovies } from '@/lib/api';
+import { getApiItems, isApiSuccess, searchMovies } from '@/lib/api';
 import { useAppContext } from '@/lib/store';
 import { MovieCard } from '@/components/ExploreSection';
 
@@ -70,14 +70,15 @@ export const SearchResults = ({ query }: { query: string }) => {
  setIsFetching(true);
  try {
  const data = await searchMovies(query, pageNum);
- if (data.status === 'success' && data.data.items && data.data.items.length > 0) {
- setMovies(prev => isNewQuery ? data.data.items : [...prev, ...data.data.items]);
+ const items = getApiItems(data);
+ if (isApiSuccess(data) && items.length > 0) {
+ setMovies(prev => isNewQuery ? items : [...prev, ...items]);
  
  const pagination = data.data.params?.pagination;
  if (pagination && pagination.totalPages !== undefined) {
  setHasMore(pagination.currentPage < pagination.totalPages);
  } else {
- setHasMore(data.data.items.length >= 24);
+ setHasMore(items.length >= 24);
  }
  } else {
  if (isNewQuery) setMovies([]);

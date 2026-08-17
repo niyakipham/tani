@@ -21,7 +21,7 @@ export const BottomNav = () => {
   if (isWatchPartyOpen) return null;
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[85%] max-w-[380px] h-[64px] bg-[#FAF8F5] border-2 border-[#311B56] shadow-[4px_4px_0px_#311B56] z-[900] flex items-center justify-around px-2 md:hidden">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[85%] max-w-[380px] h-[64px] bg-[#FAF8F5] border-[3px] border-[#311B56] shadow-[5px_5px_0px_#311B56] z-[900] flex items-center justify-around px-2 md:hidden">
       {navItems.map((item) => {
         const Icon = item.icon;
         const isActive = pathname === item.path || (item.path !== '/' && pathname.startsWith(item.path));

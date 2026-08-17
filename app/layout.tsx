@@ -15,7 +15,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
  </head>
- <body suppressHydrationWarning className="font-sans bg-[#FAF8F5] text-[#311B56] antialiased">
+ <body suppressHydrationWarning className="font-sans bg-[#FAF8F5] text-[#311B56] antialiased pixel-shell">
  <Providers>
  {children}
  </Providers>

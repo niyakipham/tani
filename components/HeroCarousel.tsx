@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAppContext } from '@/lib/store';
+import { getApiItems, isApiSuccess } from '@/lib/api';
 
 export const HeroCarousel = () => {
  const { setCurrentMovieSlug } = useAppContext();
@@ -18,8 +19,9 @@ export const HeroCarousel = () => {
  fetch('https://ophim1.com/v1/api/danh-sach/phim-bo?page=1')
  .then(res => res.json())
  .then(data => {
- if (data.status === 'success' && data.data.items.length > 0) {
- setMovies(data.data.items.slice(0, 12));
+ const items = getApiItems(data);
+ if (isApiSuccess(data) && items.length > 0) {
+ setMovies(items.slice(0, 12));
  }
  });
  }, []);

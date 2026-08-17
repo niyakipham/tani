@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Play, Loader2, Heart, Star } from 'lucide-react';
 import { useAppContext } from '@/lib/store';
-import { fetchMoviesByGenre } from '@/lib/api';
+import { fetchMoviesByGenre, getApiItems, isApiSuccess } from '@/lib/api';
 
 const ALL_GENRES = [
  { name: 'Hành Động', slug: 'hanh-dong' }, { name: 'Tình Cảm', slug: 'tinh-cam' },
@@ -159,8 +159,9 @@ export const ExploreSection = () => {
  setIsFetching(true);
  try {
  const data = await fetchMoviesByGenre(currentTabSlug, apiPage);
- if (data.status === 'success' && data.data.items.length > 0) {
- setMovies(prev => [...prev, ...data.data.items]);
+ const items = getApiItems(data);
+ if (isApiSuccess(data) && items.length > 0) {
+ setMovies(prev => [...prev, ...items]);
  setApiPage(prev => prev + 1);
  } else {
  setHasMoreData(false);
@@ -207,17 +208,17 @@ export const ExploreSection = () => {
  };
 
  return (
- <section id="explore-section" className="mt-6 bg-[#FAF8F5] p-6 max-md:p-4 border-y-2 border-[#311B56]">
+ <section id="explore-section" className="mt-6 bg-[#FAF8F5] p-6 max-md:p-4 border-y-[3px] border-[#311B56] shadow-[0_8px_0_#311B56]">
  <div className="flex items-center justify-between mb-4">
- <h2 className="text-[1.5rem] md:text-[1.8rem] font-black text-[#311B56] tracking-tight uppercase font-mono">[ EXPLORE ]</h2>
- <span className="text-[0.8rem] text-[#311B56] font-bold cursor-pointer hover:underline flex items-center gap-1 font-mono">VIEW ALL <span className="text-[0.6rem]">▶</span></span>
+ <h2 className="text-[1.5rem] md:text-[1.8rem] font-black text-[#311B56] tracking-[0.18em] uppercase font-mono">[ EXPLORE ]</h2>
+ <span className="pixel-badge text-[0.72rem] cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] transition-transform">VIEW ALL <span className="text-[0.6rem]">▶</span></span>
  </div>
  
  <div className="flex gap-4 overflow-x-auto pb-4 mb-6 scrollbar-none px-1">
  {sortedGenres.map(g => (
  <button 
  key={g.slug}
- className={`px-5 py-2 rounded-none border-2 border-[#311B56] font-bold text-[0.85rem] whitespace-nowrap transition-all uppercase tracking-widest font-mono shadow-[2px_2px_0px_#311B56] ${currentTabSlug === g.slug ? 'bg-[#311B56] text-[#FAF8F5] translate-y-[2px] translate-x-[2px] shadow-none' : 'bg-[#FAF8F5] text-[#311B56] hover:bg-[#311B56]/10'}`}
+ className={`px-5 py-2 rounded-none border-[3px] border-[#311B56] font-bold text-[0.85rem] whitespace-nowrap transition-all uppercase tracking-widest font-mono shadow-[3px_3px_0px_#311B56] ${currentTabSlug === g.slug ? 'bg-[#311B56] text-[#FAF8F5] translate-y-[2px] translate-x-[2px] shadow-none' : 'bg-[#FAF8F5] text-[#311B56] hover:bg-[#311B56]/10'}`}
  onClick={() => handleTabClick(g.slug)}
  >
  {g.name}

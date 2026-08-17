@@ -1,6 +1,98 @@
 @import "tailwindcss";
 
-/* Hide scrollbar for horizontal scroll containers */
+:root {
+  --pixel-bg: #faf8f5;
+  --pixel-panel: #fffdfb;
+  --pixel-ink: #311b56;
+  --pixel-ink-soft: rgba(49, 27, 86, 0.7);
+  --pixel-accent: #a57cc6;
+  --pixel-accent-2: #7c3aed;
+  --pixel-border: #311b56;
+  --pixel-shadow: #311b56;
+  --pixel-grid: rgba(49, 27, 86, 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    linear-gradient(var(--pixel-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pixel-grid) 1px, transparent 1px),
+    var(--pixel-bg);
+  background-size: 26px 26px, 26px 26px, auto;
+  min-height: 100vh;
+  color: var(--pixel-ink);
+  font-family: "Inter", "Segoe UI", sans-serif;
+  letter-spacing: 0.01em;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(165, 124, 198, 0.35);
+  color: var(--pixel-ink);
+}
+
+button, input, select, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font-family: inherit;
+}
+
+.pixel-shell {
+  background: linear-gradient(180deg, rgba(255,255,255,0.4), rgba(255,255,255,0));
+}
+
+.pixel-panel {
+  background: var(--pixel-panel);
+  border: 3px solid var(--pixel-border);
+  box-shadow: 6px 6px 0 var(--pixel-shadow);
+}
+
+.pixel-button {
+  position: relative;
+  border: 3px solid var(--pixel-border);
+  background: #fff;
+  box-shadow: 4px 4px 0 var(--pixel-shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.pixel-button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--pixel-shadow);
+}
+
+.pixel-button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--pixel-shadow);
+}
+
+.pixel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 2px solid var(--pixel-border);
+  background: rgba(255,255,255,0.8);
+  box-shadow: 2px 2px 0 var(--pixel-shadow);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.6rem;
+}
+
+.pixel-title {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-family: "Space Mono", monospace;
+  font-weight: 900;
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }

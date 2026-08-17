@@ -15,6 +15,7 @@ import { ScanModal } from '@/components/ScanModal';
 import { StoryModal } from '@/components/StoryModal';
 import { NotificationModal } from '@/components/NotificationModal';
 import { WatchPartyPanel } from '@/components/WatchPartyPanel';
+import { getApiItems, isApiSuccess } from '@/lib/api';
 
 const MainContent = () => {
  const { theme, currentMovieSlug, setCurrentMovieSlug } = useAppContext();
@@ -25,14 +26,16 @@ const MainContent = () => {
  fetch('https://ophim1.com/v1/api/tim-kiem?keyword=overlord')
  .then(res => res.json())
  .then(data => {
- if (data.status === 'success' && data.data.items.length > 0) {
- setCurrentMovieSlug(data.data.items[0].slug);
+ const items = getApiItems(data);
+ if (isApiSuccess(data) && items.length > 0) {
+ setCurrentMovieSlug(items[0].slug);
  } else {
  fetch('https://ophim1.com/v1/api/danh-sach/hoat-hinh?page=1')
  .then(res => res.json())
  .then(data => {
- if (data.status === 'success' && data.data.items.length > 0) {
- setCurrentMovieSlug(data.data.items[0].slug);
+ const fallbackItems = getApiItems(data);
+ if (isApiSuccess(data) && fallbackItems.length > 0) {
+ setCurrentMovieSlug(fallbackItems[0].slug);
  }
  });
  }

@@ -1,3 +1,14 @@
+export const isApiSuccess = (payload: any) => {
+  if (!payload || typeof payload !== 'object') return false;
+  return payload.status === 'success' || payload.status === true;
+};
+
+export const getApiItems = (payload: any) => {
+  if (!payload || typeof payload !== 'object') return [];
+  const items = payload?.data?.items;
+  return Array.isArray(items) ? items : [];
+};
+
 export const fetchMovies = async (page = 1) => {
   const res = await fetch(`https://ophim1.com/v1/api/danh-sach/hoat-hinh?page=${page}`);
   return res.json();
