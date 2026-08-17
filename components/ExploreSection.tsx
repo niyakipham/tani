@@ -117,9 +117,9 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
 
 export const MovieCardSkeleton = () => {
  return (
- <div className="bg-[#FAF8F5] rounded-none border-2 border-[#311B56] shadow-[4px_4px_0px_#311B56] flex flex-col relative w-full aspect-[4/5] md:aspect-[3/4]">
- <div className="absolute inset-0 bg-[#FAF8F5] flex items-center justify-center rounded-none">
- <div className="w-8 h-8 border-4 border-[#311B56]/20 border-t-[#311B56] rounded-full animate-spin"></div>
+ <div className="bg-[var(--terminal-panel)] border border-[var(--terminal-border)] shadow-[0_10px_30px_rgba(0,0,0,0.18)] rounded-[16px] flex flex-col relative w-full aspect-[4/5] md:aspect-[3/4] overflow-hidden">
+ <div className="absolute inset-0 bg-[var(--terminal-bg-2)] flex items-center justify-center">
+ <div className="w-8 h-8 border-4 border-[var(--terminal-border)] border-t-[var(--terminal-green)] rounded-full animate-spin"></div>
  </div>
  </div>
  );
@@ -233,8 +233,8 @@ export const ExploreSection = () => {
  </div>
 
  {movies.length > 0 && isFetching && (
- <div className="text-center py-15 text-[#311B56] font-black text-[1.1rem] font-mono tracking-widest uppercase">
- <Loader2 size={28} className="animate-spin inline-block mr-3 text-[#311B56] align-middle" /> LOADING...
+ <div className="text-center py-15 text-[var(--terminal-green)] font-black text-[1.1rem] font-mono tracking-widest uppercase">
+ <Loader2 size={28} className="animate-spin inline-block mr-3 text-[var(--terminal-green)] align-middle" /> LOADING...
  </div>
  )}
  <div ref={observerTarget} className="h-2.5 w-full"></div>

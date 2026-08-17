@@ -45,14 +45,14 @@ const MusicPageContent = () => {
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
 
   return (
-    <div className="min-h-screen flex bg-[#FAF8F5] text-[#311B56] font-sans pb-[160px] md:pb-[90px]">
+    <div className="min-h-screen flex bg-[var(--terminal-bg-2)] text-[var(--terminal-ink)] font-sans pb-[160px] md:pb-[90px]">
       {/* Left Sidebar */}
-      <aside className="w-[220px] shrink-0 flex flex-col p-4 gap-4 sticky top-0 h-screen border-r-2 border-[#311B56] hidden md:flex bg-[#FAF8F5] z-[100]">
+      <aside className="w-[220px] shrink-0 flex flex-col p-4 gap-4 sticky top-0 h-screen border-r border-[var(--terminal-border-strong)] hidden md:flex bg-[var(--terminal-bg-2)] z-[100]">
         
         {/* Logo */}
-        <div className="flex items-center gap-3 p-2 border-2 border-[#311B56] shadow-[2px_2px_0px_#311B56] bg-white mb-2">
-          <div className="w-10 h-10 flex items-center justify-center border-r-2 border-[#311B56]" style={{ background: accentColor }}>
-            <Music2 size={20} className="text-[#311B56]" />
+        <div className="flex items-center gap-3 p-2 border border-[var(--terminal-border-strong)] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-[var(--terminal-panel)] mb-2">
+          <div className="w-10 h-10 flex items-center justify-center border-r border-[var(--terminal-border-strong)]" style={{ background: accentColor }}>
+            <Music2 size={20} className="text-[var(--terminal-bg-2)]" />
           </div>
           <div>
             <div className="font-black text-sm tracking-widest uppercase">Tani Music</div>
@@ -68,12 +68,12 @@ const MusicPageContent = () => {
               <button
                 key={item.key}
                 onClick={() => setActiveTab(item.key)}
-                className={`flex items-center gap-3 px-3 py-3 font-bold text-sm text-left w-full border-2 border-[#311B56] transition-all
+                className={`flex items-center gap-3 px-3 py-3 font-bold text-sm text-left w-full border border-[var(--terminal-border-strong)] transition-all
                   ${isActive 
                     ? 'translate-x-[2px] translate-y-[2px] shadow-none' 
-                    : 'shadow-[2px_2px_0px_#311B56] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none'
+                    : 'shadow-[0_6px_16px_rgba(0,0,0,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none'
                   }`}
-                style={{ background: isActive ? accentColor : 'white' }}
+                style={{ background: isActive ? 'rgba(122,216,255,0.12)' : 'var(--terminal-panel)' }}
               >
                 {item.icon}
                 {item.label}
@@ -92,7 +92,7 @@ const MusicPageContent = () => {
             <button
               key={i}
               onClick={a.action}
-              className="flex items-center gap-2 px-3 py-2 font-bold text-xs text-left w-full border-2 border-transparent hover:border-[#311B56] hover:bg-white transition-all"
+              className="flex items-center gap-2 px-3 py-2 font-bold text-xs text-left w-full border-2 border-transparent hover:border-[var(--terminal-border-strong)] hover:bg-[var(--terminal-panel)] transition-all"
             >
               {a.icon} {a.label}
             </button>
@@ -103,7 +103,7 @@ const MusicPageContent = () => {
         <div className="mt-auto">
           <button
             onClick={() => setIsMusicSettingsOpen(true)}
-            className="flex items-center gap-2 px-3 py-3 border-2 border-[#311B56] bg-white font-bold text-sm w-full shadow-[2px_2px_0px_#311B56] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
+            className="flex items-center gap-2 px-3 py-3 border border-[var(--terminal-border-strong)] bg-[var(--terminal-panel)] font-bold text-sm w-full shadow-[0_6px_16px_rgba(0,0,0,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
           >
             <Settings2 size={20} />
             Cài đặt
@@ -114,30 +114,30 @@ const MusicPageContent = () => {
       {/* Main Content */}
       <main className="flex-1 overflow-x-hidden relative">
         {/* Mobile Header */}
-        <div className="md:hidden flex items-center gap-3 p-4 sticky top-0 z-50 border-b-2 border-[#311B56] bg-[#FAF8F5]">
-          <div className="w-8 h-8 flex items-center justify-center border-2 border-[#311B56] shadow-[2px_2px_0px_#311B56]" style={{ background: accentColor }}>
-            <Music2 size={16} className="text-[#311B56]" />
+        <div className="md:hidden flex items-center gap-3 p-4 sticky top-0 z-50 border-b-2 border-[var(--terminal-border-strong)] bg-[var(--terminal-bg-2)]">
+          <div className="w-8 h-8 flex items-center justify-center border border-[var(--terminal-border-strong)] shadow-[0_6px_16px_rgba(0,0,0,0.2)]" style={{ background: accentColor }}>
+            <Music2 size={16} className="text-[var(--terminal-bg-2)]" />
           </div>
           <span className="font-black text-sm tracking-widest uppercase">Tani Music</span>
           <div className="flex-1" />
           <button
             onClick={() => setIsMusicSettingsOpen(true)}
-            className="p-2 border-2 border-[#311B56] bg-white shadow-[2px_2px_0px_#311B56] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+            className="p-2 border border-[var(--terminal-border-strong)] bg-[var(--terminal-panel)] shadow-[0_6px_16px_rgba(0,0,0,0.2)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
           >
             <Settings2 size={16} />
           </button>
         </div>
 
         {/* Mobile Mini Nav (above main BottomNav) */}
-        <div className="md:hidden fixed top-[64px] left-0 right-0 z-[40] flex border-b-2 border-[#311B56] bg-[#FAF8F5] shadow-sm">
+        <div className="md:hidden fixed top-[64px] left-0 right-0 z-[40] flex border-b-2 border-[var(--terminal-border-strong)] bg-[var(--terminal-bg-2)] shadow-sm">
           {NAV_ITEMS.map(item => {
             const isActive = activeTab === item.key;
             return (
               <button
                 key={item.key}
                 onClick={() => setActiveTab(item.key)}
-                className={`flex-1 py-3 flex items-center justify-center gap-2 border-r-2 border-[#311B56] last:border-r-0 font-bold text-xs transition-colors`}
-                style={{ background: isActive ? accentColor : 'transparent' }}
+                className={`flex-1 py-3 flex items-center justify-center gap-2 border-r border-[var(--terminal-border-strong)] last:border-r-0 font-bold text-xs transition-colors`}
+                style={{ background: isActive ? 'rgba(122,216,255,0.12)' : 'transparent' }}
               >
                 {item.icon}
                 <span className="hidden sm:inline">{item.label}</span>
@@ -155,10 +155,10 @@ const MusicPageContent = () => {
           className="p-4 md:p-8 md:pt-8 pt-[60px]"
         >
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 mb-6 text-sm border-2 border-[#311B56] bg-white px-3 py-1.5 w-max shadow-[2px_2px_0px_#311B56]">
+          <div className="flex items-center gap-2 mb-6 text-sm border border-[var(--terminal-border-strong)] bg-[var(--terminal-panel)] px-3 py-1.5 w-max shadow-[0_6px_16px_rgba(0,0,0,0.2)]">
             <Music2 size={14} />
             <ChevronRight size={14} />
-            <span className="font-bold uppercase tracking-widest" style={{ color: '#311B56' }}>
+            <span className="font-bold uppercase tracking-widest" style={{ color: 'var(--terminal-cyan)' }}>
               {NAV_ITEMS.find(n => n.key === activeTab)?.label}
             </span>
           </div>
@@ -171,7 +171,7 @@ const MusicPageContent = () => {
                 <h2 className="text-3xl font-black uppercase tracking-tight">Playlist</h2>
                 <button
                   onClick={() => setIsCreatePlaylistOpen(true)}
-                  className="flex items-center gap-2 px-5 py-2.5 border-2 border-[#311B56] font-bold shadow-[2px_2px_0px_#311B56] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all w-max"
+                  className="flex items-center gap-2 px-5 py-2.5 border border-[var(--terminal-border-strong)] font-bold shadow-[0_6px_16px_rgba(0,0,0,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all w-max"
                   style={{ background: accentColor }}
                 >
                   <Plus size={18} /> Tạo Playlist Mới
@@ -180,10 +180,10 @@ const MusicPageContent = () => {
               
               <button
                 onClick={() => setIsCreatePlaylistOpen(true)}
-                className="flex items-center gap-5 p-6 border-2 border-[#311B56] border-dashed bg-white hover:bg-gray-50 transition-colors"
+                className="flex items-center gap-5 p-6 border border-[var(--terminal-border-strong)] border-dashed bg-[var(--terminal-panel)] hover:bg-[var(--terminal-border-soft)] transition-colors"
               >
-                <div className="w-14 h-14 flex items-center justify-center border-2 border-[#311B56]" style={{ background: accentColor }}>
-                  <ListMusic size={28} className="text-[#311B56]" />
+                <div className="w-14 h-14 flex items-center justify-center border border-[var(--terminal-border-strong)]" style={{ background: accentColor }}>
+                  <ListMusic size={28} className="text-[var(--terminal-bg-2)]" />
                 </div>
                 <div className="text-left flex-1">
                   <div className="font-black text-lg">Quản lý Playlist</div>

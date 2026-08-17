@@ -92,21 +92,21 @@ export const MusicPlayerBar = () => {
         animate={{ y: 0 }}
         exit={{ y: 150 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="fixed bottom-[100px] md:bottom-0 left-0 md:left-[220px] right-0 z-[1500] select-none border-t-2 border-b-2 md:border-b-0 border-[#311B56] bg-[#FAF8F5] shadow-[0px_-4px_0px_#311B56]"
+        className="fixed bottom-[100px] md:bottom-0 left-0 md:left-[220px] right-0 z-[1500] select-none border-t-2 border-b-2 md:border-b-0 border-[var(--terminal-border-strong)] bg-[var(--terminal-bg-2)] shadow-[0px_-4px_0px_var(--terminal-cyan)]"
       >
         {/* Timeline Slider - Brutalist squiggly (Material 3 style) */}
         <div
           ref={sliderRef}
-          className="relative w-full h-5 cursor-pointer bg-white border-b-2 border-[#311B56] overflow-hidden"
+          className="relative w-full h-5 cursor-pointer bg-[var(--terminal-panel)] border-b-2 border-[var(--terminal-border-strong)] overflow-hidden"
           onClick={handleSliderClick}
           onMouseDown={() => setIsDragging(true)}
         >
           {/* Unplayed straight line */}
-          <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[3px] bg-[#311B56] opacity-20 pointer-events-none" />
+          <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[3px] bg-[var(--terminal-cyan)] opacity-20 pointer-events-none" />
 
           {/* Track fill with squiggly animation */}
           <motion.div
-            className="absolute left-0 top-0 h-full border-r-[3px] border-[#311B56]"
+            className="absolute left-0 top-0 h-full border-r-[3px] border-[var(--terminal-border-strong)]"
             style={{ 
               backgroundColor: accentColor,
               backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='20' viewBox='0 0 32 20'%3E%3Cpath d='M0 10 Q 8 2, 16 10 T 32 10' fill='none' stroke='%23311B56' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
@@ -129,7 +129,7 @@ export const MusicPlayerBar = () => {
           {/* Thumbnail + info */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <motion.div
-              className="relative w-12 h-12 border-2 border-[#311B56] shadow-[2px_2px_0px_#311B56] overflow-hidden shrink-0 cursor-pointer bg-white"
+              className="relative w-12 h-12 border border-[var(--terminal-border-strong)] shadow-[0_6px_16px_rgba(0,0,0,0.2)] overflow-hidden shrink-0 cursor-pointer bg-[var(--terminal-panel)]"
               onClick={() => setIsExpanded(!isExpanded)}
               whileTap={{ scale: 0.9, x: 2, y: 2, boxShadow: 'none' }}
             >
@@ -141,16 +141,16 @@ export const MusicPlayerBar = () => {
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center" style={{ background: accentColor }}>
-                  <Music2 size={20} className="text-[#311B56]" />
+                  <Music2 size={20} className="text-[var(--terminal-bg-2)]" />
                 </div>
               )}
             </motion.div>
 
             <div className="min-w-0 flex-1">
-              <div className="font-black text-sm truncate uppercase tracking-tight text-[#311B56]">
+              <div className="font-black text-sm truncate uppercase tracking-tight text-[var(--terminal-ink)]">
                 {currentTrack?.title || 'Chưa chọn bài'}
               </div>
-              <div className="text-xs font-bold truncate opacity-60 text-[#311B56]">
+              <div className="text-xs font-bold truncate opacity-60 text-[var(--terminal-ink)]">
                 {currentTrack?.artist || '—'} · {formatTime(elapsedSeconds)} / {formatTime(duration)}
               </div>
             </div>
@@ -160,16 +160,16 @@ export const MusicPlayerBar = () => {
           <div className="flex items-center gap-2 md:gap-3 shrink-0">
             <button
               onClick={toggleShuffle}
-              className={`p-2 border-2 border-[#311B56] transition-all hidden md:flex items-center justify-center shadow-[2px_2px_0px_#311B56] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none
-                ${isShuffle ? 'text-[#311B56]' : 'bg-white text-[#311B56]'}`}
-              style={{ background: isShuffle ? accentColor : 'white' }}
+              className={`p-2 border border-[var(--terminal-border-strong)] transition-all hidden md:flex items-center justify-center shadow-[0_6px_16px_rgba(0,0,0,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none
+                ${isShuffle ? 'text-[var(--terminal-ink)]' : 'bg-[var(--terminal-panel)] text-[var(--terminal-ink)]'}`}
+              style={{ background: isShuffle ? accentColor : 'var(--terminal-panel)' }}
             >
               <Shuffle size={16} />
             </button>
 
             <motion.button
               onClick={prevTrack}
-              className="p-2 border-2 border-[#311B56] bg-white text-[#311B56] shadow-[2px_2px_0px_#311B56] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+              className="p-2 border border-[var(--terminal-border-strong)] bg-[var(--terminal-panel)] text-[var(--terminal-ink)] shadow-[0_6px_16px_rgba(0,0,0,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
               whileTap={{ scale: 0.9 }}
             >
               <SkipBack size={20} />
@@ -178,7 +178,7 @@ export const MusicPlayerBar = () => {
             {/* Play Button */}
             <motion.button
               onClick={togglePlay}
-              className="w-12 h-12 flex items-center justify-center border-2 border-[#311B56] text-[#311B56] shadow-[2px_2px_0px_#311B56] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+              className="w-12 h-12 flex items-center justify-center border border-[var(--terminal-border-strong)] text-[var(--terminal-ink)] shadow-[0_6px_16px_rgba(0,0,0,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
               style={{ background: accentColor }}
               whileTap={{ scale: 0.9 }}
             >
@@ -197,7 +197,7 @@ export const MusicPlayerBar = () => {
 
             <motion.button
               onClick={nextTrack}
-              className="p-2 border-2 border-[#311B56] bg-white text-[#311B56] shadow-[2px_2px_0px_#311B56] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+              className="p-2 border border-[var(--terminal-border-strong)] bg-[var(--terminal-panel)] text-[var(--terminal-ink)] shadow-[0_6px_16px_rgba(0,0,0,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
               whileTap={{ scale: 0.9 }}
             >
               <SkipForward size={20} />
@@ -205,9 +205,9 @@ export const MusicPlayerBar = () => {
 
             <button
               onClick={toggleLoop}
-              className={`p-2 border-2 border-[#311B56] transition-all hidden md:flex items-center justify-center shadow-[2px_2px_0px_#311B56] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none
-                ${isLoop ? 'text-[#311B56]' : 'bg-white text-[#311B56]'}`}
-              style={{ background: isLoop ? accentColor : 'white' }}
+              className={`p-2 border border-[var(--terminal-border-strong)] transition-all hidden md:flex items-center justify-center shadow-[0_6px_16px_rgba(0,0,0,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none
+                ${isLoop ? 'text-[var(--terminal-ink)]' : 'bg-[var(--terminal-panel)] text-[var(--terminal-ink)]'}`}
+              style={{ background: isLoop ? accentColor : 'var(--terminal-panel)' }}
             >
               {isLoop ? <Repeat1 size={16} /> : <Repeat size={16} />}
             </button>
@@ -217,10 +217,10 @@ export const MusicPlayerBar = () => {
           <div className="flex items-center gap-3 flex-1 justify-end min-w-0">
             {/* Volume */}
             <div className="items-center gap-2 hidden lg:flex">
-              <button onClick={handleMuteToggle} className="text-[#311B56]">
+              <button onClick={handleMuteToggle} className="text-[var(--terminal-ink)]">
                 {isMuted || volume === 0 ? <VolumeX size={18} /> : <Volume2 size={18} />}
               </button>
-              <div className="relative w-24 h-3 bg-white border-2 border-[#311B56] cursor-pointer">
+              <div className="relative w-24 h-3 bg-[var(--terminal-panel)] border border-[var(--terminal-border-strong)] cursor-pointer">
                 <input
                   type="range"
                   min={0}
@@ -229,13 +229,13 @@ export const MusicPlayerBar = () => {
                   onChange={e => { setVolume(Number(e.target.value)); setIsMuted(false); }}
                   className="absolute inset-0 opacity-0 cursor-pointer w-full"
                 />
-                <div className="h-full border-r-2 border-[#311B56]" style={{ width: `${volume}%`, background: accentColor }} />
+                <div className="h-full border-r border-[var(--terminal-border-strong)]" style={{ width: `${volume}%`, background: accentColor }} />
               </div>
             </div>
 
             {/* Queue */}
             <motion.button
-              className="p-2 border-2 border-[#311B56] bg-white text-[#311B56] shadow-[2px_2px_0px_#311B56] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+              className="p-2 border border-[var(--terminal-border-strong)] bg-[var(--terminal-panel)] text-[var(--terminal-ink)] shadow-[0_6px_16px_rgba(0,0,0,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsQueueOpen(true)}
             >
@@ -244,7 +244,7 @@ export const MusicPlayerBar = () => {
 
             {/* Party */}
             <motion.button
-              className="p-2 border-2 border-[#311B56] bg-white text-[#311B56] shadow-[2px_2px_0px_#311B56] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+              className="p-2 border border-[var(--terminal-border-strong)] bg-[var(--terminal-panel)] text-[var(--terminal-ink)] shadow-[0_6px_16px_rgba(0,0,0,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsMusicPartyOpen(true)}
             >

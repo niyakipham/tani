@@ -1,31 +1,77 @@
 @import "tailwindcss";
 
+/* ============================================================
+   T-ANIME · Terminal Design System
+   Modern terminal aesthetic, dark-first with light fallback.
+   Tokens are overridden per `data-theme` so the toggle works.
+   ============================================================ */
 :root {
-  --terminal-bg: #040b0a;
-  --terminal-bg-2: #071f1a;
-  --terminal-panel: rgba(11, 22, 20, 0.92);
-  --terminal-panel-strong: rgba(7, 15, 14, 0.98);
-  --terminal-surface: rgba(15, 28, 25, 0.9);
-  --terminal-ink: #ebfff9;
-  --terminal-muted: #9abeb2;
-  --terminal-green: #7ef7c7;
-  --terminal-cyan: #7ad8ff;
-  --terminal-purple: #bca7ff;
-  --terminal-border: rgba(126, 247, 199, 0.18);
-  --terminal-shadow: rgba(0, 0, 0, 0.42);
-  --terminal-grid: rgba(126, 247, 199, 0.09);
+  /* Core palette (dark terminal) */
+  --terminal-bg:            #040b0a;
+  --terminal-bg-2:          #071f1a;
+  --terminal-panel:         rgba(11, 22, 20, 0.92);
+  --terminal-panel-strong:  rgba(7, 15, 14, 0.98);
+  --terminal-surface:       rgba(15, 28, 25, 0.9);
+  --terminal-ink:           #ebfff9;
+  --terminal-ink-soft:      #ecfffb;
+  --terminal-muted:         #9abeb2;
+  --terminal-green:         #7ef7c7;   /* primary accent */
+  --terminal-cyan:          #7ad8ff;
+  --terminal-purple:        #bca7ff;
+  --terminal-border:        rgba(126, 247, 199, 0.18);
+  --terminal-border-soft:   rgba(126, 247, 199, 0.08);
+  --terminal-border-strong: rgba(126, 247, 199, 0.35);
+  --terminal-overlay:       rgba(4, 11, 10, 0.45);
+  --terminal-overlay-strong: rgba(4, 11, 10, 0.7);
+  --terminal-shadow:        rgba(0, 0, 0, 0.42);
+  --terminal-grid:          rgba(126, 247, 199, 0.09);
+  --terminal-glow:          rgba(126, 247, 199, 0.06);
+  --terminal-radius:        24px;
+  --terminal-panel-radius:  24px;
+  --terminal-font-mono:     "Space Mono", "SFMono-Regular", "Consolas", monospace;
+  --terminal-font-sans:     "Inter", "Segoe UI", sans-serif;
+  --terminal-body:          linear-gradient(180deg, #020807 0%, #061412 18%, #081915 100%);
+  --terminal-radial:        radial-gradient(circle_at_top, rgba(126,247,199,0.08), transparent 30%);
+}
+
+/* Light terminal variant (warm, muted) — activated via data-theme */
+:root[data-theme="light"] {
+  --terminal-bg:            #f0eee5;
+  --terminal-bg-2:          #e3e0d6;
+  --terminal-panel:         rgba(244, 241, 230, 0.85);
+  --terminal-panel-strong:  rgba(240, 238, 229, 0.96);
+  --terminal-surface:       rgba(227, 224, 214, 0.9);
+  --terminal-ink:           #24221d;
+  --terminal-ink-soft:      #3b382f;
+  --terminal-muted:         #7a776a;
+  --terminal-green:         #2a9d7a;   /* mellow terminal green */
+  --terminal-cyan:          #2ab7ca;
+  --terminal-purple:        #8a7acc;
+  --terminal-border:        rgba(42, 157, 122, 0.22);
+  --terminal-border-soft:   rgba(42, 157, 122, 0.10);
+  --terminal-overlay:       rgba(240, 238, 229, 0.5);
+  --terminal-overlay-strong: rgba(240, 238, 229, 0.75);
+  --terminal-shadow:        rgba(0, 0, 0, 0.12);
+  --terminal-grid:          rgba(42, 157, 122, 0.10);
+  --terminal-glow:          rgba(42, 157, 122, 0.06);
+  --terminal-body:          linear-gradient(180deg, #fbfaf7 0%, #f0eee5 40%, #e8e5da 100%);
+  --terminal-radial:        radial-gradient(circle_at_top, rgba(42,157,122,0.07), transparent 30%);
 }
 
 html {
   scroll-behavior: smooth;
+  /* ensure the accent color reacts to theme for native widgets */
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  html { color-scheme: light; }
 }
 
 body {
-  background:
-    linear-gradient(180deg, #020807 0%, #061412 18%, #081915 100%);
+  background: var(--terminal-body);
   min-height: 100vh;
   color: var(--terminal-ink);
-  font-family: "Inter", "Segoe UI", sans-serif;
+  font-family: var(--terminal-font-sans);
   letter-spacing: 0.01em;
 }
 
@@ -37,6 +83,10 @@ body {
   background: rgba(126, 247, 199, 0.25);
   color: #f3fff9;
 }
+:root[data-theme="light"] ::selection {
+  background: rgba(42, 157, 122, 0.22);
+  color: #f0fff4;
+}
 
 button, input, select, a {
   -webkit-tap-highlight-color: transparent;
@@ -46,31 +96,44 @@ button {
   font-family: inherit;
 }
 
+/* ── Shell / background helpers ── */
 .pixel-shell {
   background: linear-gradient(180deg, rgba(126,247,199,0.04), rgba(126,247,199,0));
 }
+:root[data-theme="light"] .pixel-shell {
+  background: linear-gradient(180deg, rgba(42,157,122,0.04), rgba(42,157,122,0));
+}
 
-.pixel-panel {
+.terminal-bg   { background-color: var(--terminal-bg); }
+.terminal-bg-2 { background-color: var(--terminal-bg-2); }
+.terminal-panel {
   background: var(--terminal-panel);
   border: 1px solid var(--terminal-border);
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 18px 60px var(--terminal-shadow);
   backdrop-filter: blur(12px);
 }
 
+.pixel-panel { background: var(--terminal-panel); }
+
 .pixel-button {
   position: relative;
-  border: 1px solid rgba(126, 247, 199, 0.18);
+  border: 1px solid var(--terminal-border);
   background: rgba(11, 20, 18, 0.82);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
 }
-
+:root[data-theme="light"] .pixel-button {
+  background: rgba(244, 241, 230, 0.82);
+  box-shadow: 0 6px 16px var(--terminal-shadow);
+}
 .pixel-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 18px 28px rgba(0, 0, 0, 0.28);
-  border-color: rgba(126, 247, 199, 0.38);
+  border-color: var(--terminal-border);
 }
-
+:root[data-theme="light"] .pixel-button:hover {
+  box-shadow: 0 8px 20px var(--terminal-shadow);
+}
 .pixel-button:active {
   transform: translateY(1px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
@@ -80,36 +143,62 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  border: 1px solid rgba(126, 247, 199, 0.24);
-  background: rgba(8, 18, 16, 0.93);
-  box-shadow: inset 0 0 18px rgba(126, 247, 199, 0.06), 0 0 20px rgba(126, 247, 199, 0.06);
+  border: 1px solid var(--terminal-border);
+  background: var(--terminal-surface);
+  box-shadow: inset 0 0 18px var(--terminal-glow), 0 0 20px var(--terminal-glow);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 0.42rem 0.72rem;
   border-radius: 9999px;
   color: var(--terminal-green);
-  font-family: "SFMono-Regular", "Consolas", monospace;
+  font-family: var(--terminal-font-mono);
 }
 
 .pixel-title {
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-family: "SFMono-Regular", "Consolas", monospace;
+  font-family: var(--terminal-font-mono);
   font-weight: 900;
   color: var(--terminal-green);
 }
 
 .soft-card {
   border: 1px solid var(--terminal-border);
-  background: linear-gradient(180deg, rgba(8, 17, 15, 0.96), rgba(12, 22, 20, 0.9));
-  box-shadow: 0 18px 40px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(122, 216, 255, 0.03);
+  background: linear-gradient(180deg, rgba(8,17,15,0.96), rgba(12,22,20,0.9));
+  box-shadow: 0 18px 40px rgba(0,0,0,0.28), inset 0 0 0 1px var(--terminal-border);
   border-radius: 28px;
 }
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+:root[data-theme="light"] .soft-card {
+  background: linear-gradient(180deg, rgba(244,241,230,0.92), rgba(227,224,214,0.88));
+  box-shadow: 0 12px 32px var(--terminal-shadow), inset 0 0 0 1px var(--terminal-border);
 }
+
+/* ── Terminal input / focused glow ── */
+.terminal-input {
+  background: rgba(11, 20, 18, 0.82);
+  border: 1px solid var(--terminal-border);
+  color: var(--terminal-ink);
+  font-family: var(--terminal-font-mono);
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.terminal-input::placeholder { color: var(--terminal-muted); }
+.terminal-input:focus {
+  border-color: var(--terminal-green);
+  box-shadow: 0 0 0 3px var(--terminal-glow);
+}
+:root[data-theme="light"] .terminal-input {
+  background: rgba(244,241,230,0.85);
+}
+
+.focus-terminal {
+  outline: 2px solid var(--terminal-green);
+  outline-offset: 2px;
+}
+
+/* ── Scrollbars (themed) ── */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -119,19 +208,17 @@ button {
   width: 9px;
   height: 9px;
 }
-
-::-webkit-scrollbar-track {
-  background: rgba(5, 12, 11, 0.9);
-}
-
+::-webkit-scrollbar-track { background: rgba(5, 12, 11, 0.9); }
 ::-webkit-scrollbar-thumb {
   background: rgba(126, 247, 199, 0.25);
   border: 2px solid rgba(5, 12, 11, 0.9);
   border-radius: 9999px;
 }
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(126, 247, 199, 0.38);
+::-webkit-scrollbar-thumb:hover { background: rgba(126, 247, 199, 0.38); }
+:root[data-theme="light"] ::-webkit-scrollbar-track { background: rgba(227,224,214,0.9); }
+:root[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(42, 157, 122, 0.28);
+  border: 2px solid rgba(227,224,214,0.9);
 }
 
 /* ── Music Player: M3 Animations ── */
@@ -151,33 +238,28 @@ button {
 }
 
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 8px var(--music-primary, #7C3AED); }
-  50%       { box-shadow: 0 0 24px var(--music-primary, #7C3AED); }
+  0%, 100% { box-shadow: 0 0 8px var(--music-primary, #2ab7ca); }
+  50%       { box-shadow: 0 0 24px var(--music-primary, #2ab7ca); }
 }
 
-/* M3 Timeline thumb */
 .music-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--music-accent, #A78BFA);
-  box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.25);
+  background: var(--music-accent, #2ab7ca);
+  box-shadow: 0 0 0 4px rgba(42, 183, 202, 0.25);
   cursor: pointer;
   transition: all 0.2s;
 }
+.music-slider::-webkit-slider-thumb:hover { transform: scale(1.4); }
 
-.music-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.4);
-}
-
-/* Custom scrollbar for music section */
 .music-scrollbar::-webkit-scrollbar { width: 4px; }
 .music-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .music-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(167, 139, 250, 0.3);
+  background: rgba(42, 183, 202, 0.3);
   border-radius: 2px;
 }
 .music-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(167, 139, 250, 0.6);
+  background: rgba(42, 183, 202, 0.6);
 }

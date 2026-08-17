@@ -167,17 +167,17 @@ export const AddTxtModal = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[600px] md:max-h-[85vh] bg-[#FAF8F5] border-4 border-[#311B56] shadow-[8px_8px_0px_#311B56] flex flex-col z-[3001]"
+            className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[600px] md:max-h-[85vh] bg-[var(--terminal-bg-2)] border border-[var(--terminal-border-strong)] shadow-[0_14px_40px_rgba(0,0,0,0.3)] flex flex-col z-[3001]"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-5 border-b-4 border-[#311B56] bg-white">
+            <div className="flex items-center justify-between p-5 border-b border-[var(--terminal-border-strong)] bg-[var(--terminal-panel)]">
               <div>
-                <h2 className="text-xl font-black uppercase tracking-tight text-[#311B56]">📄 Thêm Nhạc từ .TXT</h2>
-                <p className="text-xs font-bold opacity-70 mt-1 uppercase tracking-widest text-[#311B56]">Mỗi dòng = 1 link YouTube</p>
+                <h2 className="text-xl font-black uppercase tracking-tight text-[var(--terminal-ink)]">📄 Thêm Nhạc từ .TXT</h2>
+                <p className="text-xs font-bold opacity-70 mt-1 uppercase tracking-widest text-[var(--terminal-ink)]">Mỗi dòng = 1 link YouTube</p>
               </div>
               <motion.button
                 onClick={handleClose}
-                className="p-2 border-2 border-[#311B56] shadow-[2px_2px_0px_#311B56] bg-white text-[#311B56] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
+                className="p-2 border border-[var(--terminal-border-strong)] shadow-[0_6px_16px_rgba(0,0,0,0.2)] bg-[var(--terminal-panel)] text-[var(--terminal-ink)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
                 whileTap={{ scale: 0.9 }}
               >
                 <X size={20} strokeWidth={3} />
@@ -185,17 +185,17 @@ export const AddTxtModal = () => {
             </div>
 
             {/* Mode Tabs */}
-            <div className="flex gap-4 p-5 pb-0 bg-[#FAF8F5]">
+            <div className="flex gap-4 p-5 pb-0 bg-[var(--terminal-bg-2)]">
               {(['file', 'paste'] as const).map(m => (
                 <button
                   key={m}
                   onClick={() => setMode(m)}
-                  className="flex-1 py-3 border-2 border-[#311B56] text-sm font-black uppercase tracking-widest transition-all"
+                  className="flex-1 py-3 border border-[var(--terminal-border-strong)] text-sm font-black uppercase tracking-widest transition-all"
                   style={{
-                    background: mode === m ? accentColor : 'white',
-                    boxShadow: mode === m ? 'none' : '2px 2px 0px #311B56',
+                    background: mode === m ? accentColor : 'var(--terminal-panel)',
+                    boxShadow: mode === m ? 'none' : '0 6px 16px rgba(0,0,0,0.2)',
                     transform: mode === m ? 'translate(2px, 2px)' : 'none',
-                    color: '#311B56',
+                    color: mode === m ? 'var(--terminal-bg-2)' : 'var(--terminal-ink)',
                   }}
                 >
                   {m === 'file' ? '📁 Upload File' : '📋 Dán Link'}
@@ -209,9 +209,9 @@ export const AddTxtModal = () => {
                 <>
                   {mode === 'file' ? (
                     <div
-                      className="border-4 border-dashed border-[#311B56] bg-white p-10 flex flex-col items-center gap-4 cursor-pointer transition-all"
+                      className="border-4 border-dashed border-[var(--terminal-border-strong)] bg-[var(--terminal-panel)] p-10 flex flex-col items-center gap-4 cursor-pointer transition-all"
                       style={{
-                        background: isDragOver ? accentColor : 'white',
+                        background: isDragOver ? 'rgba(122,216,255,0.12)' : 'var(--terminal-panel)',
                       }}
                       onDragOver={e => { e.preventDefault(); setIsDragOver(true); }}
                       onDragLeave={() => setIsDragOver(false)}
@@ -227,10 +227,10 @@ export const AddTxtModal = () => {
                         inp.click();
                       }}
                     >
-                      <div className="w-20 h-20 border-4 border-[#311B56] flex items-center justify-center shadow-[4px_4px_0px_#311B56] bg-white">
-                        <Upload size={36} className="text-[#311B56]" />
+                      <div className="w-20 h-20 border border-[var(--terminal-border-strong)] flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.25)] bg-[var(--terminal-panel)]">
+                        <Upload size={36} className="text-[var(--terminal-ink)]" />
                       </div>
-                      <div className="text-center text-[#311B56]">
+                      <div className="text-center text-[var(--terminal-ink)]">
                         <div className="font-black text-lg uppercase tracking-widest">Kéo thả hoặc click để chọn file</div>
                         <div className="text-xs font-bold opacity-70 mt-2 uppercase tracking-widest">Hỗ trợ file .txt</div>
                       </div>
@@ -238,7 +238,7 @@ export const AddTxtModal = () => {
                   ) : (
                     <div className="flex flex-col gap-4">
                       <textarea
-                        className="w-full p-4 text-sm font-bold font-mono outline-none border-4 border-[#311B56] resize-none bg-white focus:bg-gray-50 text-[#311B56] shadow-inner"
+                        className="w-full p-4 text-sm font-bold font-mono outline-none border border-[var(--terminal-border-strong)] resize-none bg-[var(--terminal-panel)] focus:bg-[var(--terminal-border-soft)] text-[var(--terminal-ink)] shadow-inner"
                         style={{ minHeight: 200 }}
                         placeholder={`https://www.youtube.com/watch?v=...\nhttps://youtu.be/...\n# Dòng bắt đầu bằng # sẽ bị bỏ qua`}
                         value={pasteText}
@@ -247,7 +247,7 @@ export const AddTxtModal = () => {
                       <motion.button
                         onClick={handlePaste}
                         disabled={!pasteText.trim()}
-                        className="py-4 border-2 border-[#311B56] font-black uppercase tracking-widest flex items-center justify-center gap-3 text-[#311B56] shadow-[4px_4px_0px_#311B56] disabled:opacity-50 disabled:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#311B56]"
+                        className="py-4 border border-[var(--terminal-border-strong)] font-black uppercase tracking-widest flex items-center justify-center gap-3 text-[var(--terminal-ink)] shadow-[0_10px_30px_rgba(0,0,0,0.25)] disabled:opacity-50 disabled:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[0_6px_16px_rgba(0,0,0,0.2)]"
                         style={{ background: pasteText.trim() ? accentColor : '#E5E5E5' }}
                         whileTap={{ scale: 0.95 }}
                       >
@@ -260,18 +260,18 @@ export const AddTxtModal = () => {
                 <>
                   {/* Status Summary */}
                   {status !== 'idle' && (
-                    <div className="flex gap-3 text-[#311B56]">
-                      <div className="flex items-center gap-2 px-4 py-2 border-2 border-[#311B56] bg-white text-sm font-black uppercase shadow-[2px_2px_0px_#311B56]">
+                    <div className="flex gap-3 text-[var(--terminal-ink)]">
+                      <div className="flex items-center gap-2 px-4 py-2 border border-[var(--terminal-border-strong)] bg-[var(--terminal-panel)] text-sm font-black uppercase shadow-[0_6px_16px_rgba(0,0,0,0.2)]">
                         <Loader2 size={16} className={status === 'resolving' ? 'animate-spin' : ''} />
                         {trackStates.filter(ts => ts.status !== 'pending').length} / {trackStates.length}
                       </div>
                       {successCount > 0 && (
-                        <div className="flex items-center gap-2 px-4 py-2 border-2 border-[#22c55e] bg-white text-sm font-black uppercase text-[#22c55e] shadow-[2px_2px_0px_#22c55e]">
+                        <div className="flex items-center gap-2 px-4 py-2 border-2 border-[#22c55e] bg-[var(--terminal-panel)] text-sm font-black uppercase text-[#22c55e] shadow-[2px_2px_0px_#22c55e]">
                           <CheckCircle2 size={16} /> {successCount} OK
                         </div>
                       )}
                       {errorCount > 0 && (
-                        <div className="flex items-center gap-2 px-4 py-2 border-2 border-[#ef4444] bg-white text-sm font-black uppercase text-[#ef4444] shadow-[2px_2px_0px_#ef4444]">
+                        <div className="flex items-center gap-2 px-4 py-2 border-2 border-[#ef4444] bg-[var(--terminal-panel)] text-sm font-black uppercase text-[#ef4444] shadow-[2px_2px_0px_#ef4444]">
                           <AlertCircle size={16} /> {errorCount} Lỗi
                         </div>
                       )}
@@ -286,29 +286,29 @@ export const AddTxtModal = () => {
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.03 }}
-                        className="flex items-center gap-4 p-3 border-2 border-[#311B56] bg-white shadow-[2px_2px_0px_#311B56]"
+                        className="flex items-center gap-4 p-3 border border-[var(--terminal-border-strong)] bg-[var(--terminal-panel)] shadow-[0_6px_16px_rgba(0,0,0,0.2)]"
                       >
                         {/* Thumbnail or Icon */}
-                        <div className="w-12 h-12 border-2 border-[#311B56] overflow-hidden shrink-0 bg-gray-100 flex items-center justify-center">
+                        <div className="w-12 h-12 border border-[var(--terminal-border-strong)] overflow-hidden shrink-0 bg-[var(--terminal-bg-2)] flex items-center justify-center">
                           {ts.track?.thumbnail ? (
                             <img src={ts.track.thumbnail} alt="" className="w-full h-full object-cover grayscale-[20%] contrast-125" />
                           ) : (
                             ts.status === 'loading' ? (
-                              <Loader2 size={20} className="animate-spin text-[#311B56]" />
+                              <Loader2 size={20} className="animate-spin text-[var(--terminal-ink)]" />
                             ) : ts.status === 'error' ? (
                               <AlertCircle size={20} className="text-[#ef4444]" />
                             ) : (
-                              <Link2 size={20} className="text-[#311B56]" />
+                              <Link2 size={20} className="text-[var(--terminal-ink)]" />
                             )
                           )}
                         </div>
 
                         {/* Info */}
                         <div className="flex-1 min-w-0">
-                          <div className="text-sm font-black truncate uppercase tracking-tight text-[#311B56]">
+                          <div className="text-sm font-black truncate uppercase tracking-tight text-[var(--terminal-ink)]">
                             {ts.track?.title || ts.url}
                           </div>
-                          <div className="text-xs font-bold opacity-70 truncate text-[#311B56]">
+                          <div className="text-xs font-bold opacity-70 truncate text-[var(--terminal-ink)]">
                             {ts.track?.artist || (ts.status === 'error' ? ts.error : ts.url)}
                           </div>
                         </div>
@@ -317,11 +317,11 @@ export const AddTxtModal = () => {
                         <div className="shrink-0 flex items-center gap-3">
                           {ts.status === 'success' && <CheckCircle2 size={20} className="text-[#22c55e]" strokeWidth={3} />}
                           {ts.status === 'error' && <AlertCircle size={20} className="text-[#ef4444]" strokeWidth={3} />}
-                          {ts.status === 'loading' && <Loader2 size={20} className="animate-spin text-[#311B56]" strokeWidth={3} />}
+                          {ts.status === 'loading' && <Loader2 size={20} className="animate-spin text-[var(--terminal-ink)]" strokeWidth={3} />}
                           
                           <motion.button
                             onClick={() => removeTrackState(i)}
-                            className="p-2 border-2 border-transparent hover:border-[#ef4444] text-[#ef4444] transition-all bg-white"
+                            className="p-2 border-2 border-transparent hover:border-[#ef4444] text-[#ef4444] transition-all bg-[var(--terminal-panel)]"
                             whileTap={{ scale: 0.9 }}
                           >
                             <Trash2 size={18} />
@@ -335,11 +335,11 @@ export const AddTxtModal = () => {
             </div>
 
             {/* Footer Actions */}
-            <div className="p-5 border-t-4 border-[#311B56] flex gap-4 bg-white">
+            <div className="p-5 border-t border-[var(--terminal-border-strong)] flex gap-4 bg-[var(--terminal-panel)]">
               {trackStates.length > 0 && status === 'idle' && (
                 <motion.button
                   onClick={resolveAll}
-                  className="flex-1 py-4 border-2 border-[#311B56] text-[#311B56] font-black uppercase tracking-widest shadow-[4px_4px_0px_#311B56] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#311B56] flex items-center justify-center gap-3"
+                  className="flex-1 py-4 border border-[var(--terminal-border-strong)] text-[var(--terminal-ink)] font-black uppercase tracking-widest shadow-[0_10px_30px_rgba(0,0,0,0.25)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[0_6px_16px_rgba(0,0,0,0.2)] flex items-center justify-center gap-3"
                   style={{ background: accentColor }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -348,7 +348,7 @@ export const AddTxtModal = () => {
               )}
 
               {status === 'resolving' && (
-                <div className="flex-1 py-4 border-2 border-[#311B56] font-black uppercase tracking-widest shadow-[4px_4px_0px_#311B56] flex items-center justify-center gap-3 opacity-60 bg-gray-100 text-[#311B56]">
+                <div className="flex-1 py-4 border border-[var(--terminal-border-strong)] font-black uppercase tracking-widest shadow-[0_10px_30px_rgba(0,0,0,0.25)] flex items-center justify-center gap-3 opacity-60 bg-[var(--terminal-bg-2)] text-[var(--terminal-ink)]">
                   <Loader2 size={20} className="animate-spin" /> Đang tải...
                 </div>
               )}
@@ -365,7 +365,7 @@ export const AddTxtModal = () => {
 
               <motion.button
                 onClick={handleClose}
-                className="px-8 py-4 border-2 border-[#311B56] bg-white text-[#311B56] font-black uppercase tracking-widest shadow-[4px_4px_0px_#311B56] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#311B56]"
+                className="px-8 py-4 border border-[var(--terminal-border-strong)] bg-[var(--terminal-panel)] text-[var(--terminal-ink)] font-black uppercase tracking-widest shadow-[0_10px_30px_rgba(0,0,0,0.25)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[0_6px_16px_rgba(0,0,0,0.2)]"
                 whileTap={{ scale: 0.95 }}
               >
                 Đóng

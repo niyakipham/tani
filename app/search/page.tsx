@@ -17,8 +17,8 @@ const SearchContent = () => {
  const searchParams = useSearchParams();
  const query = searchParams.get('q') || '';
 
- return (
- <div className={`min-h-screen w-full flex opacity-100 transition-opacity duration-500 bg-[#FAF8F5] text-[#311B56] font-sans`}>
+  return (
+  <div className={`min-h-screen w-full flex opacity-100 transition-opacity duration-500 bg-[var(--terminal-bg-2)] text-[var(--terminal-ink)] font-sans`}>
  <Sidebar />
  <main className="ml-[100px] max-lg:ml-0 flex-1 flex flex-col min-h-screen relative w-[calc(100%-100px)] max-lg:w-full max-lg:pb-[90px]">
  <Header />
@@ -39,7 +39,7 @@ const SearchContent = () => {
 
 export default function SearchPage() {
  return (
- <Suspense fallback={<div className="min-h-screen w-full bg-[#FAF8F5]"></div>}>
+    <Suspense fallback={<div className="min-h-screen w-full bg-[var(--terminal-bg)]"></div>}>
  <SearchContent />
  </Suspense>
  );

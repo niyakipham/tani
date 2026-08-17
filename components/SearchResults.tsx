@@ -191,9 +191,9 @@ export const SearchResults = ({ query }: { query: string }) => {
  )}
 
  {isInitialLoad && isFetching ? (
- <div className="flex flex-col items-center justify-center py-20 border-2 border-[#311B56] shadow-[4px_4px_0px_#311B56]">
- <div className="w-12 h-12 border-4 border-[#311B56]/20 border-t-[#311B56] rounded-none animate-spin mb-4"></div>
- <div className="text-[#311B56] font-bold font-mono uppercase tracking-widest">[ ĐANG TÌM KIẾM DỮ LIỆU... ]</div>
+ <div className="flex flex-col items-center justify-center py-20 border border-[var(--terminal-border)] rounded-[16px] shadow-[0_10px_30px_rgba(0,0,0,0.18)] bg-[var(--terminal-bg-2)]/40">
+ <div className="w-12 h-12 border-4 border-[var(--terminal-border)] border-t-[var(--terminal-green)] rounded-full animate-spin mb-4"></div>
+ <div className="text-[var(--terminal-green)] font-bold font-mono uppercase tracking-widest">[ ĐANG TÌM KIẾM DỮ LIỆU... ]</div>
  </div>
  ) : movies.length > 0 ? (
  <>
@@ -211,18 +211,18 @@ export const SearchResults = ({ query }: { query: string }) => {
  ))}
  </div>
  ) : (
- <div className="flex flex-col items-center justify-center py-16 text-center bg-[#FAF8F5] rounded-none border-2 border-dashed border-[#311B56] shadow-[4px_4px_0px_#311B56]">
- <Filter size={48} className="text-[#311B56] mb-4 opacity-50" />
- <h3 className="text-lg font-black font-mono uppercase tracking-widest text-[#311B56] mb-2">[ KHÔNG CÓ KẾT QUẢ LỌC ]</h3>
- <p className="text-[#311B56]/80 max-w-[400px] font-mono font-bold">Không tìm thấy anime nào thỏa mãn bộ lọc hiện tại trong số các kết quả đã tải.</p>
+ <div className="flex flex-col items-center justify-center py-16 text-center bg-[var(--terminal-panel)] border border-dashed border-[var(--terminal-border-strong)] rounded-[16px] shadow-[0_10px_30px_rgba(0,0,0,0.18)]">
+ <Filter size={48} className="text-[var(--terminal-green)] mb-4 opacity-50" />
+ <h3 className="text-lg font-black font-mono uppercase tracking-widest text-[var(--terminal-ink)] mb-2">[ KHÔNG CÓ KẾT QUẢ LỌC ]</h3>
+ <p className="text-[var(--terminal-muted)] max-w-[400px] font-mono font-bold">Không tìm thấy anime nào thỏa mãn bộ lọc hiện tại trong số các kết quả đã tải.</p>
  </div>
  )}
  
  {hasMore && (
  <div ref={observerTarget} className="flex justify-center py-10">
  {isFetching && (
- <div className="flex items-center gap-3 text-[#311B56] font-bold font-mono tracking-widest uppercase">
- <div className="w-6 h-6 border-4 border-[#311B56]/20 border-t-[#311B56] rounded-none animate-spin"></div>
+ <div className="flex items-center gap-3 text-[var(--terminal-green)] font-bold font-mono tracking-widest uppercase">
+ <div className="w-6 h-6 border-4 border-[var(--terminal-border)] border-t-[var(--terminal-green)] rounded-full animate-spin"></div>
  [ ĐANG TẢI THÊM KẾT QUẢ... ]
  </div>
  )}
@@ -230,14 +230,14 @@ export const SearchResults = ({ query }: { query: string }) => {
  )}
  </>
  ) : (
- <div className="flex flex-col items-center justify-center py-20 text-center border-2 border-dashed border-[#311B56] shadow-[4px_4px_0px_#311B56]">
- <div className="w-20 h-20 rounded-none border-2 border-[#311B56] bg-[#FAF8F5] shadow-[4px_4px_0px_#311B56] flex items-center justify-center text-[#311B56] mb-6">
+ <div className="flex flex-col items-center justify-center py-20 text-center border border-dashed border-[var(--terminal-border-strong)] rounded-[16px] shadow-[0_10px_30px_rgba(0,0,0,0.18)] bg-[var(--terminal-bg-2)]/40">
+ <div className="w-20 h-20 rounded-[16px] border border-[var(--terminal-border-strong)] bg-[var(--terminal-panel)] shadow-[0_10px_30px_rgba(0,0,0,0.18)] flex items-center justify-center text-[var(--terminal-green)] mb-6">
  <Search size={32} />
  </div>
- <h3 className="text-xl font-black font-mono tracking-widest uppercase text-[#311B56] mb-2">
+ <h3 className="text-xl font-black font-mono tracking-widest uppercase text-[var(--terminal-ink)] mb-2">
  {query ? '[ KHÔNG TÌM THẤY KẾT QUẢ ]' : '[ BẮT ĐẦU TÌM KIẾM ]'}
  </h3>
- <p className="text-[#311B56]/80 font-mono font-bold">
+ <p className="text-[var(--terminal-muted)] font-mono font-bold">
  {query ? (
  <>
  Rất tiếc, chúng tôi không tìm thấy anime nào phù hợp với từ khóa &quot;{query}&quot;.<br />

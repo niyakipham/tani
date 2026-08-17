@@ -93,9 +93,9 @@ function ChatContent() {
   };
 
   return (
-    <div className="min-h-screen w-full flex opacity-100 transition-opacity duration-500 bg-[#040b0a] text-[#ebfff9] font-sans">
+    <div className="min-h-screen w-full flex opacity-100 transition-opacity duration-500 bg-[var(--terminal-bg)] text-[var(--terminal-ink)] font-sans">
       <Sidebar />
-      <main className="ml-[100px] max-lg:ml-0 flex-1 flex flex-col min-h-screen relative w-[calc(100%-100px)] max-lg:w-full max-lg:pb-[100px] overflow-x-hidden bg-[radial-gradient(circle_at_top,_rgba(126,247,199,0.08),_transparent_30%)]">
+      <main className="ml-[100px] max-lg:ml-0 flex-1 flex flex-col min-h-screen relative w-[calc(100%-100px)] max-lg:w-full max-lg:pb-[100px] overflow-x-hidden bg-[var(--terminal-radial)]">
         <Header />
         <div className="pt-[100px] px-6 pb-[60px] max-w-[1200px] mx-auto flex flex-col gap-6 w-full max-md:pt-[86px] max-md:px-4 max-md:pb-[80px]">
           <section className="soft-card p-6 md:p-8">
@@ -195,7 +195,7 @@ function ChatContent() {
 
 export default function ChatPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen w-full bg-[#f6efe9]" /> }>
+    <Suspense fallback={<div className="min-h-screen w-full bg-[var(--terminal-bg)]" /> }>
       <ChatContent />
     </Suspense>
   );

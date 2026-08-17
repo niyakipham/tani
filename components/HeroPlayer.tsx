@@ -621,17 +621,17 @@ export const HeroPlayer = () => {
  <div className="flex flex-col lg:flex-row gap-8 items-stretch w-full max-md:gap-4 max-md:p-0">
  {/* Left: Video Player & Info */}
  <div className="flex-1 flex flex-col min-w-0 w-full">
- <div 
- ref={playerContainerRef}
- className="relative w-full aspect-video bg-[#311B56] rounded-none border-4 border-[#311B56] overflow-hidden shadow-[8px_8px_0px_#311B56] z-[2] max-md:border-2 max-md:shadow-[4px_4px_0px_#311B56] group"
+  <div 
+  ref={playerContainerRef}
+  className="relative w-full aspect-video bg-[var(--terminal-panel)] rounded-[20px] border-2 border-[var(--terminal-border-strong)] overflow-hidden shadow-[0_18px_40px_rgba(0,0,0,0.28)] z-[2] max-md:border max-md:shadow-[0_8px_24px_rgba(0,0,0,0.28)] group"
  onMouseMove={handleMouseMove}
  onMouseLeave={handleMouseLeave}
  >
- {isLoading ? (
- <div className="flex items-center justify-center w-full h-full absolute inset-0 z-10">
- <div className="w-12 h-12 border-4 border-[#252836] border-t-[#3B82F6] rounded-full animate-spin border-[#311B56] border-t-[#3B82F6]"></div>
- </div>
- ) : activeEpisode ? (
+  {isLoading ? (
+  <div className="flex items-center justify-center w-full h-full absolute inset-0 z-10">
+  <div className="w-12 h-12 border-4 border-[var(--terminal-border)] border-t-[var(--terminal-cyan)] rounded-[12px] animate-spin"></div>
+  </div>
+  ) : activeEpisode ? (
  <>
  {/* Native Video Element */}
  <video 
@@ -652,155 +652,155 @@ export const HeroPlayer = () => {
  />
 
  {/* Double tap ripple effect */}
- {doubleTapSide && (
- <div className={`absolute top-0 bottom-0 w-[45%] flex flex-col items-center justify-center bg-[#FDFBF7]/10 animate-in fade-in zoom-in duration-300 pointer-events-none z-10 ${doubleTapSide === 'left' ? 'left-0 rounded-r-[100%]' : 'right-0 rounded-l-[100%]'}`}>
- <div className="bg-[#311B56]/40 backdrop-blur-md rounded-full p-4 mb-2 animate-bounce">
- {doubleTapSide === 'left' ? <RotateCcw size={40} className="text-[#311B56]" /> : <RotateCw size={40} className="text-[#311B56]" />}
- </div>
- <span className="text-[#311B56] font-black text-xl drop-shadow-md">{doubleTapSide === 'left' ? '-10 giây' : '+10 giây'}</span>
- </div>
- )}
+  {doubleTapSide && (
+  <div className={`absolute top-0 bottom-0 w-[45%] flex flex-col items-center justify-center bg-[var(--terminal-green)]/10 animate-in fade-in zoom-in duration-300 pointer-events-none z-10 ${doubleTapSide === 'left' ? 'left-0 rounded-r-[100%]' : 'right-0 rounded-l-[100%]'}`}>
+  <div className="bg-[var(--terminal-panel)]/80 backdrop-blur-md rounded-full p-4 mb-2 animate-bounce border border-[var(--terminal-border)]">
+  {doubleTapSide === 'left' ? <RotateCcw size={40} className="text-[var(--terminal-green)]" /> : <RotateCw size={40} className="text-[var(--terminal-green)]" />}
+  </div>
+  <span className="text-[var(--terminal-green)] font-black text-xl drop-shadow-[0_0_12px_rgba(126,247,199,0.3)]">{doubleTapSide === 'left' ? '-10 giây' : '+10 giây'}</span>
+  </div>
+  )}
 
  {/* Buffering Indicator */}
- {isBuffering && (
- <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
- <div className="w-16 h-16 border-4 border-[#311B56] border-t-[#3B82F6] rounded-full animate-spin mix-blend-screen shadow-[0_0_30px_rgba(59,130,246,0.6)]"></div>
- </div>
- )}
+  {isBuffering && (
+  <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+  <div className="w-16 h-16 border-4 border-[var(--terminal-border)] border-t-[var(--terminal-cyan)] rounded-[12px] animate-spin shadow-[0_0_30px_rgba(126,247,199,0.3)]"></div>
+  </div>
+  )}
 
  {/* Skip Intro Button */}
- {showSkipIntro && (
- <button 
- onClick={handleSkipIntro}
- className="absolute bottom-24 right-5 z-40 bg-[#FAF8F5] text-[#311B56] border-2 border-[#311B56] px-5 py-2.5 rounded-none font-bold font-mono transition-all shadow-[4px_4px_0px_#311B56] flex items-center gap-2 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_#311B56] animate-in slide-in-from-right-8 fade-in uppercase tracking-widest"
- >
- <SkipForward size={18} className="fill-[#311B56]" /> [ SKIP INTRO ]
- </button>
- )}
+  {showSkipIntro && (
+  <button 
+  onClick={handleSkipIntro}
+  className="absolute bottom-24 right-5 z-40 bg-[var(--terminal-green)] text-[var(--terminal-bg-2)] border border-[var(--terminal-border-strong)] px-5 py-2.5 rounded-[14px] font-bold font-mono transition-all shadow-[0_0_24px_rgba(126,247,199,0.18)] flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-[0_0_28px_rgba(126,247,199,0.22)] animate-in slide-in-from-right-8 fade-in uppercase tracking-widest"
+  >
+  <SkipForward size={18} className="fill-[var(--terminal-bg-2)]" /> [ SKIP INTRO ]
+  </button>
+  )}
 
  {/* Custom Controls Overlay */}
- <div 
- className={`absolute bottom-0 left-0 w-full px-5 pb-5 pt-12 bg-gradient-to-t from-[#311B56]/90 via-[#311B56]/60 to-transparent transition-opacity duration-300 z-30 flex flex-col gap-3
- ${showControls || !isPlaying ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
- >
+  <div 
+  className={`absolute bottom-0 left-0 w-full px-5 pb-5 pt-12 bg-gradient-to-t from-[var(--terminal-overlay-strong)] via-[var(--terminal-overlay-strong)] to-transparent transition-opacity duration-300 z-30 flex flex-col gap-3
+  ${showControls || !isPlaying ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+  >
  {/* Seek Bar */}
  <div className="w-full flex items-center gap-3">
- <span className="text-[#FAF8F5] text-[0.8rem] font-medium font-mono min-w-[45px]">{formatTime(progress)}</span>
- <div className="relative flex-1 h-1.5 group/seekbar cursor-pointer flex items-center">
- <input 
- type="range" 
- min="0" 
- max={duration || 100} 
- value={progress} 
- onChange={handleSeek}
- className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
- />
- <div className="w-full h-1.5 bg-[#FAF8F5]/30 rounded-none overflow-hidden transition-all group-hover/seekbar:h-2.5">
- <div 
- className="h-full bg-[#A57CC6] relative"
- style={{ width: `${(progress / (duration || 1)) * 100}%` }}
- >
- <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-[#FDFBF7] rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)] opacity-0 group-hover/seekbar:opacity-100 transition-opacity"></div>
- </div>
- </div>
- </div>
- <span className="text-[#FAF8F5]/70 text-[0.8rem] font-medium font-mono min-w-[45px] text-right">{formatTime(duration)}</span>
+  <span className="text-[var(--terminal-ink-soft)] text-[0.8rem] font-medium font-mono min-w-[45px]">{formatTime(progress)}</span>
+  <div className="relative flex-1 h-1.5 group/seekbar cursor-pointer flex items-center">
+  <input 
+  type="range" 
+  min="0" 
+  max={duration || 100} 
+  value={progress} 
+  onChange={handleSeek}
+  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+  />
+  <div className="w-full h-1.5 bg-[var(--terminal-border)] rounded-none overflow-hidden transition-all group-hover/seekbar:h-2.5">
+  <div 
+  className="h-full bg-[var(--terminal-green)] relative"
+  style={{ width: `${(progress / (duration || 1)) * 100}%` }}
+  >
+  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-[var(--terminal-ink)] rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)] opacity-0 group-hover/seekbar:opacity-100 transition-opacity"></div>
+  </div>
+  </div>
+  </div>
+  <span className="text-[var(--terminal-muted)] text-[0.8rem] font-medium font-mono min-w-[45px] text-right">{formatTime(duration)}</span>
  </div>
 
  {/* Bottom Controls */}
  <div className="flex items-center justify-between w-full">
  <div className="flex items-center gap-4">
- {/* Play/Pause Area */}
- <div className="flex items-center gap-2 md:gap-4">
- <button onClick={() => skipTime(-10)} className="text-[#FAF8F5] hover:text-[#A57CC6] transition-colors focus:outline-none max-md:hidden">
- <RotateCcw size={22} />
- </button>
- <button onClick={togglePlay} className="text-[#FAF8F5] hover:text-[#A57CC6] transition-colors hover:scale-110 active:scale-95">
- {isPlaying ? <Pause size={28} className="fill-[#FAF8F5] group-hover:fill-[#A57CC6]" /> : <Play size={28} className="fill-[#FAF8F5] group-hover:fill-[#A57CC6]" />}
- </button>
- <button onClick={() => skipTime(10)} className="text-[#FAF8F5] hover:text-[#A57CC6] transition-colors focus:outline-none max-md:hidden">
- <RotateCw size={22} />
- </button>
- </div>
+  {/* Play/Pause Area */}
+  <div className="flex items-center gap-2 md:gap-4">
+  <button onClick={() => skipTime(-10)} className="text-[var(--terminal-ink-soft)] hover:text-[var(--terminal-green)] transition-colors focus:outline-none max-md:hidden">
+  <RotateCcw size={22} />
+  </button>
+  <button onClick={togglePlay} className="text-[var(--terminal-ink)] hover:text-[var(--terminal-green)] transition-colors hover:scale-110 active:scale-95">
+  {isPlaying ? <Pause size={28} className="fill-[var(--terminal-ink)] group-hover:fill-[var(--terminal-green)]" /> : <Play size={28} className="fill-[var(--terminal-ink)] group-hover:fill-[var(--terminal-green)]" />}
+  </button>
+  <button onClick={() => skipTime(10)} className="text-[var(--terminal-ink-soft)] hover:text-[var(--terminal-green)] transition-colors focus:outline-none max-md:hidden">
+  <RotateCw size={22} />
+  </button>
+  </div>
  
- {/* Volume */}
- <div className="flex items-center gap-2 group/vol relative">
- <button onClick={toggleMute} className="text-[#FAF8F5] hover:text-[#A57CC6] transition-colors">
- {isMuted || volume === 0 ? <VolumeX size={24} /> : <Volume2 size={24} />}
- </button>
- <div className="w-0 overflow-hidden group-hover/vol:w-24 transition-all duration-300 flex items-center h-8">
- <input 
- type="range" 
- min="0" max="1" step="0.05" 
- value={isMuted ? 0 : volume} 
- onChange={handleVolumeChange}
- className="w-20 h-1.5 bg-[#FAF8F5]/30 rounded-none appearance-none cursor-pointer accent-[#A57CC6]"
- style={{ background: `linear-gradient(to right, #A57CC6 ${(isMuted ? 0 : volume) * 100}%, rgba(255,255,255,0.3) ${(isMuted ? 0 : volume) * 100}%)` }}
- />
- </div>
- </div>
- </div>
+  {/* Volume */}
+  <div className="flex items-center gap-2 group/vol relative">
+  <button onClick={toggleMute} className="text-[var(--terminal-ink-soft)] hover:text-[var(--terminal-green)] transition-colors">
+  {isMuted || volume === 0 ? <VolumeX size={24} /> : <Volume2 size={24} />}
+  </button>
+  <div className="w-0 overflow-hidden group-hover/vol:w-24 transition-all duration-300 flex items-center h-8">
+  <input 
+  type="range" 
+  min="0" max="1" step="0.05" 
+  value={isMuted ? 0 : volume} 
+  onChange={handleVolumeChange}
+  className="w-20 h-1.5 bg-[var(--terminal-border)] rounded-none appearance-none cursor-pointer accent-[var(--terminal-green)]"
+  style={{ background: `linear-gradient(to right, var(--terminal-green) ${(isMuted ? 0 : volume) * 100}%, var(--terminal-border) ${(isMuted ? 0 : volume) * 100}%)` }}
+  />
+  </div>
+  </div>
+  </div>
 
  <div className="flex items-center gap-4">
- {/* Subtitle Menu */}
- {subtitleTracks.length > 0 && (
- <div className="relative">
- <button 
- onClick={() => { setShowSubMenu(!showSubMenu); setShowSpeedMenu(false); }} 
- className={`text-[#FAF8F5] hover:text-[#A57CC6] transition-colors flex items-center justify-center gap-1 group/sub ${currentSubtitleIdx !== -1 ? 'text-[#A57CC6]' : ''}`}
- title="Phụ đề (Subtitles)"
- >
- <Subtitles size={24} className="max-md:w-5 max-md:h-5" />
- <span className="text-[0.8rem] font-bold bg-[#FDFBF7]/10 px-1.5 py-0.5 rounded-md min-w-[28px] text-center max-md:hidden uppercase">
- {currentSubtitleIdx !== -1 && subtitleTracks[currentSubtitleIdx] ? (subtitleTracks[currentSubtitleIdx].name || 'CC').substring(0,3) : 'TẮT'}
- </span>
- </button>
+  {/* Subtitle Menu */}
+  {subtitleTracks.length > 0 && (
+  <div className="relative">
+  <button 
+  onClick={() => { setShowSubMenu(!showSubMenu); setShowSpeedMenu(false); }} 
+  className={`text-[var(--terminal-ink-soft)] hover:text-[var(--terminal-green)] transition-colors flex items-center justify-center gap-1 group/sub ${currentSubtitleIdx !== -1 ? 'text-[var(--terminal-green)]' : ''}`}
+  title="Phụ đề (Subtitles)"
+  >
+  <Subtitles size={24} className="max-md:w-5 max-md:h-5" />
+  <span className="text-[0.8rem] font-bold bg-[var(--terminal-bg-2)]/50 px-1.5 py-0.5 rounded-[8px] min-w-[28px] text-center max-md:hidden uppercase">
+  {currentSubtitleIdx !== -1 && subtitleTracks[currentSubtitleIdx] ? (subtitleTracks[currentSubtitleIdx].name || 'CC').substring(0,3) : 'TẮT'}
+  </span>
+  </button>
+  
+  {/* Dropdown Subtitles */}
+  {showSubMenu && (
+  <div className="absolute bottom-full right-0 mb-4 bg-[var(--terminal-panel)] border border-[var(--terminal-border-strong)] rounded-[16px] flex flex-col p-2 shadow-[0_10px_40px_rgba(0,0,0,0.55)] z-40 max-h-[220px] overflow-y-auto custom-scrollbar transition-all scale-100 origin-bottom">
+  <button 
+  onClick={() => changeSubtitle(-1)}
+  className={`px-5 py-2.5 rounded-[12px] font-bold font-mono text-[0.9rem] transition-colors whitespace-nowrap text-left border-b border-[var(--terminal-border)]
+  ${currentSubtitleIdx === -1 ? 'bg-[var(--terminal-green)] text-[var(--terminal-bg-2)]' : 'text-[var(--terminal-ink-soft)] hover:bg-[var(--terminal-bg-2)] hover:text-[var(--terminal-green)]'}`}
+  >
+  Tắt Phụ Đề
+  </button>
+  <div className="w-full h-px bg-[var(--terminal-border)] my-1"></div>
+  {subtitleTracks.map((track, idx) => (
+  <button 
+  key={idx}
+  onClick={() => changeSubtitle(idx)}
+  className={`px-5 py-2.5 rounded-[12px] font-bold font-mono text-[0.9rem] transition-colors whitespace-nowrap text-left
+  ${currentSubtitleIdx === idx ? 'bg-[var(--terminal-green)] text-[var(--terminal-bg-2)]' : 'text-[var(--terminal-ink-soft)] hover:bg-[var(--terminal-bg-2)] hover:text-[var(--terminal-green)]'}`}
+  >
+  {track.name || `Phụ đề ${idx + 1}`}
+  </button>
+  ))}
+  </div>
+  )}
+  </div>
+)}
  
- {/* Dropdown Subtitles */}
- {showSubMenu && (
- <div className="absolute bottom-full right-0 mb-4 bg-[#FDFBF7]/95 backdrop-blur-xl border border-[#311B56] rounded-none border-2 border-[#311B56] shadow-[4px_4px_0px_#311B56] flex flex-col p-2 shadow-[0_10px_40px_rgba(0,0,0,0.8)] z-40 max-h-[220px] overflow-y-auto custom-scrollbar transition-all scale-100 origin-bottom">
- <button 
- onClick={() => changeSubtitle(-1)}
- className={`px-5 py-2.5 rounded-none font-bold font-mono text-[0.9rem] transition-colors whitespace-nowrap text-left border-b border-[#FAF8F5]/10
- ${currentSubtitleIdx === -1 ? 'bg-[#A57CC6] text-[#311B56]' : 'text-[#FAF8F5] hover:bg-[#FAF8F5]/10 hover:text-[#A57CC6]'}`}
- >
- Tắt Phụ Đề
- </button>
- <div className="w-full h-px bg-[#FDFBF7]/10 my-1"></div>
- {subtitleTracks.map((track, idx) => (
- <button 
- key={idx}
- onClick={() => changeSubtitle(idx)}
- className={`px-5 py-2.5 rounded-none font-bold font-mono text-[0.9rem] transition-colors whitespace-nowrap text-left
- ${currentSubtitleIdx === idx ? 'bg-[#A57CC6] text-[#311B56]' : 'text-[#FAF8F5] hover:bg-[#FAF8F5]/10 hover:text-[#A57CC6]'}`}
- >
- {track.name || `Phụ đề ${idx + 1}`}
- </button>
- ))}
- </div>
- )}
- </div>
- )}
-
  {/* Speed Menu */}
  <div className="relative">
  <button 
  onClick={() => { setShowSpeedMenu(!showSpeedMenu); setShowSubMenu(false); }} 
- className="text-[#FAF8F5] hover:text-[#A57CC6] transition-colors flex items-center justify-center gap-1 group/speed"
+  className="text-[var(--terminal-ink-soft)] hover:text-[var(--terminal-green)] transition-colors flex items-center justify-center gap-1 group/speed"
  >
  <Settings size={22} className={`transition-transform duration-500 max-md:w-5 max-md:h-5 ${showSpeedMenu ? 'rotate-90' : ''}`} />
- <span className="text-[0.85rem] font-bold w-12 max-md:w-9 text-center bg-[#FDFBF7]/10 px-2 max-md:px-1 py-0.5 rounded-md max-md:text-[0.75rem] text-[#FAF8F5]">{playbackRate}x</span>
+ <span className="text-[0.85rem] font-bold w-12 max-md:w-9 text-center bg-[var(--terminal-bg-2)]/50 px-2 max-md:px-1 py-0.5 rounded-[8px] max-md:text-[0.75rem] text-[var(--terminal-ink-soft)]">{playbackRate}x</span>
  </button>
  
  {/* Dropdown Speed */}
  {showSpeedMenu && (
- <div className="absolute bottom-full right-0 mb-4 bg-[#FDFBF7]/95 backdrop-blur-xl border border-[#311B56] rounded-none border-2 border-[#311B56] shadow-[4px_4px_0px_#311B56] flex flex-col p-2 shadow-[0_10px_40px_rgba(0,0,0,0.8)] z-40 max-h-[160px] overflow-y-auto custom-scrollbar transition-all scale-100 origin-bottom">
+ <div className="absolute bottom-full right-0 mb-4 bg-[var(--terminal-panel)] border border-[var(--terminal-border-strong)] rounded-[16px] flex flex-col p-2 shadow-[0_10px_40px_rgba(0,0,0,0.55)] z-40 max-h-[160px] overflow-y-auto custom-scrollbar transition-all scale-100 origin-bottom">
  {[0.5, 0.75, 1, 1.25, 1.5, 2].map((rate) => (
  <button 
  key={rate}
  onClick={() => changeSpeed(rate)}
- className={`px-6 py-2 rounded-none font-mono font-bold text-[0.9rem] transition-colors whitespace-nowrap
- ${playbackRate === rate ? 'bg-[#A57CC6] text-[#311B56]' : 'text-[#FAF8F5] hover:bg-[#FAF8F5]/10 hover:text-[#A57CC6]'}`}
+ className={`px-6 py-2 rounded-[12px] font-mono font-bold text-[0.9rem] transition-colors whitespace-nowrap
+ ${playbackRate === rate ? 'bg-[var(--terminal-green)] text-[var(--terminal-bg-2)]' : 'text-[var(--terminal-ink-soft)] hover:bg-[var(--terminal-bg-2)] hover:text-[var(--terminal-green)]'}`}
  >
  {rate === 1 ? 'Chẩn (1x)' : `${rate}x`}
  </button>
@@ -810,7 +810,7 @@ export const HeroPlayer = () => {
  </div>
 
  {/* Fullscreen */}
- <button onClick={toggleFullscreen} className="text-[#FAF8F5] hover:text-[#A57CC6] transition-colors hover:scale-110 active:scale-95">
+ <button onClick={toggleFullscreen} className="text-[var(--terminal-ink-soft)] hover:text-[var(--terminal-green)] transition-colors hover:scale-110 active:scale-95">
  {isFullscreen ? <Minimize size={24} /> : <Maximize size={24} />}
  </button>
  </div>
@@ -818,26 +818,26 @@ export const HeroPlayer = () => {
  </div>
  </>
  ) : (
- <div className="flex items-center justify-center w-full h-full text-[#8A74A3]">
+ <div className="flex items-center justify-center w-full h-full text-[var(--terminal-muted)]">
  <MonitorPlay size={48} />
  </div>
  )}
  </div>
  
- <div className="relative z-[20] mx-auto w-full max-w-[100%] md:max-w-[95%] xl:max-w-full mt-0 md:mt-6 pt-6 md:pt-8 px-5 md:px-10 pb-8 bg-[#FAF8F5] border-4 border-[#311B56] rounded-none shadow-[12px_12px_0px_#311B56] flex flex-col gap-4 md:gap-5 items-center md:items-start transition-all">
+ <div className="relative z-[20] mx-auto w-full max-w-[100%] md:max-w-[95%] xl:max-w-full mt-0 md:mt-6 pt-6 md:pt-8 px-5 md:px-10 pb-8 bg-[var(--terminal-panel)] border border-[var(--terminal-border-strong)] rounded-[var(--terminal-radius)] shadow-[0_18px_60px_rgba(0,0,0,0.42)] flex flex-col gap-4 md:gap-5 items-center md:items-start transition-all">
  
  {/* Drag handle (aesthetic) */}
- <div className="w-12 h-2 bg-[#311B56] rounded-none mb-1 md:hidden"></div>
+ <div className="w-12 h-2 bg-[var(--terminal-border)] rounded-[6px] mb-1 md:hidden"></div>
 
  {/* Title Area */}
  <div className="text-center md:text-left w-full flex flex-col items-center md:items-start">
- <h1 className="text-[1.8rem] md:text-[3.5rem] font-black font-mono tracking-tighter uppercase text-[#311B56] leading-[1.1] flex items-center justify-center md:justify-start gap-2.5 md:gap-3 flex-wrap">
+ <h1 className="text-[1.8rem] md:text-[3.5rem] font-black font-mono tracking-tighter uppercase text-[var(--terminal-ink)] leading-[1.1] flex items-center justify-center md:justify-start gap-2.5 md:gap-3 flex-wrap">
  {isLoading ? (
- <div className="w-[80%] md:w-[400px] h-10 bg-[#311B56]/10 border-2 border-[#311B56] rounded-none animate-pulse"></div>
+ <div className="w-[80%] md:w-[400px] h-10 bg-[var(--terminal-border-soft)] border border-[var(--terminal-border)] rounded-[8px] animate-pulse"></div>
  ) : (movieData?.name || 'CHỌN MỘT BỘ PHIM')}
- {movieData?.quality && <span className="text-[0.65rem] md:text-[0.75rem] px-2.5 py-1 border-2 border-[#311B56] rounded-none font-black font-mono bg-[#FAF8F5] text-[#311B56] uppercase shadow-[2px_2px_0px_#311B56]">{movieData.quality}</span>}
+ {movieData?.quality && <span className="text-[0.65rem] md:text-[0.75rem] px-2.5 py-1 border border-[var(--terminal-border)] rounded-[10px] font-black font-mono bg-[var(--terminal-bg-2)] text-[var(--terminal-ink)] uppercase shadow-[0_0_12px_rgba(126,247,199,0.08)]">{movieData.quality}</span>}
  </h1>
- <p className="text-[#311B56]/80 mt-1 md:mt-2 text-sm md:text-base font-mono font-bold tracking-wide uppercase">
+ <p className="text-[var(--terminal-muted)] mt-1 md:mt-2 text-sm md:text-base font-mono font-bold tracking-wide uppercase">
  {movieData?.origin_name || 'Let there be carnage'}
  </p>
  </div>
@@ -845,23 +845,23 @@ export const HeroPlayer = () => {
  {/* Badges & Action Bar */}
  <div className="flex flex-col md:flex-row items-center justify-between w-full mt-1 gap-3 md:gap-4">
  <div className="flex gap-2 md:gap-4 flex-wrap justify-center md:justify-start">
- <span className="bg-[#FAF8F5] text-[#311B56] px-3 md:px-5 py-1.5 md:py-2 rounded-none text-[0.75rem] md:text-sm font-black font-mono uppercase shadow-[2px_2px_0px_#311B56] border-2 border-[#311B56]">{movieData?.type || movieData?.lang || 'ACTION'}</span>
- <span className="bg-[#FAF8F5] text-[#311B56] px-3 md:px-5 py-1.5 md:py-2 rounded-none text-[0.75rem] md:text-sm font-black font-mono uppercase shadow-[2px_2px_0px_#311B56] border-2 border-[#311B56]">16+</span>
- <span className="bg-[#FAF8F5] text-[#311B56] px-3 md:px-5 py-1.5 md:py-2 rounded-none text-[0.75rem] md:text-sm font-black font-mono uppercase shadow-[2px_2px_0px_#311B56] flex items-center gap-1.5 border-2 border-[#311B56]"><Star size={14} className="fill-current" /> {movieData?.tmdb?.vote_average || '4.1'}</span>
+ <span className="bg-[var(--terminal-bg-2)] text-[var(--terminal-ink)] px-3 md:px-5 py-1.5 md:py-2 border border-[var(--terminal-border)] rounded-[10px] text-[0.75rem] md:text-sm font-black font-mono uppercase shadow-[0_0_12px_rgba(126,247,199,0.08)]">{movieData?.type || movieData?.lang || 'ACTION'}</span>
+ <span className="bg-[var(--terminal-bg-2)] text-[var(--terminal-ink)] px-3 md:px-5 py-1.5 md:py-2 border border-[var(--terminal-border)] rounded-[10px] text-[0.75rem] md:text-sm font-black font-mono uppercase shadow-[0_0_12px_rgba(126,247,199,0.08)]">16+</span>
+ <span className="bg-[var(--terminal-bg-2)] text-[var(--terminal-ink)] px-3 md:px-5 py-1.5 md:py-2 border border-[var(--terminal-border)] rounded-[10px] text-[0.75rem] md:text-sm font-black font-mono uppercase shadow-[0_0_12px_rgba(126,247,199,0.08)] flex items-center gap-1.5"><Star size={14} className="fill-[var(--terminal-green)] text-[var(--terminal-green)]" /> {movieData?.tmdb?.vote_average || '4.1'}</span>
  </div>
  
  <div className="flex items-center gap-4 md:gap-5">
  <div className="relative">
- <button onClick={handleShare} className="w-10 h-10 border-2 border-[#311B56] bg-[#FAF8F5] shadow-[2px_2px_0px_#311B56] hover:shadow-[0px_0px_0px_#311B56] hover:translate-y-[2px] hover:bg-[#311B56] hover:text-[#FAF8F5] text-[#311B56] flex items-center justify-center transition-all rounded-none">
+ <button onClick={handleShare} className="w-10 h-10 border border-[var(--terminal-border-strong)] bg-[var(--terminal-bg-2)] shadow-[0_0_12px_rgba(0,0,0,0.22)] hover:shadow-[0_0_24px_rgba(126,247,199,0.18)] hover:translate-y-[-2px] hover:bg-[var(--terminal-green)] hover:text-[var(--terminal-bg-2)] text-[var(--terminal-ink)] flex items-center justify-center transition-all rounded-[14px]">
  {isShareCopied ? <Check size={20} className="font-bold" /> : <Share2 size={20} className="font-bold" />}
  </button>
  {isShareCopied && (
- <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#FAF8F5] text-[#311B56] px-3 py-1.5 text-[0.75rem] font-black font-mono whitespace-nowrap border-2 border-[#311B56] shadow-[2px_2px_0px_#311B56] z-50 uppercase tracking-widest">
+ <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[var(--terminal-panel)] text-[var(--terminal-green)] px-3 py-1.5 text-[0.75rem] font-black font-mono whitespace-nowrap border border-[var(--terminal-border-strong)] shadow-[0_0_16px_rgba(126,247,199,0.18)] z-50 uppercase tracking-widest">
  [ ĐÃ COPY LINK ]
  </span>
  )}
  </div>
- <button className={`w-10 h-10 border-2 border-[#311B56] bg-[#FAF8F5] shadow-[2px_2px_0px_#311B56] hover:shadow-[0px_0px_0px_#311B56] hover:translate-y-[2px] hover:bg-[#311B56] hover:text-[#FAF8F5] flex items-center justify-center transition-all rounded-none ${isLiked ? 'text-[#FDFBF7] bg-[#311B56]/10' : 'text-[#311B56]'}`} onClick={() => movieData && toggleFavorite(movieData)}>
+ <button className={`w-10 h-10 border border-[var(--terminal-border-strong)] bg-[var(--terminal-panel)] shadow-[0_0_12px_rgba(0,0,0,0.22)] hover:translate-y-[-2px] hover:bg-[var(--terminal-green)] hover:text-[var(--terminal-bg-2)] flex items-center justify-center transition-all rounded-[14px] ${isLiked ? 'text-[var(--terminal-green)]' : 'text-[var(--terminal-ink)]'}`} onClick={() => movieData && toggleFavorite(movieData)}>
  <Heart size={20} className={isLiked ? 'fill-current' : 'font-bold'} />
  </button>
  </div>
@@ -869,38 +869,38 @@ export const HeroPlayer = () => {
  
  {/* Story Line */}
  <div className="w-full text-left mt-2">
- <h2 className="text-[#311B56] font-black font-mono tracking-widest uppercase text-[1.2rem] mb-2">[ STORY LINE ]</h2>
- <p className="text-[#311B56]/90 font-mono font-bold text-[0.95rem] leading-[1.6]">
+<h2 className="text-[var(--terminal-green)] font-black font-mono tracking-widest uppercase text-[1.2rem] mb-2">[ STORY LINE ]</h2>
+<p className="text-[var(--terminal-muted)] font-mono font-bold text-[0.95rem] leading-[1.6]">
  {isLoading ? (
- <span className="block w-full h-16 bg-[#311B56]/10 border-2 border-[#311B56] animate-pulse rounded-none"></span>
+ <span className="block w-full h-16 bg-[var(--terminal-border-soft)] border border-[var(--terminal-border)] animate-pulse rounded-[10px]"></span>
  ) : movieData?.content ? movieData.content.replace(/<[^>]*>?/gm, '').substring(0, 180) + '... ' : 'ĐANG CẬP NHẬT NỘI DUNG PHIM... '}
- {movieData?.content && <span className="text-[#311B56] font-black underline cursor-pointer hover:bg-[#311B56] hover:text-[#FAF8F5] px-1">[ MORE ]</span>}
+ {movieData?.content && <span className="text-[var(--terminal-green)] font-black underline cursor-pointer hover:bg-[var(--terminal-border-soft)] hover:text-[var(--terminal-ink)] px-1">[ MORE ]</span>}
  </p>
  </div>
 
  {/* Action Buttons */}
  <div className="flex max-md:flex-col w-full gap-3 mt-2 md:mt-4">
- <button className="flex-1 flex max-md:w-full items-center justify-center gap-2 px-6 py-3.5 md:py-4 bg-[#311B56] text-[#FAF8F5] border-2 border-[#311B56] rounded-none font-black font-mono tracking-widest uppercase shadow-[4px_4px_0px_#311B56] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#311B56] hover:bg-[#FAF8F5] hover:text-[#311B56] transition-all text-[0.95rem] md:text-[1rem]" onClick={() => episodes.length > 0 && handleSelectEpisode(0)}>
+ <button className="flex-1 flex max-md:w-full items-center justify-center gap-2 px-6 py-3.5 md:py-4 bg-[var(--terminal-green)] text-[var(--terminal-bg-2)] border border-[var(--terminal-border-strong)] rounded-[14px] font-black font-mono tracking-widest uppercase shadow-[0_0_24px_rgba(126,247,199,0.18)] hover:translate-y-[-2px] hover:shadow-[0_0_28px_rgba(126,247,199,0.22)] hover:brightness-110 transition-all text-[0.95rem] md:text-[1rem]" onClick={() => episodes.length > 0 && handleSelectEpisode(0)}>
  <PlayCircle size={22} className="font-bold" /> [ PLAY ]
  </button>
  <div className="flex w-full gap-3">
- <button className="flex-[2] flex items-center justify-center gap-2 px-6 py-3.5 md:py-4 bg-[#FAF8F5] text-[#311B56] rounded-none font-black font-mono tracking-widest uppercase border-2 border-[#311B56] shadow-[4px_4px_0px_#311B56] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#311B56] hover:bg-[#311B56] hover:text-[#FAF8F5] transition-all text-[0.9rem] md:text-[1rem] relative" onClick={() => setIsWatchPartyOpen(true)}>
+ <button className="flex-[2] flex items-center justify-center gap-2 px-6 py-3.5 md:py-4 bg-[var(--terminal-bg-2)] text-[var(--terminal-ink)] rounded-[14px] font-black font-mono tracking-widest uppercase border border-[var(--terminal-border-strong)] shadow-[0_0_12px_rgba(0,0,0,0.22)] hover:translate-y-[-2px] hover:shadow-[0_0_24px_rgba(126,247,199,0.12)] hover:bg-[var(--terminal-green)] hover:text-[var(--terminal-bg-2)] transition-all text-[0.9rem] md:text-[1rem] relative" onClick={() => setIsWatchPartyOpen(true)}>
  {unreadCount > 0 && (
- <span className="absolute -top-2 -right-2 bg-[#FAF8F5] border-2 border-[#311B56] text-[#311B56] text-[10px] font-black w-6 h-6 rounded-none flex items-center justify-center shadow-[2px_2px_0px_#311B56] animate-bounce z-10">
+ <span className="absolute -top-2 -right-2 bg-[var(--terminal-panel)] border border-[var(--terminal-border-strong)] text-[var(--terminal-green)] text-[10px] font-black w-6 h-6 rounded-[10px] flex items-center justify-center shadow-[0_0_12px_rgba(126,247,199,0.18)] animate-bounce z-10">
  {unreadCount}
  </span>
  )}
  <Users size={20} className="font-bold" /> [ WATCH PARTY ]
  </button>
- <button className="flex-1 flex items-center justify-center px-6 py-3.5 md:py-4 bg-[#FAF8F5] text-[#311B56] rounded-none font-black font-mono border-2 border-[#311B56] shadow-[4px_4px_0px_#311B56] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#311B56] hover:bg-[#311B56] hover:text-[#FAF8F5] transition-all relative overflow-hidden group" onClick={handleDownload} title="Tải Về" disabled={isDownloading}>
- {isDownloading ? (
- <>
- <div className="absolute inset-0 bg-[#311B56]/20 origin-left transition-transform duration-300" style={{ transform: `scaleX(${downloadProgress / 100})` }}></div>
- <span className="relative z-10 whitespace-nowrap text-[0.85rem] group-hover:text-[#FAF8F5] transition-colors">[ {downloadProgress}% ]</span>
- </>
- ) : (
- <Download size={20} className="font-bold relative z-10" />
- )}
+<button className="flex-1 flex items-center justify-center px-6 py-3.5 md:py-4 bg-[var(--terminal-bg-2)] text-[var(--terminal-ink)] rounded-[14px] font-black font-mono border border-[var(--terminal-border-strong)] shadow-[0_0_12px_rgba(0,0,0,0.22)] hover:translate-y-[-2px] hover:shadow-[0_0_24px_rgba(126,247,199,0.12)] hover:bg-[var(--terminal-green)] hover:text-[var(--terminal-bg-2)] transition-all relative overflow-hidden group" onClick={handleDownload} title="Tải Về" disabled={isDownloading}>
+{isDownloading ? (
+<>
+<div className="absolute inset-0 bg-[rgba(126,247,199,0.15)] origin-left transition-transform duration-300" style={{ transform: `scaleX(${downloadProgress / 100})` }}></div>
+<span className="relative z-10 whitespace-nowrap text-[0.85rem] group-hover:text-[var(--terminal-bg-2)] transition-colors">[ {downloadProgress}% ]</span>
+</>
+) : (
+<Download size={20} className="font-bold relative z-10" />
+)}
  </button>
  </div>
  </div>
@@ -908,27 +908,27 @@ export const HeroPlayer = () => {
  </div>
 
  {/* Right: Episodes Panel */}
- <div className="w-full lg:w-[320px] xl:w-[360px] lg:sticky lg:top-[100px] lg:max-h-[calc(100vh-120px)] flex flex-col bg-[#FAF8F5] border-4 border-[#311B56] rounded-none p-6 shadow-[12px_12px_0px_#311B56] max-md:relative max-md:top-0 max-md:min-h-[350px] max-md:max-h-none">
+ <div className="w-full lg:w-[320px] xl:w-[360px] lg:sticky lg:top-[100px] lg:max-h-[calc(100vh-120px)] flex flex-col bg-[var(--terminal-panel)] border border-[var(--terminal-border-strong)] rounded-[var(--terminal-radius)] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.42)] max-md:relative max-md:top-0 max-md:min-h-[350px] max-md:max-h-none">
  <div className="flex flex-col mb-6 gap-4">
- <div className="text-[1.4rem] font-black font-mono tracking-widest uppercase text-[#311B56] flex items-center gap-2.5">
+ <div className="text-[1.4rem] font-black font-mono tracking-widest uppercase text-[var(--terminal-green)] flex items-center gap-2.5">
  <MonitorPlay size={24} className="font-bold" /> [ CHỌN TẬP ]
  </div>
  <div className="flex gap-3 items-center w-full justify-between">
- <span className="text-[0.85rem] font-black font-mono uppercase bg-[#FAF8F5] border-2 border-[#311B56] px-4 py-2.5 rounded-none shadow-[2px_2px_0px_#311B56] text-[#311B56] whitespace-nowrap">
+ <span className="text-[0.85rem] font-black font-mono uppercase bg-[var(--terminal-bg-2)] border border-[var(--terminal-border)] px-4 py-2.5 rounded-[10px] shadow-[0_0_12px_rgba(0,0,0,0.22)] text-[var(--terminal-ink)] whitespace-nowrap">
  [ {episodes.length} TẬP ]
  </span>
  <div className="flex items-center gap-2 ml-auto mr-2">
- <span className="text-[0.8rem] font-black font-mono uppercase text-[#311B56]">AUTO CHUYỂN TẬP</span>
+ <span className="text-[0.8rem] font-black font-mono uppercase text-[var(--terminal-muted)]">AUTO CHUYỂN TẬP</span>
  <button 
- className={`w-12 h-6 rounded-none border-2 border-[#311B56] relative transition-colors ${isAutoPlay ? 'bg-[#311B56]' : 'bg-[#FAF8F5]'}`}
+ className={`w-12 h-6 rounded-full border border-[var(--terminal-border-strong)] relative transition-colors ${isAutoPlay ? 'bg-[var(--terminal-green)]' : 'bg-[var(--terminal-bg-2)]'}`}
  onClick={() => setIsAutoPlay(!isAutoPlay)}
  >
- <div className={`w-4 h-4 rounded-none border-2 border-[#311B56] bg-[#FAF8F5] absolute top-[2px] transition-transform ${isAutoPlay ? 'left-[26px]' : 'left-[2px]'}`}></div>
+ <div className={`w-4 h-4 rounded-full border border-[var(--terminal-border-strong)] bg-[var(--terminal-ink)] absolute top-[2px] transition-transform ${isAutoPlay ? 'left-[26px]' : 'left-[2px]'}`}></div>
  </button>
  </div>
  {totalChunks > 1 && (
  <select 
- className="bg-[#FAF8F5] border-2 border-[#311B56] text-[#311B56] rounded-none px-4 py-2.5 text-[15px] font-black font-mono uppercase shadow-[2px_2px_0px_#311B56] outline-none cursor-pointer transition-all focus:shadow-[0px_0px_0px_#311B56] focus:translate-y-[2px]"
+ className="bg-[var(--terminal-bg-2)] border border-[var(--terminal-border-strong)] text-[var(--terminal-ink)] rounded-[12px] px-4 py-2.5 text-[15px] font-black font-mono uppercase shadow-[0_0_12px_rgba(126,247,199,0.08)] outline-none cursor-pointer transition-all focus:shadow-[0_0_20px_rgba(126,247,199,0.18)]"
  value={currentEpChunk}
  onChange={(e) => setCurrentEpChunk(parseInt(e.target.value))}
  >
@@ -948,7 +948,7 @@ export const HeroPlayer = () => {
  return (
  <button 
  key={ep.slug}
- className={`px-1 py-3 rounded-none border-2 text-[0.9rem] font-black font-mono transition-all block text-center whitespace-nowrap overflow-hidden text-ellipsis w-full ${isActive ? 'bg-[#311B56] text-[#FAF8F5] border-[#311B56] shadow-[2px_2px_0px_#311B56] translate-y-[2px]' : 'bg-[#FAF8F5] text-[#311B56] border-[#311B56] shadow-[2px_2px_0px_#311B56] hover:translate-y-[2px] hover:shadow-[0px_0px_0px_#311B56] hover:bg-[#311B56] hover:text-[#FAF8F5]'}`}
+ className={`px-1 py-3 rounded-[12px] border text-[0.9rem] font-black font-mono transition-all block text-center whitespace-nowrap overflow-hidden text-ellipsis w-full ${isActive ? 'bg-[var(--terminal-green)] text-[var(--terminal-bg-2)] border-[var(--terminal-border-strong)] shadow-[0_0_16px_rgba(126,247,199,0.12)] -translate-y-[1px]' : 'bg-[var(--terminal-bg-2)] text-[var(--terminal-ink)] border-[var(--terminal-border)] shadow-[0_2px_8px_rgba(0,0,0,0.22)] hover:translate-y-[-2px] hover:shadow-[0_0_16px_rgba(126,247,199,0.12)] hover:bg-[var(--terminal-green)] hover:text-[var(--terminal-bg-2)]'}`}
  title={ep.name}
  onClick={() => handleSelectEpisode(realIdx)}
  >

@@ -43,10 +43,10 @@ const MainContent = () => {
  }
  }, [currentMovieSlug, setCurrentMovieSlug]);
 
- return (
- <div className="min-h-screen w-full flex opacity-100 transition-opacity duration-500 bg-[#07130f] text-[#e6fff8] font-sans">
- <Sidebar />
- <main className="ml-[100px] max-lg:ml-0 flex-1 flex flex-col min-h-screen relative w-[calc(100%-100px)] max-lg:w-full max-lg:pb-[100px] overflow-x-hidden bg-[radial-gradient(circle_at_top,_rgba(126,247,199,0.08),_transparent_30%)]">
+  return (
+  <div className="min-h-screen w-full flex opacity-100 transition-opacity duration-500 bg-[var(--terminal-bg-2)] text-[var(--terminal-ink)] font-sans">
+  <Sidebar />
+  <main className="ml-[100px] max-lg:ml-0 flex-1 flex flex-col min-h-screen relative w-[calc(100%-100px)] max-lg:w-full max-lg:pb-[100px] overflow-x-hidden bg-[var(--terminal-radial)]">
  <Header />
  <div className="pt-[100px] md:px-10 pb-[60px] max-w-[1600px] mx-auto flex flex-col gap-6 w-full max-md:pt-[86px] max-md:px-0 max-md:pb-[80px] max-md:gap-5 overflow-x-hidden">
  <HeroPlayer />
@@ -67,9 +67,9 @@ const MainContent = () => {
 };
 
 export default function Page() {
- return (
- <Suspense fallback={<div className="min-h-screen w-full bg-[#FAF8F5]"></div>}>
- <MainContent />
- </Suspense>
- );
+  return (
+  <Suspense fallback={<div className="min-h-screen w-full bg-[var(--terminal-bg)]"></div>}>
+  <MainContent />
+  </Suspense>
+  );
 }
