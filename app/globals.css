@@ -1,16 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --pixel-bg: #f5efe8;
-  --pixel-panel: #fffdfb;
-  --pixel-ink: #1f1a1d;
-  --pixel-ink-soft: rgba(31, 26, 29, 0.7);
-  --pixel-accent: #d7b4ea;
-  --pixel-accent-2: #f7d9c4;
-  --pixel-accent-3: #cfe8d9;
-  --pixel-border: rgba(31, 26, 29, 0.18);
-  --pixel-shadow: rgba(31, 26, 29, 0.12);
-  --pixel-grid: rgba(31, 26, 29, 0.04);
+  --terminal-bg: #07130f;
+  --terminal-bg-soft: #0b1c1a;
+  --terminal-panel: rgba(10, 21, 20, 0.88);
+  --terminal-panel-strong: rgba(8, 17, 16, 0.96);
+  --terminal-surface: rgba(17, 31, 29, 0.9);
+  --terminal-ink: #e6fff8;
+  --terminal-muted: #96c9bb;
+  --terminal-green: #7ef7c7;
+  --terminal-cyan: #7ad8ff;
+  --terminal-purple: #9b8cff;
+  --terminal-border: rgba(126, 247, 199, 0.2);
+  --terminal-shadow: rgba(0, 0, 0, 0.45);
+  --terminal-grid: rgba(126, 247, 199, 0.08);
 }
 
 html {
@@ -19,11 +22,11 @@ html {
 
 body {
   background:
-    radial-gradient(circle at top left, rgba(215, 180, 234, 0.35), transparent 30%),
-    radial-gradient(circle at bottom right, rgba(207, 232, 217, 0.3), transparent 28%),
-    var(--pixel-bg);
+    radial-gradient(circle at top left, rgba(126, 247, 199, 0.14), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(122, 216, 255, 0.12), transparent 26%),
+    linear-gradient(180deg, #04110d 0%, #07130f 18%, #0b1717 100%);
   min-height: 100vh;
-  color: var(--pixel-ink);
+  color: var(--terminal-ink);
   font-family: "Inter", "Segoe UI", sans-serif;
   letter-spacing: 0.01em;
 }
@@ -33,8 +36,8 @@ body {
 }
 
 ::selection {
-  background: rgba(215, 180, 234, 0.4);
-  color: var(--pixel-ink);
+  background: rgba(126, 247, 199, 0.28);
+  color: #ecfffb;
 }
 
 button, input, select, a {
@@ -46,59 +49,63 @@ button {
 }
 
 .pixel-shell {
-  background: linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0));
+  background: linear-gradient(180deg, rgba(126,247,199,0.06), rgba(255,255,255,0));
 }
 
 .pixel-panel {
-  background: rgba(255, 253, 251, 0.82);
-  border: 1px solid var(--pixel-border);
-  box-shadow: 0 18px 60px rgba(31, 26, 29, 0.06);
+  background: var(--terminal-panel);
+  border: 1px solid var(--terminal-border);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
   backdrop-filter: blur(12px);
 }
 
 .pixel-button {
   position: relative;
-  border: 1px solid rgba(31, 26, 29, 0.14);
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow: 0 10px 24px rgba(31, 26, 29, 0.08);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  border: 1px solid rgba(126, 247, 199, 0.22);
+  background: rgba(12, 25, 23, 0.8);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
 }
 
 .pixel-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 28px rgba(31, 26, 29, 0.12);
+  box-shadow: 0 18px 28px rgba(0, 0, 0, 0.28);
+  border-color: rgba(126, 247, 199, 0.44);
 }
 
 .pixel-button:active {
   transform: translateY(1px);
-  box-shadow: 0 6px 16px rgba(31, 26, 29, 0.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 .pixel-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  border: 1px solid rgba(31, 26, 29, 0.16);
-  background: rgba(255,255,255,0.7);
-  box-shadow: 0 8px 16px rgba(31, 26, 29, 0.06);
-  font-weight: 800;
-  letter-spacing: 0.12em;
+  border: 1px solid rgba(126, 247, 199, 0.3);
+  background: rgba(7, 19, 15, 0.92);
+  box-shadow: inset 0 0 18px rgba(126, 247, 199, 0.08), 0 0 24px rgba(126, 247, 199, 0.08);
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  padding: 0.4rem 0.75rem;
+  padding: 0.45rem 0.8rem;
   border-radius: 9999px;
+  color: var(--terminal-green);
+  font-family: "SFMono-Regular", "Consolas", monospace;
 }
 
 .pixel-title {
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-family: "Space Mono", monospace;
+  font-family: "SFMono-Regular", "Consolas", monospace;
   font-weight: 900;
+  color: var(--terminal-green);
 }
 
 .soft-card {
-  border: 1px solid rgba(31, 26, 29, 0.12);
-  background: rgba(255,255,255,0.7);
-  box-shadow: 0 16px 38px rgba(31, 26, 29, 0.06);
+  border: 1px solid rgba(126, 247, 199, 0.18);
+  background: linear-gradient(180deg, rgba(9, 20, 18, 0.92), rgba(12, 25, 24, 0.88));
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(122, 216, 255, 0.05);
   border-radius: 28px;
 }
 
@@ -108,6 +115,25 @@ button {
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(7, 19, 15, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(126, 247, 199, 0.28);
+  border: 2px solid rgba(7, 19, 15, 0.8);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(126, 247, 199, 0.42);
 }
 
 /* ── Music Player: M3 Animations ── */
