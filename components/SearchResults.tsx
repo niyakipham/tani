@@ -134,16 +134,16 @@ export const SearchResults = ({ query }: { query: string }) => {
  }, [hasMore, isFetching, isInitialLoad, fetchResults]);
 
  return (
- <section className="mt-4 bg-[#FAF8F5] rounded-none border-2 border-[#311B56] p-10 shadow-[8px_8px_0px_#311B56] max-md:p-6 max-md:mx-4 min-h-[500px]">
+ <section className="mt-4 rounded-[28px] border border-[#7ef7c7]/12 bg-[linear-gradient(180deg,rgba(8,17,15,0.96),rgba(11,20,18,0.9))] p-10 shadow-[0_18px_42px_rgba(0,0,0,0.22)] max-md:p-6 max-md:mx-4 min-h-[500px]">
  <div className="flex items-center gap-4 mb-8 max-md:mb-6">
- <div className="w-12 h-12 rounded-none border-2 border-[#311B56] shadow-[2px_2px_0px_#311B56] bg-[#FAF8F5] flex items-center justify-center text-[#311B56]">
+ <div className="w-12 h-12 rounded-full border border-[#7ef7c7]/25 bg-[#07130f] flex items-center justify-center text-[#7ef7c7] shadow-[0_0_20px_rgba(126,247,199,0.12)]">
  <Search size={24} />
  </div>
  <div>
- <h2 className="text-[1.8rem] max-md:text-[1.4rem] font-black text-[#311B56] font-mono tracking-widest uppercase">
+ <h2 className="text-[1.8rem] max-md:text-[1.4rem] font-black text-[#ebfff9] font-mono tracking-widest uppercase">
  [ KẾT QUẢ TÌM KIẾM ]
  </h2>
- <p className="text-[0.95rem] text-[#311B56]/80 font-bold mt-1 font-mono uppercase">
+ <p className="text-[0.95rem] text-[#9abeb2] font-bold mt-1 font-mono uppercase">
  {query ? `Hiển thị kết quả cho "${query}"` : 'Vui lòng nhập từ khóa tìm kiếm'}
  </p>
  </div>
@@ -152,39 +152,39 @@ export const SearchResults = ({ query }: { query: string }) => {
  {/* Filter UI */}
  {movies.length > 0 && (
  <div className="flex flex-wrap items-center gap-4 mb-8">
- <div className="relative flex items-center bg-[#FAF8F5] border-2 border-[#311B56] shadow-[2px_2px_0px_#311B56] rounded-none px-5 py-3 hover:shadow-[4px_4px_0px_#311B56] hover:-translate-y-1 transition-all">
- <Filter size={18} className="text-[#311B56] mr-2.5" />
+ <div className="relative flex items-center bg-[#07130f] border border-[#7ef7c7]/15 rounded-[14px] px-5 py-3 hover:border-[#7ef7c7]/35 hover:-translate-y-1 transition-all">
+ <Filter size={18} className="text-[#7ef7c7] mr-2.5" />
  <select 
  value={selectedGenre} 
  onChange={(e) => setSelectedGenre(e.target.value)}
- className="bg-transparent border-none text-[0.95rem] font-bold text-[#311B56] font-mono uppercase outline-none cursor-pointer appearance-none pr-4"
+ className="bg-transparent border-none text-[0.95rem] font-bold text-[#ebfff9] font-mono uppercase outline-none cursor-pointer appearance-none pr-4"
  >
- <option value="" className="text-[#311B56] bg-[#FAF8F5]">[ Tất cả thể loại ]</option>
- {availableGenres.map(g => <option key={g} value={g} className="text-[#311B56] bg-[#FAF8F5]">{g}</option>)}
+ <option value="" className="text-[#ebfff9] bg-[#07130f]">[ Tất cả thể loại ]</option>
+ {availableGenres.map(g => <option key={g} value={g} className="text-[#ebfff9] bg-[#07130f]">{g}</option>)}
  </select>
  </div>
 
- <div className="relative flex items-center bg-[#FAF8F5] border-2 border-[#311B56] shadow-[2px_2px_0px_#311B56] rounded-none px-5 py-3 hover:shadow-[4px_4px_0px_#311B56] hover:-translate-y-1 transition-all">
- <Calendar size={18} className="text-[#311B56] mr-2.5" />
+ <div className="relative flex items-center bg-[#07130f] border border-[#7ef7c7]/15 rounded-[14px] px-5 py-3 hover:border-[#7ef7c7]/35 hover:-translate-y-1 transition-all">
+ <Calendar size={18} className="text-[#7ef7c7] mr-2.5" />
  <select 
  value={selectedYear} 
  onChange={(e) => setSelectedYear(e.target.value)}
- className="bg-transparent border-none text-[0.95rem] font-bold text-[#311B56] font-mono uppercase outline-none cursor-pointer appearance-none pr-4"
+ className="bg-transparent border-none text-[0.95rem] font-bold text-[#ebfff9] font-mono uppercase outline-none cursor-pointer appearance-none pr-4"
  >
- <option value="" className="text-[#311B56] bg-[#FAF8F5]">[ Tất cả năm ]</option>
- {availableYears.map(y => <option key={y} value={y} className="text-[#311B56] bg-[#FAF8F5]">{y}</option>)}
+ <option value="" className="text-[#ebfff9] bg-[#07130f]">[ Tất cả năm ]</option>
+ {availableYears.map(y => <option key={y} value={y} className="text-[#ebfff9] bg-[#07130f]">{y}</option>)}
  </select>
  </div>
 
- <div className="relative flex items-center bg-[#FAF8F5] border-2 border-[#311B56] shadow-[2px_2px_0px_#311B56] rounded-none px-5 py-3 hover:shadow-[4px_4px_0px_#311B56] hover:-translate-y-1 transition-all">
- <Monitor size={18} className="text-[#311B56] mr-2.5" />
+ <div className="relative flex items-center bg-[#07130f] border border-[#7ef7c7]/15 rounded-[14px] px-5 py-3 hover:border-[#7ef7c7]/35 hover:-translate-y-1 transition-all">
+ <Monitor size={18} className="text-[#7ef7c7] mr-2.5" />
  <select 
  value={selectedQuality} 
  onChange={(e) => setSelectedQuality(e.target.value)}
- className="bg-transparent border-none text-[0.95rem] font-bold text-[#311B56] font-mono uppercase outline-none cursor-pointer appearance-none pr-4"
+ className="bg-transparent border-none text-[0.95rem] font-bold text-[#ebfff9] font-mono uppercase outline-none cursor-pointer appearance-none pr-4"
  >
- <option value="" className="text-[#311B56] bg-[#FAF8F5]">[ Mọi chất lượng ]</option>
- {availableQualities.map(q => <option key={q} value={q} className="text-[#311B56] bg-[#FAF8F5]">{q}</option>)}
+ <option value="" className="text-[#ebfff9] bg-[#07130f]">[ Mọi chất lượng ]</option>
+ {availableQualities.map(q => <option key={q} value={q} className="text-[#ebfff9] bg-[#07130f]">{q}</option>)}
  </select>
  </div>
  </div>

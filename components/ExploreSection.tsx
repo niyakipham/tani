@@ -42,51 +42,42 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
 
  return (
  <div 
- className="bg-[#fffaf6] rounded-[26px] border border-[#1f1a1d]/10 shadow-[0_18px_30px_rgba(31,26,29,0.08)] overflow-hidden transition-all cursor-pointer flex flex-col relative group hover:-translate-y-2 hover:shadow-[0_24px_40px_rgba(31,26,29,0.12)] select-none" 
+ className="overflow-hidden transition-all cursor-pointer flex flex-col relative group select-none rounded-[24px] border border-[#7ef7c7]/15 bg-[#091613] shadow-[0_18px_34px_rgba(0,0,0,0.22)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(126,247,199,0.08)]" 
  onClick={onClick}
  onMouseEnter={handleMouseEnter}
  onMouseLeave={handleMouseLeave}
  >
- <div className="relative w-full aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-[#f4efe9] border-b border-[#1f1a1d]/10">
+ <div className="relative w-full aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-[#07130f] border-b border-[#7ef7c7]/10">
  
- {/* Badges Overlay */}
  <div className="absolute top-2.5 left-2.5 z-[15] pointer-events-none">
- <span className="bg-[#FAF8F5] border-2 border-[#311B56] shadow-[2px_2px_0px_#311B56] text-[#311B56] text-[0.6rem] font-bold px-1.5 py-0.5 uppercase tracking-wider font-mono">[ {item.quality || 'HQ'} ]</span>
+ <span className="bg-[#07130f]/95 border border-[#7ef7c7]/30 text-[#7ef7c7] text-[0.6rem] font-bold px-1.5 py-0.5 uppercase tracking-wider font-mono rounded-full">[ {item.quality || 'HQ'} ]</span>
  </div>
- <div className="absolute top-2.5 right-2.5 z-[15] pointer-events-none flex items-center justify-center w-6 h-6 bg-[#311B56] border-2 border-[#311B56]">
- <span className="text-[#FAF8F5] font-black text-[1rem] leading-none">T</span>
+ <div className="absolute top-2.5 right-2.5 z-[15] pointer-events-none flex items-center justify-center w-6 h-6 bg-[#7ef7c7] border border-[#7ef7c7] rounded-full">
+ <span className="text-[#07130f] font-black text-[0.95rem] leading-none">T</span>
  </div>
 
- {/* Solid Overlay on Hover */}
- <div className="absolute inset-0 bg-[#311B56]/40 z-[10] opacity-0 transition-opacity duration-300 group-hover/card:opacity-100 pointer-events-none"></div>
+ <div className="absolute inset-0 bg-[#7ef7c7]/12 z-[10] opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none"></div>
  
- {/* Play Button Central */}
- <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[20] opacity-0 group-hover/card:opacity-100 transition-all duration-300 scale-75 group-hover/card:scale-100 pointer-events-none">
- <div className="w-12 h-12 bg-[#FAF8F5] rounded-none flex items-center justify-center border-2 border-[#311B56] shadow-[4px_4px_0px_#311B56]">
- <Play size={20} className="fill-[#311B56] text-[#311B56] ml-0.5" />
+ <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[20] opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100 pointer-events-none">
+ <div className="w-12 h-12 bg-[#07130f] rounded-full flex items-center justify-center border border-[#7ef7c7]/40 shadow-[0_0_24px_rgba(126,247,199,0.18)]">
+ <Play size={20} className="fill-[#7ef7c7] text-[#7ef7c7] ml-0.5" />
  </div>
  </div>
 
- {/* Heart Favorite Button */}
  <button 
- className={`absolute bottom-3 right-3 z-[25] scale-90 md:scale-100 transition-all duration-300 w-8 h-8 rounded-none border-2 border-[#311B56] shadow-[2px_2px_0px_#311B56] flex items-center justify-center bg-[#FAF8F5] cursor-pointer
- ${isLiked 
- ? 'text-[#A57CC6]' 
- : 'text-[#311B56]/50 hover:text-[#311B56]'
- }`}
+ className={`absolute bottom-3 right-3 z-[25] scale-90 md:scale-100 transition-all duration-300 w-8 h-8 rounded-full border border-[#7ef7c7]/30 flex items-center justify-center bg-[#07130f]/80 cursor-pointer ${isLiked ? 'text-[#7ef7c7]' : 'text-[#9abeb2] hover:text-[#7ef7c7]'}`}
  onClick={(e) => {
  e.stopPropagation();
  toggleFavorite(item);
  }}
  title={isLiked ? "Bỏ Lưu" : "Lưu Phim"}
  >
- <Heart size={16} className={isLiked ? "fill-[#A57CC6]" : ""} />
+ <Heart size={16} className={isLiked ? "fill-[#7ef7c7]" : ""} />
  </button>
 
- {/* Placeholder Image Loading */}
  {!isImgLoaded && (
- <div className="absolute inset-0 flex items-center justify-center bg-[#FAF8F5] z-[1]">
- <div className="w-8 h-8 border-4 border-[#311B56] border-t-[#3B82F6] rounded-full animate-spin"></div>
+ <div className="absolute inset-0 flex items-center justify-center bg-[#07130f] z-[1]">
+ <div className="w-8 h-8 border-4 border-[#7ef7c7]/20 border-t-[#7ef7c7] rounded-full animate-spin"></div>
  </div>
  )}
 
@@ -97,7 +88,7 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
  onLoad={() => setIsImgLoaded(true)}
  className={`w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 relative z-[2] ${isHovered ? 'opacity-0' : isImgLoaded ? 'opacity-100' : 'opacity-0'}`} 
  onError={(e) => { 
- (e.target as HTMLImageElement).src = 'https://via.placeholder.com/200x300/311B56/FAF8F5'; 
+ (e.target as HTMLImageElement).src = 'https://via.placeholder.com/200x300/07130f/7ef7c7'; 
  setIsImgLoaded(true);
  }} 
  />
@@ -113,11 +104,10 @@ export const MovieCard = ({ item, onClick }: { item: any, onClick: () => void })
  />
  )}
  </div>
- {/* Text Info Below Image */}
- <div className="w-full p-3 flex flex-col gap-1 bg-[#fffdfb]">
- <h3 className="text-[#1f1a1d] font-black text-[0.92rem] leading-tight line-clamp-1 uppercase tracking-[0.08em]">{item.name}</h3>
- <div className="flex items-center justify-between text-[0.7rem] font-bold text-[#1f1a1d]/70 font-mono">
- <span className="flex items-center gap-1"><Star size={10} className="fill-[#d7b4ea] text-[#d7b4ea]" /> {item.tmdb?.vote_average || '4.5'}</span>
+ <div className="w-full p-3 flex flex-col gap-1 bg-[#091613] border-t border-[#7ef7c7]/10">
+ <h3 className="text-[#ebfff9] font-black text-[0.92rem] leading-tight line-clamp-1 uppercase tracking-[0.08em]">{item.name}</h3>
+ <div className="flex items-center justify-between text-[0.7rem] font-bold text-[#9abeb2] font-mono">
+ <span className="flex items-center gap-1"><Star size={10} className="fill-[#7ef7c7] text-[#7ef7c7]" /> {item.tmdb?.vote_average || '4.5'}</span>
  <span>• {Math.floor(Math.random() * 20 + 2)}M+</span>
  </div>
  </div>
@@ -208,9 +198,9 @@ export const ExploreSection = () => {
  };
 
  return (
- <section id="explore-section" className="mt-6 bg-[#f9f4ee]/80 p-6 max-md:p-4 border border-[#1f1a1d]/10 rounded-[30px] shadow-[0_24px_60px_rgba(31,26,29,0.04)]">
+ <section id="explore-section" className="mt-6 p-6 max-md:p-4 border border-[#7ef7c7]/12 rounded-[30px] shadow-[0_24px_60px_rgba(0,0,0,0.22)] bg-[linear-gradient(180deg,rgba(8,17,15,0.96),rgba(11,20,18,0.9))]">
  <div className="flex items-center justify-between mb-4">
- <h2 className="text-[1.3rem] md:text-[1.7rem] font-black text-[#1f1a1d] tracking-[0.08em] uppercase font-mono">Explore</h2>
+ <h2 className="text-[1.3rem] md:text-[1.7rem] font-black text-[#ebfff9] tracking-[0.08em] uppercase font-mono">Explore</h2>
  <span className="pixel-badge text-[0.7rem] cursor-pointer hover:translate-y-[-1px] transition-transform">View all <span className="text-[0.6rem]">→</span></span>
  </div>
  
@@ -218,7 +208,7 @@ export const ExploreSection = () => {
  {sortedGenres.map(g => (
  <button 
  key={g.slug}
- className={`px-4 py-2 rounded-full border text-[0.78rem] whitespace-nowrap transition-all uppercase tracking-[0.12em] font-mono ${currentTabSlug === g.slug ? 'bg-[#1f1a1d] text-[#fff] shadow-[0_10px_20px_rgba(31,26,29,0.15)]' : 'bg-[#fff] text-[#1f1a1d] border-[#1f1a1d]/10 hover:bg-[#f5eefb]'}`}
+ className={`px-4 py-2 rounded-full border text-[0.78rem] whitespace-nowrap transition-all uppercase tracking-[0.12em] font-mono ${currentTabSlug === g.slug ? 'bg-[#7ef7c7] text-[#07130f] border-[#7ef7c7] shadow-[0_0_20px_rgba(126,247,199,0.18)]' : 'bg-[#07130f] text-[#9abeb2] border-[#7ef7c7]/10 hover:border-[#7ef7c7]/30 hover:text-[#ebfff9]'}`}
  onClick={() => handleTabClick(g.slug)}
  >
  {g.name}

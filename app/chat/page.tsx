@@ -93,37 +93,37 @@ function ChatContent() {
   };
 
   return (
-    <div className="min-h-screen w-full flex opacity-100 transition-opacity duration-500 bg-[#f6efe9] text-[#1f1a1d] font-sans">
+    <div className="min-h-screen w-full flex opacity-100 transition-opacity duration-500 bg-[#040b0a] text-[#ebfff9] font-sans">
       <Sidebar />
-      <main className="ml-[100px] max-lg:ml-0 flex-1 flex flex-col min-h-screen relative w-[calc(100%-100px)] max-lg:w-full max-lg:pb-[100px] overflow-x-hidden">
+      <main className="ml-[100px] max-lg:ml-0 flex-1 flex flex-col min-h-screen relative w-[calc(100%-100px)] max-lg:w-full max-lg:pb-[100px] overflow-x-hidden bg-[radial-gradient(circle_at_top,_rgba(126,247,199,0.08),_transparent_30%)]">
         <Header />
         <div className="pt-[100px] px-6 pb-[60px] max-w-[1200px] mx-auto flex flex-col gap-6 w-full max-md:pt-[86px] max-md:px-4 max-md:pb-[80px]">
           <section className="soft-card p-6 md:p-8">
             <div className="flex items-start justify-between gap-4 mb-6">
               <div>
                 <div className="pixel-badge mb-3">Community</div>
-                <h1 className="text-3xl md:text-5xl font-black tracking-[-0.06em] leading-none">Chat chung</h1>
+                <h1 className="text-3xl md:text-5xl font-black tracking-[-0.06em] leading-none text-[#ebfff9]">Chat chung</h1>
               </div>
-              <div className="flex items-center gap-2 rounded-full border border-[#1f1a1d]/10 bg-[#fff] px-3 py-2 shadow-sm">
-                <Sparkles className="text-[#8a5bc2]" size={16} />
-                <span className="text-sm font-bold uppercase tracking-[0.12em]">Live</span>
+              <div className="flex items-center gap-2 rounded-full border border-[#7ef7c7]/20 bg-[#07130f] px-3 py-2 shadow-[0_0_20px_rgba(126,247,199,0.08)]">
+                <Sparkles className="text-[#7ef7c7]" size={16} />
+                <span className="text-sm font-bold uppercase tracking-[0.12em] text-[#7ef7c7]">Live</span>
               </div>
             </div>
 
             <div className="flex flex-col gap-4">
-              <div ref={scrollRef} className="min-h-[420px] max-h-[520px] overflow-y-auto rounded-[24px] border border-[#1f1a1d]/10 bg-[#fffdfb] p-4 md:p-5">
+              <div ref={scrollRef} className="min-h-[420px] max-h-[520px] overflow-y-auto rounded-[24px] border border-[#7ef7c7]/10 bg-[#081915] p-4 md:p-5 shadow-[inset_0_0_24px_rgba(126,247,199,0.03)]">
                 {loading ? (
-                  <div className="flex h-full min-h-[320px] items-center justify-center text-[#1f1a1d]/60">
-                    <Loader2 className="animate-spin mr-2" size={18} />
+                  <div className="flex h-full min-h-[320px] items-center justify-center text-[#9abeb2]">
+                    <Loader2 className="animate-spin mr-2 text-[#7ef7c7]" size={18} />
                     Đang tải tin nhắn...
                   </div>
                 ) : error ? (
-                  <div className="flex h-full min-h-[320px] items-center justify-center text-red-600 font-medium">{error}</div>
+                  <div className="flex h-full min-h-[320px] items-center justify-center text-red-300 font-medium">{error}</div>
                 ) : messages.length === 0 ? (
-                  <div className="flex h-full min-h-[320px] items-center justify-center text-center text-[#1f1a1d]/60">
+                  <div className="flex h-full min-h-[320px] items-center justify-center text-center text-[#9abeb2]">
                     <div>
-                      <MessageSquareText size={28} className="mx-auto mb-3 opacity-60" />
-                      <p className="font-semibold">Chưa có tin nhắn nào.</p>
+                      <MessageSquareText size={28} className="mx-auto mb-3 opacity-80 text-[#7ef7c7]" />
+                      <p className="font-semibold text-[#ebfff9]">Chưa có tin nhắn nào.</p>
                       <p className="text-sm mt-1">Hãy là người đầu tiên gửi lời chào.</p>
                     </div>
                   </div>
@@ -135,16 +135,16 @@ function ChatContent() {
                         <div key={msg.id} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
                           <div className={`max-w-[80%] rounded-[22px] border px-4 py-3 ${
                             isMine
-                              ? 'bg-[#1f1a1d] text-white border-[#1f1a1d]'
-                              : 'bg-[#f5edf9] border-[#e7d8f6] text-[#1f1a1d]'
+                              ? 'bg-[#7ef7c7] text-[#07130f] border-[#7ef7c7]'
+                              : 'bg-[#0e201c] border-[#7ef7c7]/15 text-[#ebfff9]'
                           }`}>
-                            <div className="mb-1 text-[11px] font-black uppercase tracking-[0.12em] opacity-70">
+                            <div className="mb-1 text-[11px] font-black uppercase tracking-[0.12em] opacity-80">
                               {msg.sender_name}
                             </div>
                             <div className="whitespace-pre-wrap break-words text-[15px] leading-relaxed">
                               {msg.content}
                             </div>
-                            <div className={`mt-2 text-[10px] uppercase tracking-[0.1em] opacity-70 ${isMine ? 'text-white/80' : 'text-[#1f1a1d]/60'}`}>
+                            <div className={`mt-2 text-[10px] uppercase tracking-[0.1em] opacity-70 ${isMine ? 'text-[#07130f]/70' : 'text-[#9abeb2]'}`}>
                               {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </div>
                           </div>
@@ -155,13 +155,13 @@ function ChatContent() {
                 )}
               </div>
 
-              <div className="flex items-end gap-3 rounded-[24px] border border-[#1f1a1d]/10 bg-white p-3 md:p-4 shadow-[0_12px_24px_rgba(31,26,29,0.05)]">
+              <div className="flex items-end gap-3 rounded-[24px] border border-[#7ef7c7]/10 bg-[#0a1715] p-3 md:p-4 shadow-[0_0_20px_rgba(126,247,199,0.05)]">
                 <textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   rows={1}
                   placeholder="Nhắn gì đó cho cộng đồng..."
-                  className="flex-1 resize-none border-none bg-transparent px-2 py-2 text-[15px] text-[#1f1a1d] placeholder:text-[#1f1a1d]/45 outline-none"
+                  className="flex-1 resize-none border-none bg-transparent px-2 py-2 text-[15px] text-[#ebfff9] placeholder:text-[#9abeb2]/80 outline-none"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
@@ -173,7 +173,7 @@ function ChatContent() {
                   type="button"
                   onClick={handleSend}
                   disabled={sending || !input.trim()}
-                  className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1f1a1d] text-white disabled:cursor-not-allowed disabled:opacity-50 transition-transform hover:scale-[1.03]"
+                  className="flex h-12 w-12 items-center justify-center rounded-full bg-[#7ef7c7] text-[#07130f] disabled:cursor-not-allowed disabled:opacity-50 transition-transform hover:scale-[1.03]"
                 >
                   {sending ? <Loader2 className="animate-spin" size={18} /> : <Send size={18} />}
                 </button>

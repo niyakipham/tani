@@ -70,13 +70,13 @@ export const HeroCarousel = () => {
  if (movies.length === 0) return null;
 
  return (
- <div className="relative w-full py-6 md:py-10 flex flex-col items-center bg-[#FAF8F5] border-b-2 border-[#311B56]">
+ <div className="relative w-full py-6 md:py-10 flex flex-col items-center rounded-[28px] border border-[#7ef7c7]/12 bg-[linear-gradient(180deg,rgba(8,17,15,0.96),rgba(11,20,18,0.92))] shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
  {/* Header */}
- <div className="text-center mb-5 md:mb-8 z-10 w-full px-4 border-b-2 border-[#311B56] pb-4">
- <h2 className="text-[#311B56] font-mono font-black text-sm md:text-2xl tracking-[0.3em] uppercase">
+ <div className="text-center mb-5 md:mb-8 z-10 w-full px-4 border-b border-[#7ef7c7]/10 pb-4">
+ <h2 className="text-[#7ef7c7] font-mono font-black text-sm md:text-2xl tracking-[0.3em] uppercase">
  [ DÒNG CHẢY PHIM MỚI ]
  </h2>
- <h1 className="text-[#311B56] font-mono font-black text-[1.8rem] md:text-5xl tracking-widest uppercase mt-2">
+ <h1 className="text-[#ebfff9] font-mono font-black text-[1.8rem] md:text-5xl tracking-widest uppercase mt-2">
  [ TUYỆT PHẨM 2026 ]
  </h1>
  </div>
@@ -86,23 +86,21 @@ export const HeroCarousel = () => {
  {/* Left arrow */}
  <button
  onClick={() => scroll('left')}
- className={`absolute left-1 md:left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 md:w-12 md:h-12 bg-[#FAF8F5] rounded-none flex items-center justify-center shadow-[2px_2px_0px_#311B56] border-2 border-[#311B56] transition-all duration-300 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_#311B56] ${canScrollLeft ? 'opacity-0 group-hover/carousel:opacity-100' : 'opacity-0 pointer-events-none'}`}
+ className={`absolute left-1 md:left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 md:w-12 md:h-12 bg-[#07130f] rounded-full flex items-center justify-center border border-[#7ef7c7]/25 shadow-[0_0_20px_rgba(126,247,199,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-[#7ef7c7]/50 ${canScrollLeft ? 'opacity-0 group-hover/carousel:opacity-100' : 'opacity-0 pointer-events-none'}`}
  >
- <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-[#311B56]" />
+ <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-[#7ef7c7]" />
  </button>
 
  {/* Right arrow */}
  <button
  onClick={() => scroll('right')}
- className={`absolute right-1 md:right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 md:w-12 md:h-12 bg-[#FAF8F5] rounded-none flex items-center justify-center shadow-[2px_2px_0px_#311B56] border-2 border-[#311B56] transition-all duration-300 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_#311B56] ${canScrollRight ? 'opacity-0 group-hover/carousel:opacity-100' : 'opacity-0 pointer-events-none'}`}
+ className={`absolute right-1 md:right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 md:w-12 md:h-12 bg-[#07130f] rounded-full flex items-center justify-center border border-[#7ef7c7]/25 shadow-[0_0_20px_rgba(126,247,199,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-[#7ef7c7]/50 ${canScrollRight ? 'opacity-0 group-hover/carousel:opacity-100' : 'opacity-0 pointer-events-none'}`}
  >
- <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-[#311B56]" />
+ <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-[#7ef7c7]" />
  </button>
 
- {/* Left border indicator instead of fade */}
- <div className={`absolute left-0 top-0 bottom-0 w-2 border-r-2 border-[#311B56] bg-[#FAF8F5] z-10 pointer-events-none transition-opacity duration-300 ${canScrollLeft ? 'opacity-100' : 'opacity-0'}`} />
- {/* Right border indicator instead of fade */}
- <div className={`absolute right-0 top-0 bottom-0 w-2 border-l-2 border-[#311B56] bg-[#FAF8F5] z-10 pointer-events-none transition-opacity duration-300 ${canScrollRight ? 'opacity-100' : 'opacity-0'}`} />
+ <div className={`absolute left-0 top-0 bottom-0 w-2 border-r border-[#7ef7c7]/10 bg-transparent z-10 pointer-events-none transition-opacity duration-300 ${canScrollLeft ? 'opacity-100' : 'opacity-0'}`} />
+ <div className={`absolute right-0 top-0 bottom-0 w-2 border-l border-[#7ef7c7]/10 bg-transparent z-10 pointer-events-none transition-opacity duration-300 ${canScrollRight ? 'opacity-100' : 'opacity-0'}`} />
 
  {/* Scrollable cards */}
  <div
@@ -123,9 +121,8 @@ export const HeroCarousel = () => {
  window.scrollTo({ top: 0, behavior: 'smooth' });
  }}
  >
- {/* Card image */}
  <div
- className="relative aspect-[2/3] rounded-none border-2 border-[#311B56] overflow-hidden shadow-[4px_4px_0px_#311B56] transition-all duration-400 ease-out group-hover:scale-[1.04] group-hover:shadow-[8px_8px_0px_#311B56]"
+ className="relative aspect-[2/3] overflow-hidden border border-[#7ef7c7]/15 rounded-[20px] shadow-[0_16px_32px_rgba(0,0,0,0.22)] transition-all duration-400 ease-out group-hover:scale-[1.04] group-hover:shadow-[0_18px_30px_rgba(126,247,199,0.08)]"
  >
  <img
  src={`https://img.ophim.live/uploads/movies/${movie.thumb_url}`}
@@ -135,18 +132,16 @@ export const HeroCarousel = () => {
  loading="lazy"
  />
  
- <div className="absolute inset-0 bg-[#311B56]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+ <div className="absolute inset-0 bg-[#7ef7c7]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
- {/* Play button on hover */}
  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
- <div className="w-11 h-11 md:w-14 md:h-14 bg-[#FAF8F5] rounded-none border-2 border-[#311B56] shadow-[4px_4px_0px_#311B56] flex items-center justify-center scale-75 group-hover:scale-100 transition-transform duration-300">
- <Play className="text-[#311B56] ml-0.5 w-5 h-5 md:w-6 md:h-6" fill="currentColor" />
+ <div className="w-11 h-11 md:w-14 md:h-14 bg-[#07130f]/85 rounded-full border border-[#7ef7c7]/50 shadow-[0_0_20px_rgba(126,247,199,0.18)] flex items-center justify-center scale-75 group-hover:scale-100 transition-transform duration-300">
+ <Play className="text-[#7ef7c7] ml-0.5 w-5 h-5 md:w-6 md:h-6" fill="currentColor" />
  </div>
  </div>
 
- {/* Movie name block */}
- <div className="absolute bottom-0 left-0 right-0 p-3 bg-[#FAF8F5] border-t-2 border-[#311B56]">
- <h3 className="text-[#311B56] font-black font-mono uppercase text-[0.8rem] md:text-[0.95rem] leading-tight line-clamp-1">
+ <div className="absolute bottom-0 left-0 right-0 p-3 bg-[#07130f]/80 border-t border-[#7ef7c7]/10 backdrop-blur-sm">
+ <h3 className="text-[#ebfff9] font-black font-mono uppercase text-[0.8rem] md:text-[0.95rem] leading-tight line-clamp-1">
  {movie.name}
  </h3>
  </div>
